@@ -1,0 +1,115 @@
+Release 0.4 (08 July, 2011)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bug fixes:
+ * Correct SAM output in case of long reads (longer to 500nt)
+ * Aligning a simple hit: remove case of infinite loop 
+ * Correct computation of qpalma score for unspliced alignment
+ * Correction of soft clipping position in CIGAR string and start position of read according to a presence or soft clipping at the beginning of the read
+ * Quality offset of 64 instead of 65 for phred64
+ * All cases of unmapped reads are now reported in the unmapped read file or the sam file (option -include-unmapped-read)
+
+Non-consensus search option:
+This option enables PALMapper to output spliced alignments whose
+splice sites are not within the known consensus sequences. These
+alignments are provided only if they do not overlap another spliced 
+alignment with consensus splice sites.  
+
+Remapping strategy:
+ * Report splice junctions from spliced alignments
+ * Map reads with the classical strategy or against the splice junctions found from a previous mapping or from the annotation
+
+Annotated splice sites (-score-annotated-splice-sites option):
+ * Score to 1 annotated acceptor and donor sites
+ * Use annotated splice sites for building the pseudo chromosome sequence
+ * Use annotated splice sites for filtering reads which need a spliced alignment
+
+Other notable changes:
+* Add -include-unmapped-reads option. This option outputs unmapped
+reads in the same file than mapped reads (valid only for sam output). 
+* Add bam output
+* Add -fixtrimleft and -fixtrimright options to trim the beginning or the end of each
+read by a given number of nucleotides before processing.
+* Add -protocol <first|second> option to take into account strand-specific protocol (non strand specific by default)
+
+(0.4: 08 July 2011, r23380)
+
+Release Candidate 0.4-rc4 (02 February, 2011)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This release introduces a lot of changes since the last version and
+fixes a few bugs. The documentation of PALMapper is now available in
+PDF format under the subdirectory doc/. Please, consult the
+documentation for more information about how to use this software.
+
+Notable changes in palmapper output:
+ * Fixed bugs which may lead to incorrect cigar string or incorrect
+ exon length in SAM file
+ * Add more informative tags in SAM output: ZS, Xe, Xi, XI, XN, HI,
+ AS, XQ, XD, Xd. Consult the documentation for more information
+ * Give strand flag only for splice reads
+ * Fixed bug for minimal exon length in Bedx output
+
+Notable changes in palmapper options:
+ * add -acc-consensus and -don-consensus options to define splice site 
+ consensus sequences to consider (options have to be jointly used with
+ -no-ss-pred)
+ * Add -non-consensus-search option (search for a spliced alignment
+ with non consensus splice sites which does not overlap with a spliced
+ alignment with known consensus splice sites)
+
+Other notable changes:
+ * Multithreading
+ * Allow seed lengths up to 15 for array-based indexes
+ * Genome coverage computation (-report-coverage-wig option)
+ * Add fast mapping with bwt-based index (Burrows-Wheeler
+ Transform). We use the sources from BWA (Burrows-Wheeler Alignment
+ tool) which are located under src/bwa. The use of bwt-based index
+ should give the same results than with the use of the array-based
+ index provided by GenomeMapper. This version is experimental.
+ * New QPALMA pretrained models (for small and large genomes and short
+ and long reads without splice site predictions).
+ * More testcases to test different options.
+ * Remove MAX_EXON_LEN variable which could lead to aborted execution
+ for long reads
+
+(0.4-rc4: 02 February 2011, r21526)
+
+
+Release Candidate 0.4-rc3 (09 May, 2010)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Notable changes in palmapper:
+ * Improve rtrim and polytrim strategies
+ * Set SAM as default output format for mapped reads
+ * Set /dev/null as default output file for unmapped reads
+ * Merge unspliced and spliced alignments in the same output if -H
+ option not given
+ * Save space by using smaller index (don't generate index for negative strand)
+ * add -no-ss-pred option to compute alignments without using splice site predictions
+
+(0.4-rc3: 09 May 2010, r18597)
+
+
+Release Candidate 0.4-rc2 (19 April, 2010)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Notable changes in palmapper:
+ * Improve BED output for rtim strategy
+ * Global change from genomemapper to palmapper (in src directory)
+ 
+Notable changes in pmindex: 
+ * Global change from mkindex to pmindex (in src directory)
+
+(0.4-rc2: 19 April 2010, r18207)
+
+
+Release Candidate 0.4-rc1 (16 April, 2010)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the first release of the alignment tool PALMapper, which is
+the fusion of QPALMA and PALMapper. Please consult the webpage
+http://www.fml.tuebingen.mpg.de/raetsch/suppl/palmapper/ for more
+information about this software.   
+
+(0.4-rc1: 16 April 2010, r18141)

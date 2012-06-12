@@ -1,0 +1,18 @@
+This folder contains pretrained QPALMA parameter files for use with Palmapper.
+There are two subdirectories:
+
+* no_splice_pred for parameter files obtained by training QPALMA
+without splice site predictions. The naming convention is as follows:
+
+		<organism>_<library-name>_l<read-length>_no-ss-pred.qpalma for single end sequencing, and
+		<organism>_<library-name>_<left|right>_l<read-length>.qpalma for paired end sequencing.
+
+* splice_pred for parameter files obtained by training QPALMA
+with splice site predictions. The naming convention is as follows:
+
+	 <organism>_<library-name>_l<read-length>.qpalma for single end sequencing, and
+	 <organism>_<library-name>_<left|right>_l<read-length>.qpalma for paired end sequencing.
+
+
+To obtain new parameter settings, use the QPALMA release available at http://www.fml.mpg.de/raetsch/suppl/qpalma
+or the galaxy web server at http://galaxy.fml.mpg.de/ -> QPALMA tools.

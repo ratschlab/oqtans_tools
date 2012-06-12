@@ -1,0 +1,437 @@
+<tool id="palmapper_wrapper" name="Map with PALMapper" version="0.4">
+  <description></description>
+  <command interpreter="python">
+    palmapper_wrapper.py
+
+    ##Input data depending on single or paired-end sequencing
+    --input1=$singlePaired.input1
+    #if $singlePaired.sPaired == "paired":
+     --input2=$singlePaired.input2
+     --strand="None"
+    #else:
+     --input2="None"
+     --strand=$singlePaired.strand
+    #end if
+    --paired=$singlePaired.sPaired
+    --protocol=$protocol
+
+    ##Output format
+    --format=$selectFormat.format
+    --unspliced-output=$unspliced_output
+    --spliced-output=$spliced_output
+    --sam-output=$sam_output
+    --bam-output=$bam_output
+    
+    ## Specificities for sam and bam output
+    #if $selectFormat.format=="sam" or $selectFormat.format=="bam":
+       --include-unmapped=$selectFormat.includeunmapped
+    #else:
+       --include-unmapped="false"
+    #end if
+    #if $selectFormat.format=="bam":
+       --bamsort=$selectFormat.bamsort
+    #end if
+
+    ##Optional output (junctions and coverage)
+    --coverage-output=$coverage_output
+    --junctions-output=$junctions_output
+    --coverage-map=$coverage
+    --junctions=$junctions
+
+    ##Reference source
+    --indexSource=$refIndexSource.indexSource
+    #if $refIndexSource.indexSource=="bwa":
+       --genomeSource=$refIndexSource.refGenomeSourceBwa.genomeSourceBwa
+       #if $refIndexSource.refGenomeSourceBwa.genomeSourceBwa == "history":
+          --ref=$refIndexSource.refGenomeSourceBwa.ownFileBwa
+          --indexSettings="None"
+       #else:
+          --ref=$refIndexSource.refGenomeSourceBwa.bwaIndices.value
+          --indexSettings="None"
+       #end if
+    #else:
+       --genomeSource=$refIndexSource.refGenomeSourceArray.genomeSourceArray
+       #if $refIndexSource.refGenomeSourceArray.genomeSourceArray=="history":
+          --ref=$refIndexSource.refGenomeSourceArray.ownFileArray
+          --indexSettings=$refIndexSource.refGenomeSourceArray.indexParams.index_settings
+       #else:
+          --ref=$refIndexSource.refGenomeSourceArray.arrayIndices.value
+          --indexSettings="None"
+       #end if
+       #if $refIndexSource.refGenomeSourceArray.genomeSourceArray=="history" and $refIndexSource.refGenomeSourceArray.indexParams.index_settings=="index_full":
+          --seedlength=$refIndexSource.refGenomeSourceArray.indexParams.seedlength
+       #end if 
+    #end if 
+
+    ##Splice site predictions
+    --ss-pred=$splicesite.splicesiteUse
+    #if $splicesite.splicesiteUse=="true":
+       --acc $splicesite.accpred.extra_files_path
+       --don $splicesite.donpred.extra_files_path
+    #end if
+
+    ##PALMapper settings
+    --params=$params.settings_type
+    #if $params.settings_type == "full":
+     --reportall=$params.reportall
+     --maxmismatches=$params.maxmismatches
+     --maxgaps=$params.maxgaps
+     --maxedits=$params.maxedits
+     --alignseedlength=$params.alignseedlength
+     --seedhitcancel=$params.seedhitcancel
+     --topalignment=$params.topalignment
+     --threads=$params.threads
+    #else:
+     --reportall="false"
+     --maxmismatches="None"
+     --maxgaps="None"
+     --maxedits="None"
+     --alignseedlength="None"
+     --seedhitcancel="None"
+     --topalignment="None"
+     --threads="None"
+    #end if
+
+    ##QPALMA parameters
+    --qpalma $condQpalmaParSource.qpalma_pars
+    --qpalma-params=$qpalma_params.settings_type
+    #if $qpalma_params.settings_type == "full":
+     --aligntrigger=$qpalma_params.aligntrigger
+     --alignshorttrigger=$qpalma_params.alignshorttrigger
+     --aligncombinedtrigger=$qpalma_params.aligncombinedtrigger
+     --maxintronlength=$qpalma_params.maxintronlength
+     --maxintronnum=$qpalma_params.maxintronnum
+     --qmm=$qpalma_params.qmm
+     --clustertol=$qpalma_params.clustertol
+     --maxalign=$qpalma_params.maxalign
+     --report_ss=$qpalma_params.report_ss
+     --qpalma-use-map-max-len=$qpalma_params.maxmapextension
+     --reportmappedread=$qpalma_params.reportmappedread
+     --reportsplicedread=$qpalma_params.reportsplicedread
+     --mmtrigger=$qpalma_params.mmtrigger
+     --gtrigger=$qpalma_params.gtrigger
+     #if $qpalma_params.trimming.trimmingType=="rtrimming":
+        --rtrim=$qpalma_params.trimming.rtrim
+        --rtrim-step=$qpalma_params.trimming.rtrimstep
+        --polytrim="None"
+     #end if   
+     #if $qpalma_params.trimming.trimmingType=="polyatrimming":
+        --rtrim="None"
+        --rtrim-step="None"
+        --polytrim=$qpalma_params.trimming.polytrim
+     #end if
+     #if $qpalma_params.trimming.trimmingType=="notrimming":
+        --rtrim="None"
+        --rtrim-step="None"
+        --polytrim="None"
+     #end if
+     #if $qpalma_params.remapping.junctionRemapping=="true":
+        --junction-remapping=$qpalma_params.remapping.junctionlibrary
+	--junction-coverage=$qpalma_params.remapping.junctionsupport
+     #else:
+        --junction-remapping="None"
+	--junction-coverage="None"
+     #end if
+     --non-consensus-search=$qpalma_params.nonconsensus
+    #else:
+     --aligntrigger="None"
+     --alignshorttrigger="None"
+     --aligncombinedtrigger="None"
+     --maxintronlength="None"
+     --maxintronnum="None"
+     --qmm="None"
+     --clustertol="None"
+     --maxalign="None"
+     --report_ss="None"
+     --qpalma-use-map-max-len="None"
+     --reportmappedread="None"
+     --reportsplicedread="None"
+     --mmtrigger="None"
+     --gtrigger="None"
+     --rtrim="None"
+     --rtrim-step="None"
+     --polytrim="None"
+     --junction-remapping="None"
+     --junction-coverage="None"
+     --non-consensus-search="None"
+    #end if
+    --logfile=$logfile >> $logfile
+  </command>
+  <inputs>
+    <conditional name="refIndexSource">
+      <param name="indexSource" type="select" label="Will you use bwa index or GenomeMapper index?" help="GenomeMapper index needs more space.">
+        <option value="array">GenomeMapper index</option>
+        <option value="bwa">BWA index</option>
+      </param>
+      <when value="array">
+	<conditional name="refGenomeSourceArray">
+	  <param name="genomeSourceArray" type="select" label="Will you select a reference genome from your history or use a built-in index?" help="Built-ins were indexed using default options">
+            <option value="indexed">Use a built-in index</option>
+            <option value="history">Use one from the history</option>
+	  </param>
+	  <when value="indexed">
+    	    <param name="arrayIndices" type="select" label="Select a reference genome" help="if your genome of interest is not listed - contact Galaxy team">
+  	      <options from_file="genomemapper_indices.loc">
+  	    	<column name="value" index="1" />
+  	    	<column name="name" index="0" />
+  	      </options>
+  	    </param>
+	  </when>
+	  <when value="history">
+            <param name="ownFileArray" type="data" format="fasta" label="Select a reference genome" />
+            <conditional name="indexParams">
+	      <param name="index_settings" type="select" label="Choose whether to use default options for building indices or to set your own">
+		<option value="index_pre_set">Default</option>
+		<option value="index_full">Set your own</option>
+	      </param> 
+	      <when value="index_pre_set" />
+	      <when value="index_full">
+		<param name="seedlength" type="integer" value="12" label="Index seed length" help="Integer between 8 and 13." />
+	      </when> <!-- index_full -->
+            </conditional>
+	  </when>
+	</conditional> <!-- refGenomeSourceArray -->
+      </when>
+      <when value="bwa">
+	<conditional name="refGenomeSourceBwa">
+	  <param name="genomeSourceBwa" type="select" label="Will you select a reference genome from your history or use a built-in index?" help="Built-ins were indexed using default options">
+            <option value="indexed">Use a built-in index</option>
+            <option value="history">Use one from the history</option>
+	  </param>
+	  <when value="indexed">
+    	    <param name="bwaIndices" type="select" label="Select a reference genome" help="if your genome of interest is not listed - contact Galaxy team">
+  	      <options from_file="bwa_index.loc">
+  	    	<column name="value" index="1" />
+  	    	<column name="name" index="0" />
+  	      </options>
+  	    </param>
+	  </when>
+	  <when value="history">
+            <param name="ownFileBwa" type="data" format="fasta" label="Select a reference genome" />
+	  </when>
+	</conditional> <!-- refGenomeSourceBwa -->
+      </when>
+    </conditional> <!-- refIndexSource -->
+    <conditional name="singlePaired">
+      <param name="sPaired" type="select" label="Is this library mate-paired?">
+        <option value="single">Single-end</option>
+        <option value="paired">Paired-end</option>
+      </param>
+      <when value="single">
+        <param name="input1" type="data" format="fastqsanger" label="FASTQ file" help="Must have Sanger-scaled quality values with ASCII offset 33"/>
+	<param name="strand" type="select" label="Is this library strand-specific?">
+          <option value="unstranded">No strand information</option>
+          <option value="left">left reads</option>
+          <option value="right">right reads</option>
+	</param>
+      </when> <!-- single -->
+      <when value="paired">
+        <param name="input1" type="data" format="fastqsanger" label="FASTQ file (left reads)" help="Must have Sanger-scaled quality values with ASCII offset 33"/>
+        <param name="input2" type="data" format="fastqsanger" label="FASTQ file (right reads)" help="Must have Sanger-scaled quality values with ASCII offset 33"/>
+      </when> <!-- paired -->
+    </conditional> <!-- singlePaired -->
+    <param name="protocol" type="select" label="Select protocol used for data preparation" help="First-strand method (e.g. RNA ligation protocol) or second-strand method (dUTP protocol)">
+      <option value="unstranded">No strand specific</option>
+      <option value="first">First strand</option>
+      <option value="second">second strand</option>
+    </param>
+    <conditional name="selectFormat">
+      <param name="format" type="select" label="Output format">
+	<option value="bam">BAM format</option>
+	<option value="sam">SAM format</option>
+	<option value="bedx">Extended BED format</option>
+      </param> 
+      <when value="bam">
+	<param name="bamsort" type="select" label="Sort alignments in BAM file">
+	  <option value="unsorted">Unsorted BAM file</option>
+	  <option value="position">BAM file sorted by position</option>
+	  <option value="read">BAM file sorted by read id</option>
+	</param> 
+	<param name="includeunmapped" type="boolean" truevalue="true" falsevalue="false" checked="false" label="Write unmapped reads in the output file" />
+      </when> <!-- sam -->
+      <when value="sam">
+	<param name="includeunmapped" type="boolean" truevalue="true" falsevalue="false" checked="false" label="Write unmapped reads in the output file" />
+      </when> <!-- sam -->
+    </conditional> <!-- selectFormat -->
+    <param name="coverage" type="select" label="Save the coverage map in a file?" help="Output the coverage map (including spliced alignments) in wiggle format.">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </param>
+    <param name="junctions" type="select" label="Build an intron junction library?" help="Build intron junction library from spliced alignments (gff3 format).">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </param>
+    <conditional name="params">
+      <param name="settings_type" type="select" label="Settings to use" help="For most mapping needs use Commonly used settings. If you want full control use Full parameter list">
+	<option value="pre_set">Commonly used</option>
+   	<option value="full">Full parameter list</option>
+      </param>
+      <when value="pre_set" />
+      <when value="full">
+        <param name="alignseedlength" type="integer" value="18" label="Alignment seed length (-l)" help="Integer not smaller than the index seed length." />
+        <param name="maxmismatches" type="integer" value="3" label="Maximal number of mismatches (-M)" />  
+        <param name="maxgaps" type="integer" value="1" label="Maximal number of gaps (-G)" />  
+	<param name="maxedits" type="integer" value="3" label="Maximal number of edit operations (-E)" />  
+        <param name="seedhitcancel" type="integer" value="10000" label="Maximal number of seed hits before seed is ignored" />  
+        <param name="topalignment" type="integer" value="10" label="Number of top alignments (-z)" help="A non-zero digit." />  
+        <param name="threads" type="integer" value="10" label="The number of threads to run" />  
+	<param name="reportall" type="boolean" truevalue="true" falsevalue="false" checked="false" label="Report all hits (-a)" />
+      </when> <!-- full -->
+    </conditional> <!-- params -->
+    <conditional name="splicesite">
+      <param name="splicesiteUse" type="select" label="Will you want to use splice site predictions for running PALMapper?" help="If you use splice site predictions, please choose a QPALMA parameter file which was obtained by training QPALMA with the same splice site predictions. Reciprocally, if you don't use splice site predictions, use a QPALMA parameter file which was obtained by training QPALMA without any splice site predictions.">
+	<option value="true">Use of splice site predictions</option>
+   	<option value="false">No use of splice site predictions</option>
+      </param>
+      <when value="false" />
+      <when value="true">
+	<param format="spf" name="accpred" type="data" label="Acceptor splice site predictions in SPF format" help="The prediction file contains a signal prediction score for each candidate acceptor splice site. It can be generated with 'SignalPredict' (see mGene.web modules)."/>
+	<param format="spf" name="donpred" type="data" label="Donor splice site predictions in SPF format" help="The prediction file contains a signal prediction score for each candidate donor splice site. It can be generated with 'SignalPredict' (see mGene.web modules)."/>
+      </when> <!-- ss_use -->
+    </conditional> <!-- splicesite -->
+    <conditional name="condQpalmaParSource">
+      <param name="qpalmaParSource" type="select" label="Will you select a built-in QPALMA parameter file or one from the history?" >
+	<option value="built-in">Use a built-in QPALMA parameter file</option>
+	<option value="history">Use one from the history</option>
+      </param>
+      <when value="built-in">
+	<param name="qpalma_pars" type="select" label="Select QPALMA parameter file" help="Parameters are obtaind by training QPALMA. Currently, we only offer a set of pretrained QPALMA models.">
+  	  <options from_file="/mnt/galaxyTools/tools/palmapper/galaxy/qpalma_parameters.loc">
+	    <column name="value" index="1" />
+	    <column name="name" index="0" />
+	  </options>
+  	</param>
+      </when>
+      <when value="history">
+	<param format="qpalmaparam" name="qpalma_pars" type="data" label="QPALMA parameters" help="The parameter file can be obtained by training QPALMA (using `QPALMA Train`)."/>
+      </when>
+    </conditional> <!-- condQpalmaParSource -->
+    
+    <conditional name="qpalma_params">
+      <param name="settings_type" type="select" label="QPALMA settings to use" help="For most mapping needs use Commonly used settings. If you want full control use Full parameter list">
+	<option value="pre_set">Commonly used</option>
+	<option value="full">Full parameter list</option>
+      </param>
+      <when value="pre_set" />
+      <when value="full">
+	<param name="aligntrigger" type="integer" value="18" label="Threshold to trigger QPALMA alignments (-L)" help="Integer not smaller than the index seed length." />
+	<param name="alignshorttrigger" type="integer" value="13" label="Minimal length for shorter end (-K)" help="Integer not smaller than the index seed length." />
+	<param name="aligncombinedtrigger" type="integer" value="33" label="Minimal combined matches (-C)" help="Integer not smaller than the index seed length." />
+	<param name="maxintronlength" type="integer" value="10000" label="Maximal intron length (-I)" />  
+	<param name="maxintronnum" type="integer" value="2" label="Maximal number of introns (-NI)" />  
+	<param name="qmm" type="integer" value="5" label="Minimal number of matches required for identifying a splice site (-QMM)" />  
+	<param name="clustertol" type="integer" value="10" label="Cluster tolerance in nt (-CT)" />  
+	<param name="maxalign" type="integer" value="10" label="maximum number of spliced alignments per read (-SA)" />  
+	<param name="maxmapextension" type="integer" value="100000" label="Up- and downstream limit of map extension" />  
+	<!-- <param name="filter_ss_tophit" type="float" value="0.9" help="QPALMA splice site trigger" label="Trigger spliced alignments, if read covers top percentile splice site (between 0 and 1)" />   -->
+	<param name="report_ss" type="float" value="0.9" help="Splice site-based alignment regions" label="Use splice site for determining alignment regions (between 0 and 1 for filtering splice sites by their score)" />  
+	<param name="mmtrigger" type="integer" value="3" label="Threshold to trigger spliced alignments (mismatches)" help="trigger spliced alignment, if unspliced alignment has at least this many mismatches" />  
+	<param name="gtrigger" type="integer" value="0" label="Threshold to trigger spliced alignments (gaps)" help="trigger spliced alignment, if unspliced alignment has at least this many gaps" />  
+	<param name="reportmappedread" type="select" label="Use mapped unspliced reads for determining alignment regions" >
+	  <option value="True">true</option>
+	  <option value="False">false</option>
+	</param>
+	<param name="reportsplicedread" type="select" label="Use mapped spliced reads for determining alignment regions" >
+	  <option value="True">true</option>
+	  <option value="False">false</option>
+	</param>
+	<conditional name="trimming">
+	  <param name="trimmingType" type="select" label="Select a type of read trimming" help="Shorten reads until a hit is found or the minimal length is reached.">
+	    <option value="notrimming">No trimming</option>
+	    <option value="rtrimming">Right trimming</option>
+	    <option value="polyatrimming">PolyA trimming</option>
+	  </param>
+	  <when value="notrimming" />
+	  <when value="rtrimming">
+	    <param name="rtrim" type="integer" value="40" label="Minimal read length after trimming right side" />  
+	    <param name="rtrimstep" type="integer" value="5" label="Trimming step size" />  
+	  </when>
+	  <when value="polyatrimming">
+	    <param name="polytrim" type="integer" value="40" label="Minimal read length after trimming polyA or polyT ends" />  
+	  </when>
+	</conditional> <!-- trimming -->
+	<conditional name="remapping">
+	  <param name="junctionRemapping" type="select" label="Remapping against intron junction library" help="enables remapping of unmapped or unspliced reads against the junction list provided in gff3 format.">
+	    <option value="false">No remapping</option>
+	    <option value="true">Remapping</option>
+	  </param>
+	  <when value="false" />
+	  <when value="true">
+	    <param format="gff3" name="junctionlibrary" type="data" label="Intron junction file in GFF3 format" help="The intron junction library can be obtained by running PALMapper a first time or by providing an annotation file (with exons lines sorted by coordinates)."/>
+	    <param name="junctionsupport" type="integer" value="2" label="Minimum alignment support to take into account a junction" />  
+	  </when>
+	</conditional> <!-- junction remapping -->
+	<param name="nonconsensus" type="boolean" truevalue="true" falsevalue="false" checked="false" label="Enable spliced alignments with non consensus sequences as splice sites" />		
+      </when> <!-- full -->
+    </conditional> <!-- qpalma_params -->
+    <!-- <param name="suppressHeader" type="boolean" truevalue="true" falsevalue="false" checked="true" label="Suppress the header in the output SAM file" help="GenomeMapper produces SAM with several lines of header information" /> -->
+  </inputs>
+  <outputs>
+    <data format="bed" name="unspliced_output" label="PALMapper unspliced alignment file in BED format" >
+      <filter>selectFormat['format'] == "bedx"</filter> 
+    </data>
+    <data format="bed" name="spliced_output" label="PALMapper spliced alignment file in BED format" >
+      <filter>selectFormat['format'] == "bedx"</filter> 
+    </data>
+    <data format="sam" name="sam_output" label="PALMapper spliced-unspliced alignment file in SAM format" >
+      <filter>selectFormat['format'] == "sam"</filter> 
+    </data>
+    <data format="bam" name="bam_output" label="PALMapper spliced-unspliced alignment file in BAM format" >
+      <filter>selectFormat['format'] == "bam"</filter> 
+    </data>
+    <data format="txt" name="logfile" label="PALMapper LOG" />
+    <data format="wig" name="coverage_output" label="A UCSC BedGraph wigglegram track, showing the depth of coverage at each position, including the spliced read alignments." >
+      <filter>coverage=="true"</filter> 
+    </data>
+    <data format="gff3" name="junctions_output" label="PALMapper intron junction library in gff3 format" >
+      <filter>junctions=="true"</filter> 
+    </data>
+  </outputs>
+  <help>
+
+**PALMapper overview**
+
+PALMapper_ is the the fusion of the short read mapper GenomeMapper_ [1]_ and the short read aligner QPALMA_ [2]_ and is an easy-to-use and flexible tool to accurately and efficiently align both transcriptome reads (spliced and unspliced) from RNA-seq experiments against a reference genome. PALMapper is able to take advantage of read quality information by using the efficient training algorithm of QPALMA (see `Train QPALMA` in NGS:QPALMA tools section). It is additionally able to benefit from computational splice site predictions to improve the alignment accuracy.
+
+.. _QPALMA: http://www.fml.tuebingen.mpg.de/raetsch/suppl/qpalma
+.. _PALMapper: http://www.fml.tuebingen.mpg.de/raetsch/suppl/palmapper
+.. _GenomeMapper: http://www.1001genomes.org/downloads/genomemapper.html
+
+.. class:: warningmark
+
+Running this tool with default parameters will probably not give you meaningful results. A way to deal with this is to **understand** the parameters by carefully reading `PALMapper tutorial`_ [3]_ and experimenting. Fortunately, Galaxy makes experimenting easy.
+
+
+------
+
+**Inputs**
+
+* Genome sequence in FASTA format
+* Read data to align in Sanger FASTQ format
+* QPALMA parameter file (Use a precomputed QPALMA parameter file of compute it by training QPALMA)
+* Splice site predictions (Optional; can be obtained via ASP)
+* Intron junction library (Optional; can be obtained by running PALMapper a first time)
+
+------
+
+**Outputs**
+
+* Alignment file (in BAM, SAM or BEDx format), which stores all alignments of reads for which an alignment satisfying the specified criteria has been found.
+* Coverage map (in Wiggle format), showing the depth of coverage at each position, including the spliced read alignments (Optional).
+* Intron junction library (in GFF3 format), which stores intron junctions from spliced alignments found by PALMapper (Optional).
+
+-------
+
+**PALMapper settings**
+
+All of the options have a default value. You can change any of them. Most of the options in PALMapper have been implemented here. For more information, please read `PALMapper tutorial`_ [3]_.
+
+.. _`PALMapper tutorial`: http://www.fml.tuebingen.mpg.de/raetsch/suppl/palmapper/tutorial
+
+**References**
+
+.. [1] Schneeberger, K. et al., Simultaneous alignment of short reads against multiple genomes, Genome Biol. 10 (9):R98, 2009.
+.. [2] De Bona, F. et al., Optimal Spliced Alignments of Short Sequence Reads, ECCB08/Bioinformatics, 24 (16):i174, 2008.
+.. [3] Jean, G., Kahles, A., Sreedharan, V.T., De Bona, F., Raetsch, G., RNA-Seq Read Alignments with PALMapper, Curr. Protoc. Bioinform., 32:11.6.1-11.6.38, 2010.
+  </help>
+</tool>
