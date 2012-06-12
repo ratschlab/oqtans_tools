@@ -1,0 +1,83 @@
+<tool id="gowrilla" name="GOwRilla GO enrichment analysis and visualization">
+  <description>Wrapper for the GOrilla web service</description>
+  <command interpreter="python">gowrilla.py --organism=$organism --pvalue=$pvalue
+       --area=all --directory=$outdir.files_path --galaxyfile=$outdir
+       #if $mode.runningmode=="2"
+         --list=$mode.targets --background=$mode.background
+       #else
+         --list=$mode.list
+       #end if
+  </command>
+  <inputs>
+    <param name="organism" type="select" help="Select one">
+      <label>Genes in list are from this model organism</label>
+      <option value="ARABIDOPSIS_THALIANA">Arabidopsis thaliana</option>
+      <option value="SACCHAROMYCES_CEREVISIAE">Saccharomyces cerevisiae</option>
+      <option value="CAENORHABDITIS_ELEGANS">Caenorhabditis elegans</option>
+      <option value="DROSOPHILA_MELANOGASTER">Drosophila melanogaster</option>
+      <option value="DANIO_RERIO">Danio rerio (Zebrafish)</option>
+      <option value="HOMO_SAPIENS">Homo sapiens</option>
+      <option value="MUS_MUSCULUS">Mus musculus</option>
+      <option value="RATTUS_NORVEGICUS">Rattus norvegicus</option>
+    </param>
+    <param name="pvalue" type="float" value="0.01" help="1E-2 > p > 1E-11, will be rounded to the nearest 10^-n">
+      <label>p-value threshold</label>
+    </param>
+    <conditional name="mode">
+      <param name="runningmode" type="select" label="Running mode" help="">
+        <option value="1">Single ranked list of genes</option>
+        <option value="2">Two unranked lists of genes (target and background)</option>
+      </param>
+      <when value="1">
+        <param name="list" type="data" format="txt" help="Gene symbols preferred">
+          <label>Ranked gene/protein list</label>
+        </param>
+      </when>
+      <when value="2">    
+        <param name="targets" type="data" format="txt" help="Gene symbols preferred">
+          <label>Unranked gene/protein list of targets</label>
+        </param>
+        <param name="background" type="data" format="txt" help="Gene symbols preferred">
+          <label>Background to target list</label>
+        </param>
+      </when>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format="html" name="outdir" />
+  </outputs>    
+  <help>
+  
+      GOwRilla provides a Galaxy interface to the web service GOrilla.
+      GOrilla is a tool for identifying and visualizing enriched GO terms in ranked lists of genes.
+      You can search for enriched GO terms that appear densely at the top of a ranked list of genes
+      by providing just the target list; or yo can search for enriched GO terms in a target list
+      of genes compared to a background list of genes, by also providing a background list.
+      
+      In the lists, provide one gene identifier per line. GOrilla prefers gene symbols. 
+      Other supported formats are: gene and protein RefSeq, Uniprot, Unigene and Ensembl. 
+      You can use WebGestalt for conversion from other identifier formats at
+      http://bioinfo.vanderbilt.edu/webgestalt/
+
+      This tool is part of the Oqtans Galaxy package.
+      Copyright (C) 2011 Sebastian J. Schultheiss (sebi@umich.edu)
+                                                                                             
+      This program is free software; you can redistribute it and/or modify                   
+      it under the terms of the GNU General Public License as published by                   
+      the Free Software Foundation; either version 3 of the License, or                      
+      (at your option) any later version.                                                    
+                                                                                             
+      This program is distributed in the hope that it will be useful,                        
+      but WITHOUT ANY WARRANTY; without even the implied warranty of                         
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
+      GNU General Public License for more details.                                           
+                                                                                             
+      You should have received a copy of the GNU General Public License                       
+      along with this program; if not, see http://www.gnu.org/licenses                       
+      or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
+      Fifth Floor, Boston, MA 02110-1301  USA                                                
+    
+
+  </help>
+</tool>
+
