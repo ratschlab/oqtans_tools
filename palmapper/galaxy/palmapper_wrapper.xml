@@ -296,7 +296,7 @@
       </param>
       <when value="built-in">
 	<param name="qpalma_pars" type="select" label="Select QPALMA parameter file" help="Parameters are obtaind by training QPALMA. Currently, we only offer a set of pretrained QPALMA models.">
-  	  <options from_file="/mnt/galaxyTools/tools/palmapper/galaxy/qpalma_parameters.loc">
+  	  <options from_file="/mnt/galaxyTools/tools/oqtans/palmapper/galaxy/qpalma_parameters.loc">
 	    <column name="value" index="1" />
 	    <column name="name" index="0" />
 	  </options>
