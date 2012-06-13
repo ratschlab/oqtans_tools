@@ -1,0 +1,78 @@
+<tool id="topgo" name="topGO" version="2.6.0">
+  <description>Enrichment analysis for Gene Ontology</description>
+  <command interpreter="bash"> 
+    /mnt/galaxyTools/tools/oqtans/topGO/src/topgo_conf.sh $topgo_out.extra_files_path $topgo_out $organism $diff_exp_genes $pvalue $stat_test $ontology_type 
+    </command>
+  <inputs>
+	<param name="organism" type="select" label="Gene list correspnding the organism" help="Select one">
+    <option value="Arabidopsis_thaliana">Arabidopsis thaliana</option>
+    <option value="Saccharomyces_cerevisiae">Saccharomyces cerevisiae</option>
+    </param>
+	<param format="txt" name="diff_exp_genes" type="data" label="Gene list" help="e.g. differentially expressed genes with a score."/>
+    <param name="pvalue" type="float" value="0.01" label="p-value threshold" help="selecting candidate genes for GO analysis with a p-value."/>
+    <param name="stat_test" type="select" label="Enrichment analysis test types" help="topGO performs test statistics based on gene counts (fisher) and gene scores (ks)." >
+        <option value="fisher">fisher</option>
+    </param>
+    <param name="ontology_type" type="select" label="Type of GO ontology to analyze" help="Depends on the experiment, choose one of the GO ontology type.">
+        <option value="MF">MF (molecular function)</option>
+        <option value="CC">CC (cellular component)</option>
+        <option value="BP">BP (biological process)</option>
+    </param>
+  </inputs>
+
+  <outputs>
+    <data format="pdf" name="topgo_out" label="topGO GO structure of ${diff_exp_genes.name}"/>
+  </outputs>
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+`topGO` (topology-based Gene Ontology scoring) is a software package for calculating the significance of biological terms from gene expression data. `read more...`_
+
+.. _read more...: http://www.bioconductor.org/packages/2.9/bioc/html/topGO.html
+
+
+`topGO` requires:
+
+[1] List of genes identifiers, gene scores, list of differentially expressed genes or a criteria for selecting genes based on their scores.
+
+**Example**
+
+- A set of differentially expressed genes from Arabidopsis thaliana genome::
+
+    AT1G01010   0.04144
+    AT1G01020   0.93138
+    AT1G01030   0.29616
+    AT1G01040   0.01664
+    AT1G01046   0.74652
+    AT1G01050   0.84998
+    AT1G01060   9.54409e-28
+    AT1G01070   0.47313
+    AT1G01073   1.000
+    AT1G01080   0.30528
+
+[2] Select organism according to the gene list. This helps us to pick the correct mapping file between gene identifiers and GO terms. 
+
+**Output**
+
+`topGO` generates an image file containing GO structure. 
+
+------
+
+**Licenses**
+
+If **topGO** is used to obtain results for scientific publications it should be cited as [1]_.
+
+**References** 
+
+.. [1] Adrian Alexa, Jörg Rahnenführer, Thomas Lengauer: Improved scoring of functional groups from gene expression data by decorrelating GO graph structure. 
+
+------
+
+topGO Wrapper Version 0.1 (June 2012)
+
+</help>
+</tool>
