@@ -1,0 +1,5 @@
+The files contain example data from 50 genes of the C. elegans genome on chromosome I.
+
+These files are:
+* the genome annotation in GFF3 format
+* two small set of aligned reads in SAM format (generated with PalMapper) from SRX001872 (http://www.ncbi.nlm.nih.gov/sra/SRX001872?report=full) and SRX001875 (http://www.ncbi.nlm.nih.gov/sra/SRX001875?report=full)
