@@ -1,6 +1,6 @@
 <tool id="fml_geneset" name="GeneSet" version="0.1">
 	<description>Plots family of diff. or not or expressed genes</description> 
-	<command interpreter="python">/home/galaxy/galaxy-2.1.2009/tools/oqtans/gene_set.py 
+	<command interpreter="python">${OQTANS_PATH}/genesetter/gene_set.py 
 	</command> 
 	<inputs>
   		<param format="txt" name="in_family_info" type="data" label="Gene family related information" />
@@ -43,7 +43,7 @@ This tool plots the difference in gene expression based on gene families in an o
 
 **rDiff/DESeq expression profiling** P-value generated for each gene in an organism based on multiple statistical testing on RNA-Seq reads coverage 
 
-Copyright (C) 2012 Max Planck Society
+Copyright (C) 2012 
 
 	</help>
 </tool>

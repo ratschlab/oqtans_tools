@@ -1,7 +1,7 @@
 <tool id="deseq" name="DESeq">
   <description>Determines differentially expressed transcripts from read alignments</description>
   <command> 
-/home/galaxy/galaxy-current/tools/quantitation_tools/deseq/src/deseq.sh $anno_input_selected $anno_input.select_anno_format $anno_out $deseq_out 
+${OQTANS_PATH}/deseq/src/deseq.sh $anno_input_selected $anno_input.select_anno_format $anno_out $deseq_out 
 #for $i in $replicate_groups
 #for $j in $i.replicates
 $j.bam_alignment:#slurp

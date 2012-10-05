@@ -5,9 +5,9 @@ set -e
 
 pwd
 
-cd /mnt/galaxyTools/galaxy-central/tools/oqtans/asp-0.3
-export LD_LIBRARY_PATH=/mnt/galaxyTools/tools/shogun-0.10.0/lib
-export PYTHONPATH=/mnt/galaxyTools/tools/shogun-0.10.0/lib/python2.6/dist-packages
+cd ${OQTANS_PATH}/asp-0.3
+export LD_LIBRARY_PATH=${OQTANS_DEP_PATH}/lib
+export PYTHONPATH=${OQTANS_DEP_PATH}/lib/python2.6/dist-packages
 
 if [ "$3" = "spf1" ]
 then

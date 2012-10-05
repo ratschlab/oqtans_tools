@@ -1,7 +1,7 @@
 <tool id="deseq_parallel" name="DESeqP">
   <description>Determines differentially expressed transcripts from read alignments</description>
   <command> 
-      /mnt/galaxyTools/tools/deseq-parallel/src/deseq.sh $anno_input_selected $anno_input.select_anno_format $deseq_out $bam_alignments1 $bam_alignments2 >> $Log_File 
+      ${OQTANS_PATH}/deseq-parallel/src/deseq.sh $anno_input_selected $anno_input.select_anno_format $deseq_out $bam_alignments1 $bam_alignments2 >> $Log_File 
   </command>
   <inputs>
      <conditional name="anno_input">

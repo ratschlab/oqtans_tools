@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 pwd
-cd /mnt/galaxyTools/tools/oqtans/ASP_0.3
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mnt/galaxyTools/tools/oqtans/sw_require/lib/
-export PYTHONPATH=$PYTHONPATH:/mnt/galaxyTools/tools/oqtans/sw_require/lib/python2.6/site-packages/:/mnt/galaxyTools/tools/oqtans/sw_require/lib/python2.6/dist-packages/
+cd ${OQTANS_PATH}/ASP_0.3
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OQTANS_DEP_PATH}/lib/
+export PYTHONPATH=$PYTHONPATH:${OQTANS_DEP_PATH}/lib/python2.6/site-packages/:${OQTANS_DEP_PATH}/lib/python2.6/dist-packages/
 
 if [ "$3" = "spf1" ]
 then

@@ -1,7 +1,7 @@
 <tool id="topgo" name="topGO" version="2.6.0">
   <description>Enrichment analysis for Gene Ontology</description>
   <command interpreter="bash"> 
-    /mnt/galaxyTools/tools/oqtans/topGO/src/topgo_conf.sh $topgo_out.extra_files_path $topgo_out $organism $diff_exp_genes $pvalue $stat_test $ontology_type 
+    ${OQTANS_PATH}/topGO/src/topgo_conf.sh $topgo_out.extra_files_path $topgo_out $organism $diff_exp_genes $pvalue $stat_test $ontology_type 
     </command>
   <inputs>
 	<param name="organism" type="select" label="Gene list correspnding the organism" help="Select one">

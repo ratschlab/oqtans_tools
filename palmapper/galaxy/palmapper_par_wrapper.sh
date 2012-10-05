@@ -61,11 +61,11 @@ for i in ${input1}.????; do
     then
 	echo calling "palmapper on file $i"
 	echo "./palmapper_wrapper.py --input1=$i --outsuffix=.${splitno}"
-	echo "python $basedir/palmapper_wrapper.py --input1=$i --outsuffix=.${splitno} $* > /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log" | ${qsub} -cwd -N "plm$suffix$splitno" -pe "*" 1-4 -j y -o /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log
+	echo "python $basedir/palmapper_wrapper.py --input1=$i --outsuffix=.${splitno} $* > $OQTANS_TMP_PATH/palmapper.$suffix.$splitno.log" | ${qsub} -cwd -N "plm$suffix$splitno" -pe "*" 1-4 -j y -o $OQTANS_TMP_PATH/palmapper.$suffix.$splitno.log
     else
 	echo calling "./palmapper_wrapper.py --input1=${input1}.$splitno --input2=${input2}.$splitno "
-	echo "python $basedir/palmapper_wrapper.py --input1=$i --input2=${input2}.$splitno --outsuffix=.${splitno} $* > /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log"
-	echo "python $basedir/palmapper_wrapper.py --input1=$i --input2=${input2}.$splitno --outsuffix=.${splitno} $* > /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log" | ${qsub} -cwd -N "plm$suffix$splitno" -pe "*" 1-4 -j y -o /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log
+	echo "python $basedir/palmapper_wrapper.py --input1=$i --input2=${input2}.$splitno --outsuffix=.${splitno} $* > $OQTANS_TMP_PATH/palmapper.$suffix.$splitno.log"
+	echo "python $basedir/palmapper_wrapper.py --input1=$i --input2=${input2}.$splitno --outsuffix=.${splitno} $* > $OQTANS_TMP_PATH/palmapper.$suffix.$splitno.log" | ${qsub} -cwd -N "plm$suffix$splitno" -pe "*" 1-4 -j y -o $OQTANS_TMP_PATH/tmp/palmapper.$suffix.$splitno.log
     fi
 done
 
@@ -144,8 +144,8 @@ if [ "$logoutput" != "None" ]; then
     for i in ${input1}.????; do
 	splitno=${i:(-4)} 
 	cat ${logoutput}.$splitno >> $logoutput
-	cat /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log >> $logoutput
-	rm -f ${logoutput}.$splitno /mnt/galaxyData/tmp/palmapper.$suffix.$splitno.log
+	cat $OQTANS_TMP_PATH/palmapper.$suffix.$splitno.log >> $logoutput
+	rm -f ${logoutput}.$splitno $OQTANS_TMP_PATH/palmapper.$suffix.$splitno.log
     done
 fi
 

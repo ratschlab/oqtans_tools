@@ -1,4 +1,0 @@
-oqtans
-======
-
-Oqtans repository
