@@ -1,0 +1,44 @@
+Before trying to use oqtans, install the following 
+standard linux software packages:
+
+Ubuntu/Debian:
+     make gcc g++ git libhdf5-lam-1.8.4 libfontconfig1 libgl1-mesa-glx 
+     libglu1-mesa libreadline5 libgfortran3 gfortran libqrupdate1 
+     python-dev pkg-config libncurses5-dev libreadline-dev libltdl-dev
+     libpcre3-dev libhdf5-serial-dev gnuplot libidn11-dev cmake m4
+     help2man texinfo texlive python2.6 (or python2.7)
+
+Redhat/CentOS
+     pkgconfig python-devel make gcc gcc-c++ cmake m4 texlive-latex texinfo texinfo-tex
+     libtool-ltdl-devel pcre-devel libgfortran gcc-gfortran bison bison-runtime
+     automake bison-devel readline-devel ncurses-devel zlib-devel help2man 
+     numpy-f2py python2.6 (or python2.7) 
+
+Mac OS X (macports packages)
+     scipy numpy gcc help2man git gcc46 (or gcc44 gcc45) texlive
+	 make m4 cmake texinfo R pkgconfig libpng R 
+
+Update the file
+   oqtans/oqtans_conf.sh
+to reflect the location of oqtans components and source it in galaxy's ~/.bashrc.
+
+In addition we need the following software packages:
+   octave version>=3.4, shogun version>=1.1, R version>=2, glpk, scipy version>=0.10, swig, samtools, numpy version>=1.6
+These packages are available precompiled from 
+   https://github.com/ratschlab/oqtans_dep
+for multiple platforms.
+The source code of these packages together with additional instructions are avialable from
+   https://github.com/ratschlab/oqtans_src
+
+Run
+   cd oqtans ;
+   ./oqtans_make.sh all
+to compile all needed software components of oqtans tools.
+
+Include the content of 
+   tool_conf.xml.oqtans
+into your galaxy's tool_conf.xml file.
+   
+Source oqtans/oqtans_conf.sh and restart galaxy.
+Now you should be able to use oqtans without your galaxy instance.
+

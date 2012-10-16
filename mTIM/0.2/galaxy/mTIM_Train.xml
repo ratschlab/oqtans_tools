@@ -1,0 +1,31 @@
+<tool id="mTIMTrain" name="mTIM-Train" version="0.2">
+  <description>data preparation and training</description>
+  <command interpretor="bash"> 
+    source ../../../oqtans_conf.sh; 
+    ${OQTANS_PATH}/mTIM_0.2/src/mTIM_run.sh $fasta_input $anno_input $bam_alignments $accpred $donpred $TrainModel $TrainModel.extra_files_path >> $LogFile
+  </command>
+  <inputs>
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
+	<param format="fasta" name="fasta_input" type="data" label="Genome sequence in FASTA format" help=""/>
+	<param format="spf" name="accpred" type="data" label="Acceptor splice site predictions in SPF format" help="The prediction file contains a signal prediction score for each candidate acceptor splice site. It can be generated with ASP."/>
+	<param format="spf" name="donpred" type="data" label="Donor splice site predictions in SPF format" help="The prediction file contains a signal prediction score for each candidate donor splice site. It can be generated with ASP."/>
+	<param format="gff3" name="anno_input" type="data" label="Genome annotation in GFF3" help="Partial genome annotation in GFF3 format describing the known gene structures for the provided genome."/>
+  </inputs>
+
+  <outputs>
+    <data format="txt" name="LogFile" label="mTIM-Train log" />
+    <data format="txt" name="TrainModel" label="mTIM-Train model" />
+  </outputs>
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+`mTIM` 
+
+Version 0.2 (July 2012)
+
+</help>
+</tool>

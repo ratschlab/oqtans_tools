@@ -1,0 +1,68 @@
+**What it does** 
+
+`rQuant` determines the abundances of a given set transcripts based on aligned reads from an RNA-Seq experiment.
+
+**Inputs**
+
+`rQuant` requires two input files to run:
+
+1. Annotation file either in GFF3 or AGS format, containing the necessary information about the transcripts that are to be quantified.
+2. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
+
+For the feature Transcript Profiles you have three options:
+
+1. "No profiles": This disables the estimation of the density model.
+2. "Load profiles": You can load a pre-learned density model (consisting of transcripts profiles). 
+3. "Learn profiles": This enables the estimation of the density model. You can specify the number of iterations. As an additional output one file describing the density model (transcripts profiles) is generated in your history. 
+
+
+**Output**
+
+`rQuant` generates a GFF3 file with the attributes `ARC` and `RPKM` that describe the abundance of a transcript in ARC (estimated average read coverage) and RPKM (reads per kilobase of exon model per million mapped reads), respectively.
+
+------
+
+**Licenses**
+
+If **rQuant.web** is used to obtain results for scientific publications it
+should be cited as [1]_ or [2]_.
+
+**References** 
+
+.. [1] Bohnert, R, and Raetsch, G (2010): `rQuant.web. A tool for RNA-Seq-based transcript quantitation`_. Nucleic Acids Research, 38(Suppl 2):W348-51.
+
+.. [2] Bohnert, R, Behr, J, and Raetsch, G (2009): `Transcript quantification with RNA-Seq data`_. BMC Bioinformatics, 10(S13):P5.
+
+.. _rQuant.web. A tool for RNA-Seq-based transcript quantitation: http://nar.oxfordjournals.org/cgi/content/abstract/38/suppl_2/W348
+.. _Transcript quantification with RNA-Seq data: http://www.biomedcentral.com/1471-2105/10/S13/P5
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF3 format** General Feature Format is a format for describing genes and other features associated with DNA, RNA and protein sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For the quantitation we provide two additional attributes:
+
+1. ARC: estimated average read coverage (direct output from rQuant)
+2. RPKM: the number of reads per thousand bases per million mapped reads
+
+describing the estimated expression value for each transcript.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**AGS format** Annotation Gene Structure Object is an internal structure that efficiently stores the information from a GFF3 file.
+
+**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a tab-limited text format that stores large nucleotide sequence alignments. BAM is the binary version of a SAM file that allows for fast and intensive data processing. The format specification and the description of SAMtools can be found on http://samtools.sourceforge.net/.

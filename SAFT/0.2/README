@@ -1,0 +1,204 @@
+================================================================================
+ README
+================================================================================
+
+This README file contains the following parts:
+
+    0 Information about SAFT
+    1 Installation and Dependencies
+    2 Description of the single tools
+    3 Description of the pipeline
+    4 Examples
+
+================================================================================
+0 - Information about SAFT
+================================================================================
+
+SAFT is the abbreviation for Simple Alignment Filtering Tool and was developed
+by Andre Kahles at the Friedrich Miescher Laboratory of the Max Planck Society
+in 2010 and 2011.
+
+Version: 0.1 (alpha) - 2011.04.15
+
+================================================================================
+1 - Installation and Dependencies
+================================================================================
+
+BioPython
+---------
+For the correct parsing of GFF3 file SAFT relies on BioPython. BioPython is
+available at www.biopython.org/
+Please make sure, that BioPython is available in your PYTHONPATH.
+
+SAMtools
+--------
+If you want to use BAM files as input, you need a working version of SAMtools
+(>= 0.1.7a) available in your PATH.
+You can download SAMtools from http://samtools.sourceforge.net/
+
+SAFT
+----
+To install SAFT, download the latest archive from
+http://www.fml.mpg.de/raetsch/suppl/srm-eval/SAFT
+
+Move the archive to a place of choice and unpack it. The directory
+SAFT-{VERSION} will be automatically created.
+
+You are ready to run SAFT :)
+
+================================================================================
+2 - Description of the single tools
+================================================================================
+
+Following tools are available:
+    2.1 - (a) filter_alignment.py
+        - (b) filter_features.py
+    2.2 - (a) gen_intronlist_from_annotation.py
+        - (b) get_intron_features.py
+    2.3 - evaluate_features.py
+    2.4 - find_optimal_param_set.py
+
+2.1 - (a) filter_alignment.py
+-----------------------------
+
+This tool filters a given SAM file according to specified filtering criteria. 
+You can either pipe a SAM file into the script or provide an input file. Output
+can be written to stdout or a given file. By default the output file is modified
+version of the input name, tagged with the filtering criteria.
+
+To specify filtering criteria you can choose between maximal mismatches, min
+exon length (which is the minimal segment length of spliced reads), a maximal
+intron length, or features such as the clipping state.
+
+You can also filter spliced alignments according to a given minimal alignment
+support. Therefore you need to generate the intron features of your alignment
+(see section 2.2(b)) and filter them with the support criteria unsing
+filter_features.py (see section 2.1(b)). You can then use this filtered version
+of the feature file for only keeping those spliced alignments given in the file
+by using command line option -i.
+
+Further details are written in the usage screen of the script. Just type
+    python filter_alignment.py
+to print the usage screen.
+
+2.1 - (b) filter_features.py
+----------------------------
+
+The script filters a given feature list according to given criteria. Only by
+using this script you can later filter according to minimal splice site coverage
+with filter_alignment.py (see section 2.1(a)). 
+
+To create the feature list of an alignment, you can run get_intron_features.py
+(section 2.2(b)).
+
+Further details are written in the usage screen of the script. Just type
+    python filter_features.py
+to print the usage screen.
+
+
+2.2 - (a) gen_intronlist_from_annotation.py
+-------------------------------------------
+
+This tool generate the internal intron representation of annotated introns from
+any given annotation in GFF3 format. You only have to specify the path to the
+annotation file using the option -a and an output file via the option -o.
+
+The script requires BioPython to be available in the PYTHONPATH. Please use
+section 1 of this file for further information.
+
+Further details are written in the usage screen of the script. Just type
+    python gen_intronlist_from_annotation.py
+to print the usage screen.
+
+2.2 - (b) get_intron_features.py
+--------------------------------
+
+With this script you can extract the intron positions together with descriptive
+alignment features into a so called feature-file.
+
+You only need to specify an input alignment in SAM or BAM format using the
+option -a and the output destination using -o. If the input is BAM you must
+switch the input type using -b. For BAM input you further need
+SAMtools installed (see section 1). You either need SAMtools in your PATH or you
+have to provide the -s option.
+
+Further details are written in the usage screen of the script. Just type
+    python get_intron_features.py
+to print the usage screen.
+
+2.3  - evaluate_features.py
+-----------------------------
+
+This script evaluates the agreement of a given alignment to a given annotation
+that is represented as an intron list. First you need to generate the intron
+list (see section 2.2a) and the alignment feature file (section 2.2b).
+
+With the option -i you can choose what annotation intron list to use and with -f
+you provide the alignment feature file. 
+
+Additionally, you can filter the evaluated features by many different criteria
+as maximal mismatches or intron length. You can also restrict the evaluation to
+several chromosomes/conttigs or to specific introns.
+
+Further details are written in the usage screen of the script. Just type
+    python evaluate_features.py
+to print the usage screen.
+
+2.4  - find_optimal_param_set.py
+--------------------------------
+
+This script performs an exhaustive search over the three parameters coordinates 
+ * max mismatches           [0, 1, 2, 3, 4, 5, 6]
+ * min segment length       [2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+ * min intron read support  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+The tested values for each criterion are currently hard coded and are written in
+brackets behind the criterion. If you want to change them manually, just search 
+for the term "SEARCH SPACE" in find_optimal_param_set.py.
+
+As for the feature evaluation: with the option -i you can choose what annotation
+intron list to use and with -f you provide the alignment feature file.
+
+You further need to define two output files
+    -b , --best_score   the file to store the best scoring parameters
+    -m , --matrix       the file to store all test parameter combinations
+
+Further details are written in the usage screen of the script. Just type
+    python find_optimal_param_set.py
+to print the usage screen.
+
+================================================================================
+3 - Description of the pipeline
+================================================================================
+
+For intron agreement evaluation, you would need following pipeline:
+
+    Data preparation
+        ==> gen_intronlist_from_annotation.py 
+        (==> filter_alignment.py -- optional)
+        ==> get_intron_features.py 
+    Evaluation:
+        ==> evaluate_features.py
+
+To find the optimal filter setting, you would need following pipeline:
+
+    Data preparation:
+        ==> gen_intronlist_from_annotation.py 
+        ==> get_intron_features.py 
+    Search:
+        ==> find_optimal_param_set.py
+        (==> filter_alignment.py -- optional)
+
+
+================================================================================
+4 - Examples
+================================================================================
+
+Example pipelines are provided as bash scripts and can be adapted.
+
+Intron agreement evaluation:
+    evaluate_alignment.sh
+
+Find optimal filter setting:
+    optimal_filter_set.sh
+

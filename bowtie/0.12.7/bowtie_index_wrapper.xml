@@ -1,0 +1,126 @@
+<tool id="bowtie_index_wrapper" name="Create Bowtie Index" version="1.0.0">
+  <description></description>
+  <command>
+export PATH=/home/galaxy/software/bowtie-0.11.3/;
+bowtie-build -f 
+#if $auto_behavior.auto_b == "set"
+ --noauto -p $auto_behavior.packed --bmax=$auto_behavior.bmax  --bmaxdivn=$auto_behavior.bmaxdivn  --dcv=$auto_behavior.dcv 
+#end if
+ $nodc.value $noref.value --offrate=$offrate --ftabchars=$ftab $ntoa.value --$endian --seed=$seed
+#if $use_cutoff.cutoff_choice == "yes"
+ --cutoff=$use_cutoff.cutoff
+#end if
+ $ownFile $output > $output  
+  </command>
+  <inputs>
+        <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a reference genome" />
+        <conditional name="auto_behavior">
+          <param name="auto_b" type="select" label="Choose to use automatic or specified behavior for some parameters (-a)" help="Allows you to set --packed, --bmax, --bmaxdivn, and --dcv">
+            <option value="auto">Automatic behavior</option>
+            <option value="set">Set values (sets --noauto and allows others to be set)</option>
+          </param>
+          <when value="auto" />
+          <when value="set">
+            <param name="packed" type="select" label="Whether or not to use a packed representation for DNA strings (-p)">
+              <option value="unpacked">Use regular representation</option>
+              <option value="packed">Use packed representation</option>
+            </param>
+            <param name="bmax" type="integer" value="-1" label="Maximum number of suffixes allowed in a block (--bmax)" help="-1 for not specified. Must be at least 1" />
+            <param name="bmaxdivn" type="integer" value="4" label="Maximum number of suffixes allowed in a block as a fraction of the length of the reference (--bmaxdivn)" />
+            <param name="dcv" type="integer" value="1024" label="The period for the difference-cover sample (--dcv)" />
+          </when>
+        </conditional>
+        <param name="nodc" type="select" label="Whether or not to disable the use of the difference-cover sample (--nodc)" help="Suffix sorting becomes quadratic-time in the worst case (a very repetitive reference)">
+          <option value="">Use difference-cover sample</option>
+          <option value="--nodc">Disable difference-cover sample</option>
+        </param>
+        <param name="noref" type="select" label="Whether or not to build the part of the reference index used only in paired-end alignment (-r)">
+           <option value="">Build all index files</option>
+          <option value="--noref">Do not build paired-end alignment index files</option>
+        </param>
+        <param name="offrate" type="integer" value="5" label="How many rows get marked during annotation of some or all of the Burrows-Wheeler rows (-o)" />
+        <param name="ftab" type="integer" value="10" label="The size of the lookup table used to calculate an initial Burrows-Wheeler range with respect to the first n characters of the query (-t)" help="ftab is 4^(n+1) bytes" />
+        <param name="ntoa" type="select" label="Whether or not to convert Ns in the reference sequence to As (--ntoa)">
+          <option value="">Do not convert Ns</option>
+          <option value="--ntoa">Convert Ns to As</option>
+        </param>
+        <param name="endian" type="select" label="Endianness to use when serializing integers to the index file (--big/--little)" help="Little is most appropriate for Intel- and AMD-based architecture">
+          <option value="little">Little</option>
+          <option value="big">Big</option>
+        </param> 
+        <param name="seed" type="integer" value="23" label="Seed for the pseudorandom number generator (--seed)"/>
+        <conditional name="use_cutoff">
+		<param name="cutoff_choice" type="select" label="Cutoff from reference sequence?">
+			<option value="no"> No </option>
+			<option value="yes"> Yes </option>
+		</param>
+		<when value="no"/>
+		<when value="yes">
+			<param name="cutoff" type="integer" value="1" label="Number of first bases of the reference sequence to index (--cutoff)" />
+		</when>
+	</conditional>
+  </inputs>
+  <outputs>
+    <data format="ebwt" name="output" label="Bowtie Index"/>
+  </outputs>
+  <help>
+
+**What it does**
+
+Bowtie_ is a short read aligner designed to be ultrafast and memory-efficient. It is developed by Ben Langmead and Cole Trapnell. Please cite: Langmead B, Trapnell C, Pop M, Salzberg SL. Ultrafast and memory-efficient alignment of short DNA sequences to the human genome. Genome Biology 10:R25.
+
+.. _Bowtie: http://bowtie-bio.sourceforge.net/index.shtml
+
+Bowtie-build creates a bowtie index based on a genome given in FASTA format. The index can be used with either Bowtie or Tophat.
+
+------
+
+**Know what you are doing**
+
+.. class:: warningmark
+
+There is no such thing (yet) as automated gearshift in short read mapping. It is all like stick-shift driving in San Francisco. In other words = running this tool with default parameters will probably not give you meaningful results. A way to deal with this is to **understand** the parameters by carefully reading `documentation`__ and experimenting. Fortunaly, Galaxy makes experimenting easy.
+
+ .. __: http://bowtie-bio.sourceforge.net/index.shtml
+
+------
+
+**Input formats**
+
+Bowtie-Build accepts files in FASTA format. 
+
+------
+
+**Outputs**
+
+The output is a bowtie index in ewbt format.
+
+-------
+
+**Settings**
+
+All of the options have a default value. You can change any of them. Most of the options in Bowtie-build have been implemented here.
+
+------
+
+**Bowtie-build parameter list**
+
+This is an exhaustive list of Bowtie-build options:
+
+	-a                      No auto behavior. Disable the default behavior where bowtie automatically selects values for --bmax/--dcv/--packed parameters according to the memory available. [off]
+	-p                      Packing. Use a packed representation for DNA strings. [auto] 
+	--bmax &lt;int&gt;      Suffix maximum. The maximum number of suffixes allowed in a block. [auto]
+	--bmaxdivn &lt;int&gt;  Suffix maximum fraction. The maximum number of suffixes allowed in a block expressed as a fraction of the length of the reference. [4]
+	--dcv &lt;int&gt;       Difference-cover sample. Use &lt;int&gt; as the period for the difference-cover sample. [1024]
+	--nodc &lt;int&gt;      No difference-cover sample. Disable the difference-cover sample. [off]
+	-r                      No reference indexes. Do not build the NAME.3.ebwt and NAME.4.ebwt portions of the index, used only for paired-end alignment. [off]
+	-o                      Offrate. How many Burrows-Wheeler rows get marked by the indexer. The indexer will mark every 2^&lt;int&gt; rows. The marked rows correspond to rows on the genome. [5]
+	-t &lt;int&gt;          Ftab. The lookup table used to calculate an initial Burrows-Wheeler range with respect to the first &lt;int&gt; characters of the query. Ftab is 4^&lt;int&gt;+1 bytes. [10]
+	--ntoa                  N conversion. Convert Ns to As before building the index. Otherwise, Ns are simply excluded from the index and Bowtie will not find alignments that overlap them. [off]
+	--big                   Endianness. Endianness to use when serializing integers to the index file. [off]
+	--little                Endianness. [--little]
+	--seed &lt;int&gt;      Random seed. Use &lt;int&gt; as the seed for the pseudo-random number generator. [off]
+	--cutoff &lt;int&gt;    Cutoff. Index only the first &lt;int&gt; bases of the reference sequences (cumulative across sequences) and ignore the rest. [off]
+
+  </help>
+</tool>

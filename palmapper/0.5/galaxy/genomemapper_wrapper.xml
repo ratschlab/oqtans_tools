@@ -1,0 +1,165 @@
+<tool id="genomemapper_wrapper" name="Map with GenomeMapper" version="0.5">
+  <description></description>
+  <command interpreter="python">
+    genomemapper_wrapper.py 
+    --input1=$singlePaired.input1
+    #if $singlePaired.sPaired == "paired":
+     --input2=$singlePaired.input2
+    #else:
+     --input2="None"
+    #end if
+    --output=$output
+    --paired=$singlePaired.sPaired
+    --genomeSource=$refGenomeSource.genomeSource
+    #if $refGenomeSource.genomeSource == "history":
+     --ref=$refGenomeSource.ownFile
+    #else:
+     --ref=$refGenomeSource.indices.value
+    #end if
+    --params=$singlePaired.params.settings_type
+    #if $singlePaired.params.settings_type == "full":
+     --format=$singlePaired.params.format
+     --reportall=$singlePaired.params.reportall
+     --maxmismatches=$singlePaired.params.maxmismatches
+     --maxgaps=$singlePaired.params.maxgaps
+     --maxedits=$singlePaired.params.maxedits
+     --alignseedlength=$singlePaired.params.alignseedlength
+    #else
+     --format="None"
+     --reportall="None"
+     --maxmismatches="None"
+     --maxgaps="None"
+     --maxedits="None"
+     --alignseedlength="None"
+    #end if
+    #if $refGenomeSource.genomeSource == "history":
+     --indexSettings=$refGenomeSource.indexParams.index_settings
+    #else:
+     --indexSettings="None"
+    #end if
+    #if $refGenomeSource.genomeSource == "history" and $refGenomeSource.indexParams.index_settings == "index_full":
+     --seedlength=$refGenomeSource.indexParams.seedlength
+    #end if
+  </command>
+  <inputs>
+    <conditional name="refGenomeSource">
+      <param name="genomeSource" type="select" label="Will you select a reference genome from your history or use a built-in index?" help="Built-ins were indexed using default options">
+        <option value="indexed">Use a built-in index</option>
+        <option value="history">Use one from the history</option>
+      </param>
+      <when value="indexed">
+    	<param name="indices" type="select" label="Select a reference genome" help="if your genome of interest is not listed - contact Galaxy team">
+  	      <options from_file="genomemapper_indices.loc">
+  	        <column name="value" index="1" />
+  	        <column name="name" index="0" />
+  	      </options>
+  	    </param>
+  	  </when>
+      <when value="history">
+        <param name="ownFile" type="data" format="fasta" label="Select a reference genome" />
+        <conditional name="indexParams">
+          <param name="index_settings" type="select" label="Choose whether to use default options for building indices or to set your own">
+            <option value="index_pre_set">Default</option>
+            <option value="index_full">Set your own</option>
+          </param> 
+          <when value="index_pre_set" />
+          <when value="index_full">
+            <param name="seedlength" type="integer" value="12" label="GenomeMapper index seed length" help="Integer between 8 and 13." />
+          </when> <!-- index_full -->
+        </conditional>
+      </when>
+    </conditional> <!-- refGenomeSource -->
+    <conditional name="singlePaired">
+      <param name="sPaired" type="select" label="Is this library mate-paired?">
+        <option value="single">Single-end</option>
+        <!-- <option value="paired">Paired-end</option> -->
+      </param>
+      <when value="single">
+        <param name="input1" type="data" format="fastqsanger" label="FASTQ file" help="Must have Sanger-scaled quality values with ASCII offset 33"/>
+        <conditional name="params">
+          <param name="settings_type" type="select" label="GenomeMapper settings to use" help="For most mapping needs use Commonly used settings. If you want full control use Full parameter list">
+		    <option value="pre_set">Commonly used</option>
+   		    <option value="full">Full parameter list</option>
+	      </param>
+          <when value="pre_set" />
+          <when value="full">
+            <param name="format" type="select" label="Output format">
+	      <option value="bed">BED format</option>
+   	      <option value="shore">Shore format</option>
+	    </param>
+            <param name="alignseedlength" type="integer" value="20" label="GenomeMapper alignment seed length (-l)" help="Integer not smaller than the index seed length." />
+            <param name="maxmismatches" type="integer" value="3" label="Maximal number of mismatches (-M)" />  
+            <param name="maxgaps" type="integer" value="1" label="Maximal number of gaps (-G)" />  
+            <param name="maxedits" type="integer" value="3" label="Maximal number of edit operations (-E)" />  
+	    <param name="reportall" type="boolean" truevalue="true" falsevalue="false" checked="false" label="Report all hits (-a)" /> -->
+          </when> <!-- full -->
+        </conditional> <!-- params -->
+      </when> <!-- single -->
+      <when value="paired">
+        <param name="input1" type="data" format="fastqsanger" label="Forward FASTQ file" help="Must have Sanger-scaled quality values with ASCII offset 33"/>
+        <param name="input2" type="data" format="fastqsanger" label="Reverse FASTQ file" help="Must have Sanger-scaled quality values with ASCII offset 33"/>
+        <conditional name="params">
+          <param name="settings_type" type="select" label="GenomeMapper settings to use" help="For most mapping needs use Commonly used settings. If you want full control use Full parameter list">
+		    <option value="pre_set">Commonly used</option>
+   		    <option value="full">Full parameter list</option>
+	      </param>
+          <when value="pre_set" />
+          <when value="full">
+            <param name="format" type="select" label="Output format">
+	      <option value="bed">BED format</option>
+   	      <option value="shore">Shore format</option>
+	    </param>
+            <param name="alignseedlength" type="integer" value="20" label="GenomeMapper alignment seed length (-l)" help="Integer not smaller than the index seed length." />
+            <param name="maxmismatches" type="integer" value="3" label="Maximal number of mismatches (-M)" />  
+            <param name="maxgaps" type="integer" value="1" label="Maximal number of gaps (-G)" />  
+            <param name="maxedits" type="integer" value="3" label="Maximal number of edit operations (-E)" />  
+	    <param name="reportall" type="boolean" truevalue="true" falsevalue="false" checked="false" label="Report all hits (-a)" /> -->
+          </when> <!-- full -->
+        </conditional> <!-- params -->
+      </when> <!-- paired -->
+    </conditional> <!-- singlePaired -->
+    <!-- <param name="suppressHeader" type="boolean" truevalue="true" falsevalue="false" checked="true" label="Suppress the header in the output SAM file" help="GenomeMapper produces SAM with several lines of header information" /> -->
+  </inputs>
+  <outputs>
+    <data format="bed" name="output" />
+  </outputs>
+  <help>
+
+**What it does**
+
+GenomeMapper_ is a short read mapping tool designed for accurate read
+alignments. It quickly aligns millions of reads either with ungapped
+or gapped alignments.
+
+.. _GenomeMapper: http://www.1001genomes.org/downloads/genomemapper.html
+
+------
+
+**Know what you are doing**
+
+.. class:: warningmark
+
+There is no such thing (yet) as automated gearshift in short read mapping. It is all like stick-shift driving in San Francisco. In other words = running this tool with default parameters will probably not give you meaningful results. A way to deal with this is to **understand** the parameters by carefully reading `documentation`__ and experimenting. Fortunaly, Galaxy makes experimenting easy.
+
+ .. __: http://www.1001genomes.org/downloads/genomemapper_singleref.html
+
+------
+
+**Input formats**
+
+GenomeMapper accepts files in Sanger FASTQ format. 
+
+------
+
+**Outputs**
+
+
+-------
+
+**GenomeMapper settings**
+
+All of the options have a default value. You can change any of them. Most of the options in GenomeMapper have been implemented here.
+
+  </help>
+  <!-- <code file="genomemapper_wrapper_code.py" /> -->
+</tool>

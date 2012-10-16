@@ -1,0 +1,102 @@
+Introduction
+------------
+
+This is **rQuant.web**, a web service for convenient access to tools for the quantitative analysis of RNA-Seq data [1]_. It allows to determine abundances of multiple transcripts per gene locus from RNA-Seq measurements. You can also find information on rQuant.web and rQuant on http://fml.mpg.de/raetsch/suppl/rquant/web and http://fml.mpg.de/raetsch/suppl/rquant, respectively.
+
+To get started either try the example data below, or upload a genome, its annotations and short read alignments in SAM format using the `Upload File` tool located under `Get Data`. For a general introduction to galaxy please visit http://main.g2.bx.psu.edu.
+
+
+Example
+-------
+
+To run one of the provided simple examples the following tools are needed 
+(they can be selected from the toolbar on the left):
+
+* **Examples and Instructions:** Choose either "Caenorhabditis elegans (one nGASP training region on chromosome I)" or "Caenorhabditis elegans (nGASP training regions)" as example data and press "Execute". Six files will appear in your history panel on the right: Genome Sequence (FASTA), Genome Annotation (GFF3), Alignments (SAM), Profiles (txt), and a file with information on the used data set.
+
+* **SAM-to-BAM:** Select "History" as the source for the reference list. Use the Example Data read alignment SAM file as input SAM file and the Example Data FASTA file as reference file to generate the compressed BAM alignment file. Press "Execute" and wait until the result file is generated in your history panel.
+
+* **rQuant:** Select the Example GFF3 file and your previously generated BAM file from your history as input. Press "Execute" and wait until the result file is generated in your history panel. For the option Transcript Profiles use either "No profiles" or "Load profiles" or "Learn Profiles". If "Load profiles" is selected, use the Example Data Profiles as the respective input files.
+
+The result is a GFF3 file that contains an estimate of the expression for each transcript in the annotation. The inferred expression is given as the attribute `RPKM` that describes the abundance of a transcript in RPKM (reads per kilobase of exon model per million mapped reads).
+
+A more detailed description is available here: http://fml.mpg.de/raetsch/suppl/rquant/web/examples.
+
+A history containing the result of following these steps can be imported via http://galaxy.tuebingen.mpg.de/history/imp?id=084bac948538a92a. A workflow covering all steps of this example can be imported via http://galaxy.tuebingen.mpg.de/workflow/imp?id=96d9e11f37f34b29 (this requires an account, which can be obtained in the User menu).
+
+Tools Overview
+--------------
+ 
+In detail, the individual tools serve the following purposes (further information is provided when calling the individual tools):
+
+**Data preparation**
+
+* **SAM-to-BAM** generates the alignment file in the compressed format BAM from a SAM file.
+
+**Quantification**
+
+* **rQuant** estimates the abundances of each transcript in the given annotation and creates a GTF file containing the expression values for each transcript. Selecting "Learn Profiles" rQuant estimates biases in the sequence coverage and creates a profile that is used  for more accurate abundance estimation.
+
+------
+
+**Licenses**
+
+If **rQuant.web** is used to obtain results for scientific publications it should be cited as [1]_ or [2]_.
+
+**References** 
+
+.. [1] Bohnert, R, and Raetsch, G (2010): `rQuant.web. A tool for RNA-Seq-based transcript quantitation`_. Nucleic Acids Research, 38(Suppl 2):W348-51.
+
+.. [2] Bohnert, R, Behr, J, and Raetsch, G (2009): `Transcript quantification with RNA-Seq data`_. BMC Bioinformatics, 10(S13):P5.
+
+.. _rQuant.web. A tool for RNA-Seq-based transcript quantitation: http://nar.oxfordjournals.org/cgi/content/abstract/38/suppl_2/W348
+.. _Transcript quantification with RNA-Seq data: http://www.biomedcentral.com/1471-2105/10/S13/P5
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**FASTA format** A sequence in FASTA format begins with a single-line description, followed by lines of sequence data. The description line is distinguished from the sequence data by a "greater than" (>) symbol in the first column. The token until the first space or the end of the  line is used as an identifier for the sequence. The remainder of the description line is ignored.
+
+An example sequence in FASTA format is:
+
+>CHR1
+
+CCCTAAACCCTAAACCCTAAACCCTAAACCTCTGAATCCTTAATCCCTAAATCCCTAAAT
+CTTTAAATCCTACATCCATGAATCCCTAAATACCTAATTCCCTAAACCCGAAACCGGTTT
+CTCTGGTTGAAAATCATTGTGTATATAATGATAATTTTATCGTTTTTATGTAATTGCTTA
+TTGTTGTGTGTAGATTTTTTAAAAATATCATTTGAGGTCAATACAAATCCTATTTCTTGT
+GGTTTTCTTTCCTTCACTTAGCTATGGATGGTTTATCTTCATTTGTTATATTGGATACAA
+GCTTTGCTACGATCTACATTTGGGAATGTGAGTCTCTTATTGTAACCTTAGGGTTGGTTT
+ATCTCAAGAATCTTATTAATTGTTTGGACTGTTTATGTTTGGACATTTATTGTCATTCTT
+ACTCCTTTGTGGAAATGTTTGTTCTATCAATTTATCTTTTGTGGGAAAATTATTTAGTTG
+TAGGGATGAAGTCTTTCTTCGTTGTTGTTACGCTTGTCATCTCATCTCTCAATGATATGG
+GATGGTCCTTTAGCATTTATTCTGAAGTTCTTCTGCTTGATGATTTTATCCTTAGCCAAA
+AGGATTGGTGGTTTGAAGACACATCATATCAAAAAAGCTATCGCCTCGACGATGCTCTAT
+TTCTATCCTTGTAGCACACATTTTGGCACTCAAAAAAGTATTTTTAGATGTTTGTTTTGC
+...
+
+**GFF3 format** General Feature Format is a format for describing genes and other features associated with DNA, RNA and protein sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For the quantitation we provide two additional attributes:
+
+1. ARC: estimated average read coverage (direct output from rQuant)
+2. RPKM: the number of reads per thousand bases per million mapped reads
+
+describing the estimated expression value for each transcript.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a tab-limited text format that stores large nucleotide sequence alignments. BAM is the binary version of a SAM file that allows for fast and intensive data processing. The format specification and the description of SAMtools can be found on http://samtools.sourceforge.net/.

@@ -1,0 +1,11 @@
+<section name="Toy Data" id="ToyData">
+    <tool file="agr/FastaGen.xml" />
+    <tool file="agr/MotifGen.xml" />
+    <tool file="agr/CloudGen.xml" />
+</section>
+<section name="SVM Toolbox" id="SVMToolbox">
+    <tool file="agr/easysvm.xml" />
+    <tool file="agr/eval.xml" />
+    <tool file="agr/modelsel.xml" />
+    <tool file="agr/poim.xml" />
+</section>

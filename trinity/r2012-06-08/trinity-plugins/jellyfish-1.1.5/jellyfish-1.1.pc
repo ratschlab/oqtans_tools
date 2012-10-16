@@ -1,0 +1,10 @@
+prefix=/mnt/oqtansTools/oqtans/trinity/r2012-06-08/trinity-plugins/jellyfish
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Jellyfish
+Description: A multi-threaded hash based k-mer counter.
+Version: 1.1.5
+Libs: -L${libdir} -ljellyfish -lpthread
+Cflags: -I${includedir}/jellyfish-1.1.5

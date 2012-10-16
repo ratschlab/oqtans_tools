@@ -1,0 +1,14 @@
+*.o
+*.pyc
+*.rproc
+*.rproc.qsubout
+*~
+trinity/r2012-06-08/Inchworm/autom4te.cache/
+trinity/r2012-06-08/Inchworm/config.log
+trinity/r2012-06-08/Inchworm/src/.deps
+trinity/r2012-06-08/trinity-plugins/jellyfish-1.1.5/config.log
+trinity/r2012-06-08/trinity-plugins/jellyfish-1.1.5/jellyfish/.deps
+trinity/r2012-06-08/trinity-plugins/jellyfish-1.1.5/unit_tests/.deps
+trinity/r2012-06-08/trinity-plugins/jellyfish-1.1.5/unit_tests/gtest/src/.deps
+trinity/r2012-06-08/trinity_out_dir
+trinity/r2012-06-08/trinity-plugins/jellyfish-1.1.5/autom4te.cache/

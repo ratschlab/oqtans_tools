@@ -1,0 +1,50 @@
+**What it does** 
+
+`ReadStats` generates a statistic about the read alignments (number of reads) and the covered genes (read coverage, number of covered introns, intron coverage). It can be used to perform a sanity check of the read alignments file and the annotation.
+
+**Inputs**
+
+`ReadStats` requires three input files to run:
+
+1. The Genome Information Object, containing essential information about the genome (sequence, size, etc). It can be created using the `GenomeTool` from a fasta file.
+2. The Genome Annotation Object, containing the necessary information about the transcripts that are to be quantified. It can be constructed using the `GFF2Anno` tool from an annotation in GFF3 format.
+3. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
+
+
+**Output**
+
+`ReadStats` writes an output file (Read Statistic) containing
+
+1. the number of reads,
+2. the read coverage of the given genes,
+3. the number of covered introns, and
+4. the intron coverage.
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF3 format** General Feature Format is a format for describing genes
+and other features associated with DNA, RNA and protein
+sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a
+tab-limited text format that stores large nucleotide sequence
+alignments. BAM is the binary version of a SAM file that allows for
+fast and intensive data processing. The format specification and the
+description of SAMtools can be found on
+http://samtools.sourceforge.net/.

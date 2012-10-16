@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/ag-raetsch/!svn/ver/24619/projects/sotool2/apps/bacteria/model
+END
+view_label_seqs.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/view_label_seqs.m
+END
+model_config.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/model_config.m
+END
+calc_loss_matrix.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/ag-raetsch/!svn/ver/22812/projects/sotool2/apps/bacteria/model/calc_loss_matrix.m
+END
+init_parameters.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/init_parameters.m
+END
+labels_to_states.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/ag-raetsch/!svn/ver/24619/projects/sotool2/apps/bacteria/model/labels_to_states.m
+END
+states_to_labels.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/states_to_labels.m
+END
+get_label_set.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/get_label_set.m
+END
+get_state_set.m
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/get_state_set.m
+END
+view_model.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/view_model.m
+END
+make_model.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/ag-raetsch/!svn/ver/22807/projects/sotool2/apps/bacteria/model/make_model.m
+END
+set_permitted_feature_ranges.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/ag-raetsch/!svn/ver/22832/projects/sotool2/apps/bacteria/model/set_permitted_feature_ranges.m
+END

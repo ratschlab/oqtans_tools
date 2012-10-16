@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/training
+END
+run_cross_validation.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/training/run_cross_validation.m
+END
+filter_training_data.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/training/filter_training_data.m
+END
+save_reduced_data.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/training/save_reduced_data.m
+END
+main_run_training.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/training/main_run_training.m
+END

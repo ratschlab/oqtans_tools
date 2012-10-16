@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool id="kirmes_motifscanner"
+  name="(2) Prepare Prediction Dataset">
+  <description>Find a set of motifs in a FASTA file</description>
+  <requirements>
+	<requirement type='package'>kirmes</requirement>
+  </requirements>
+  <command interpreter="python">
+    ../src/kmotif.py -t kiml -p $positives -i $pgff -x $imm -n $negatives -j $ngff 
+  </command>
+  <inputs>
+    <param name="imm" type="data" format="imm"  
+      help="INCLUSive Motif Model file with motifs to be found in FASTAs">
+      <label>Motifs as position weight matrices</label>
+    </param>
+    <param format="fasta" name="positives" type="data"
+      label="Sequences in which to look for motifs" 
+      help="Necessary if you want to run a KIRMES prediction on this data set" />
+    <param format="fasta" name="negatives" type="data"
+      label="Optional second set in which to look for motifs" optional="True"
+      help="" />
+  </inputs>
+  <outputs>
+    <data format="gff" name="pgff" label="INCLUSive Motif Positions (from 1st FASTA)"/>
+    <data format="gff" name="ngff" label="INCLUSive Motif Positions (from 2nd FASTA)"/>
+  </outputs>
+  <help>
+
+.. class:: infomark
+
+**Introduction**
+
+This is KIRMES: Kernel-based Identification of Regulatory Modules
+in Euchromatic Sequences. KIRMES predicts coregulation based on
+gene sets that exhibit similar behavior. 
+
+You can upload a pair of FASTA files, containing the regulatory region
+of genes e.g. from a microarray experiment, ChIP-chip binding or 
+next generation sequencing data. A comparison to common motif finding 
+methods and data about its effectiveness has been published in [1].
+
+The following is a description of the Motif Finding, Training and 
+Prediction tools found on this web server.
+
+If you have additional questions about KIRMES, please write an
+email to sebi@tue.mpg.de. For problems with our Galaxy server, please 
+write to galaxy@tue.mpg.de
+
+For a general introduction to Galaxy, please visit 
+http://galaxy.psu.edu/
+
+------
+
+.. class:: infomark
+
+**1. Motif Finders** 
+
+In a first step, KIRMES identifies the "interesting" areas of the 
+regulatory regions in the input data, using common motif finding algorithms.
+You can choose between a simple k-mer counting strategy (fastest), the INCLUSive
+MotifSampler developed by Gert Thijs et al. [2], and PRIORITY, a state-of-the-art
+Gibbs sampler, developed by Raluca Gordan et al. [3]. These programs return a list of 
+50-200 motifs and their best-matching location in each entry of the FASTA file. 
+
+*This is the INCLUSive MotifScanner tool [2]*
+
+If you want to use a trained classifier to predict classes on a dataset, you also need to perform
+the motif finding step on this data. This tool helps you to look for the exact same
+motifs in your evaluation dataset as the ones in the training dataset. To this end, 
+you have to provide this tool with the prediction dataset, and with the original motif 
+model file you obtained from the initial motif finding step. The matrix or model file
+is returned by these tools along with the positions. This scanning tool only uses the
+already established motifs and looks for their occurrence in the supplied FASTA file.
+
+Matrix files have to be in IMM format, or INCLUSive Motif Model format. It may consist
+of several matrices in one file. Please see the Examples and Instructions tool for an
+example file in IMM format.
+
+**References** 
+
+[1] Schultheiss SJ, Busch W, Lohmann JU, Kohlbacher O, Raetsch G. 
+(2009) KIRMES: Kernel-based identification of regulatory modules in 
+euchromatic sequences. Bioinformatics 25(16):2126-33.
+
+[2] Thijs G, Moreau Y, De Smet F, Mathys J, Lescot M, Rombauts S, Rouze P, 
+De Moor B, Marchal K. (2002) INCLUSive: integrated clustering, upstream 
+sequence retrieval and motif sampling. Bioinformatics 18(2):331-332.
+
+[3] Gordan R, Narlikar L, Hartemink AJ. (2008) A fast, alignment-free, 
+conservation-based method for transcription factor binding site discovery.
+Lecture Notes in Computer Science: RECOMB 2008, Vingron M and Wong L, Eds.
+Springer Verlag Heidelberg, Germany. 4955:98-111.
+
+
+
+
+------
+
+.. class:: infomark
+
+**Licence Information: GPL**
+
+
+      Copyright (C) Sebastian J. Schultheiss (sebi@umich.edu)                           
+                                                                                             
+      This program is free software; you can redistribute it and/or modify                   
+      it under the terms of the GNU General Public License as published by                   
+      the Free Software Foundation; either version 3 of the License, or                      
+      (at your option) any later version.                                                    
+                                                                                             
+      This program is distributed in the hope that it will be useful,                        
+      but WITHOUT ANY WARRANTY; without even the implied warranty of                         
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
+      GNU General Public License for more details.                                           
+                                                                                             
+      You should have received a copy of the GNU General Public License                       
+      along with this program; if not, see http://www.gnu.org/licenses                       
+      or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
+      Fifth Floor, Boston, MA 02110-1301  USA                                                
+
+  </help>
+</tool>

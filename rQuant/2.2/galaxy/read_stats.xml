@@ -1,0 +1,91 @@
+<tool id="readstats" name="ReadStats" version="2.2">
+  <description>Outputs a statistic about the read alignments and the coverage of the genes.</description>
+  <command><!-- Please replace RQUANT_PATH by the correct path to rQuant -->
+    source ../../../oqtans_conf.sh; 
+    ${OQTANS_PATH}/rQuant-2.2/src/./read_stats.sh $gff_input $bam_alignments $read_stats_out $read_stats_out.extra_files_path
+    >> $Log_File
+  </command>
+  
+  <inputs>
+    <param format="gff3" name="gff_input" type="data" label="Genome annotation in GFF3 format" help="Partial genome annotation in GFF3 format describing the known gene structures for the provided genome."/>
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
+  </inputs>
+
+  <outputs>
+    <data format="txt" name="read_stats_out" label="Read statistic"/>
+    <data format="txt" name="Log_File" label="Read statistics Log File"/>
+  </outputs>
+
+  <tests>
+    <test>
+      <!--
+	command:
+	./read_stats.sh ../test_data/rquant_nGASP-Train-I.gff3 ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_read_stats.txt ../test_data
+	-->
+      <param name="gff_input" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
+      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
+      <output name="rquant_out" file="rquant_nGASP-Train-I_read_stats.txt" label="Read Statistics"/>
+    </test>
+  </tests>
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+`ReadStats` generates a statistic about the read alignments (number of reads) and the covered genes (read coverage, number of covered introns, intron coverage). It can be used to perform a sanity check of the read alignments file and the annotation.
+
+**Inputs**
+
+`ReadStats` requires three input files to run:
+
+1. The Genome Information Object, containing essential information about the genome (sequence, size, etc). It can be created using the `GenomeTool` from a fasta file.
+2. The Genome Annotation Object, containing the necessary information about the transcripts that are to be quantified. It can be constructed using the `GFF2Anno` tool from an annotation in GFF3 format.
+3. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
+
+
+**Output**
+
+`ReadStats` writes an output file (Read Statistic) containing
+
+1. the number of reads,
+2. the read coverage of the given genes,
+3. the number of covered introns, and
+4. the intron coverage.
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF3 format** General Feature Format is a format for describing genes
+and other features associated with DNA, RNA and protein
+sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a
+tab-limited text format that stores large nucleotide sequence
+alignments. BAM is the binary version of a SAM file that allows for
+fast and intensive data processing. The format specification and the
+description of SAMtools can be found on
+http://samtools.sourceforge.net/.
+
+------
+
+Version 2.1 (August 2011)
+
+</help>
+</tool>

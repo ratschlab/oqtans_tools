@@ -1,0 +1,26 @@
+Bundle methods for multi-task,multiple losses structured output svm
+and multiple loss svm.
+
+
+
+Preparations
+------------
+1. go into the src/losses directory and edit Makefile to fit your matlab path then call 'make all'
+2. go into the apps/hmsvm/native directory edit Makefile to fit your matlab path then call 'make all'
+
+
+
+SO-SVM
+------
+You need to provide the following funtions:
+
+1. argmax_sosvm
+2. check_accuracy
+3. get_scaling_factor
+4. get_training_example
+5. init_op
+
+
+SVM
+---
+- nothing in specific needed

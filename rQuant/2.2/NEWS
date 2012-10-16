@@ -1,0 +1,66 @@
+rQuant version 2.1 (Aug 30, 2011)
+----------------------------------------
+
+New features:
+- Profiles can now also be estimated empirically instead of using the
+optimisation approach (CFG.learn_profiles=1: empirically estimated,
+CFG.learn_profiles=2: optimised), which is considerably faster.
+- The usage of information from paired-end reads has been implemented
+and can be used during abundance estimation (CFG.paired = 1).
+
+
+rQuant version 2.0 (May 24, 2011)
+----------------------------------------
+
+New features:
+- The optimisation of the transcript and profile variables has been
+newly implemented. The optimisation problems are now solved via
+coordinate descent and the analytical solution, making the
+calculations much faster than in the old releases and making rQuant
+independent of a commercial solving software.
+- The profile functions are now modelled with piecewise linear
+functions instead of piecewise constant functions.
+
+Bug fixes:
+- ParseGFF.py: assertion for a GFF file without 9 columns
+
+
+rQuant version 1.2 (May 18, 2011)
+----------------------------------------
+
+New features:
+- transcripts from overlapping loci are merged for quantitation
+- additional option allowing genome annotation to be in AGS format
+
+Other changes:
+- ParseGFF.py: now also parses multiple mappings of parent IDs of GFF
+features
+
+
+rQuant version 1.1 (March 11, 2011)
+----------------------------------------
+
+New features:
+- tool ReadStats: generates a statistic about the read alignments and
+the covered genes
+
+Other changes:
+- prctiles.m: replaced function by own implementation
+- ParseGFF.py: now also parses non-coding transcripts; exons
+coordinates always in ascending order (for both strands)
+
+Bug fixes:
+- get_reads: fixed a memory leak and segmentation faults
+- sanitise_genes.m: adapted to closed intervals in gene structure from
+ParseGFF.py
+- rquant_core.m: corrected initialisation of transcript length bins
+
+
+rQuant version 1.0 (December 17, 2010)
+----------------------------------------
+
+This is the first release of the quantitation tool rQuant, which
+determines abundances of multiple transcripts per gene locus from
+RNA-Seq measurements.
+Please also visit http://fml.mpg.de/raetsch/suppl/rquant for more
+information about this software.

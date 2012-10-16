@@ -1,0 +1,10 @@
+To setup rQuant, please follow these steps:
+
+1. Download the SAMTools (version 0.1.7) from http://samtools.sourceforge.net/ and install it. You need to add the flag -fPIC in the SAMTools Makefile for compilation.
+2. Add the SAMTools directory to ./mex/Makefile, go to ./mex and run make ('make octave' for Octave and 'make matlab' for Matlab).
+3. Run ./setup_rquant.sh and setup paths and configuration options for rQuant.
+
+Optional
+4. Download the example data with ./get_data.sh in ./examples.
+5. Run an example by executing ./run_example.sh with input 'small' or 'big' to work on a small (55 examples) and big (1865 examples) C. elegans data set, respectively in the examples directory.
+

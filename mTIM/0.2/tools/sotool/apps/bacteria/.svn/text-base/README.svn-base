@@ -1,0 +1,33 @@
+CONTENT
+--------
+
+/apps/bacteria/model - State model
+/apps/bacteria/ - main files for preparing, training and evaluation
+/apps/hmsvm/ - Viterbi and Files necessary for hidden Markov applications
+/apps/hmsvm/models - two models for testing (test data generator included, 
+just store the files in /data)
+
+/data/Organism - dna files.
+Attention: at the moment it is not possible to interact with these files 
+directly. An external tool is used to convert these files to
+/data/Organism/mat files which can be read and converted afterwards and 
+solutions are stored in /data/Organism/data.mat (This file is essential)
+
+e.g. 
+/data/Escherichia_coli_BW2952_uid59391 - raw files
+/data/Escherichia_coli_BW2952_uid59391/mat - 1 file per example (using 
+external tool, generated from raw files)
+/data/Escherichia_coli_BW2952_uid59391/data.mat - converted example files
+this file is essential for training and prediction 
+ 
+
+
+SETUP
+------
+
+Code setup
+
+Data setup
+
+
+

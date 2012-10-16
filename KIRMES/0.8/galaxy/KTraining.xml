@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool id="kirmes_training" name="(3) KIRMES Training and Prediction">
+  <requirements>
+	<requirement type='package'>kirmes</requirement>
+  </requirements>
+  <description>Trains KIRMES using a set of positive and negative
+    regulatory regions
+  </description>
+  <command interpreter="python">
+    ../src/kirmes.py -p $positives -n $negatives -i $pgff -j $ngff 
+    -s $sigma -w $lenwindow $logo $contrib -r $replacement 
+    -y $html.files_path -o $html -q $query -u $qgff > $textout
+  </command><!-- -c $cons -k $tkp -->
+  <inputs>
+    <param format="fasta" name="positives" type="data"
+      label="Positive regulatory gene set" 
+      help="Set contains regulatory regions of e.g. co-expressed genes" />
+    <param format="fasta" name="negatives" type="data"
+      label="Negative regulatory gene set">
+      <help>Set contains similar regulatory regions of negative controls, 
+        e.g. genes expressed invariantly at high levels
+      </help>
+    </param>
+    <param format="gff" name="pgff" type="data"
+      label="Positive motif position information" 
+      help="Set of motif positions identified using one of the motif finder tools, in GFF format" />
+    <param format="gff" name="ngff" type="data"
+      label="Negative motif position information" 
+      help="Set of motif positions identified using one of the motif finder tools, in GFF format" />
+    <param name="lenwindow" type="integer" size="3" value="20" 
+      help="Length of windows to be cut out around motifs, use values between 10 and 30">
+      <label>Motif window length</label>
+    </param>
+    <param name="logo" type="boolean" truevalue="-l" falsevalue="">
+      <label>Plot sequence logos for string kernels</label>
+      <help>KIRMES can plot sequence logos for all string kernels, 
+        showing the most discriminating bases for each of the sequence windows
+      </help>
+    </param>
+    <param name="contrib" type="boolean" truevalue="-m" falsevalue="">
+      <label>Rank all kernels by their discriminative power</label>
+      <help>Perform predictions with each kernel deactivated in turn, 
+        calculating the loss in precision and thus determining the
+        predictive power of this kernel, helps identify the major
+        contributing motifs or positional information
+      </help>
+    </param>
+    <param name="sigma" type="float" size="5" value="0.5"
+      label="Advanced: RBF kernel width" 
+      help="Manually adjust the width of the RBF kernel used for the motif positions">
+    </param>
+    <param format="fasta" name="query" type="data"
+      label="Gene set for prediction" 
+      help="A FASTA file of gene regulatory regions that will be used to predict co-regulation" />
+    <param format="gff" name="qgff" type="data"
+      label="Motif positions in the prediction FASTA"
+      help="A GFF file describing the positions of motifs in the prediction sequences" />
+    <param name="replacement" type="select" label="Non-nucleotide conversion">
+	  <help>If a non-nucleotide character is present in an input 
+	    sequence, replace it with ...
+	  </help>
+      <option value="A">Adenine</option>
+      <option value="T">Thymine</option>
+      <option value="C">Cytosine</option>
+      <option value="G">Guanine</option>
+      <option value="R">Random Replacement</option>
+    </param>
+<!-- <param name="cons" type="data" format="bed" optional="True"
+      label="Advanced: Sequence Conservation Information"
+      help="A file containing sequence conservation information for the FASTA files">
+    </param>  -->
+  </inputs>
+  <outputs>
+    <!--  <data format="tkp" name="tkp" label="KIRMES Trained Classifier" /> --> 
+    <data format="tabular" name="textout" label="Classification result in text format" />
+    <data format="html" name="html" label="KIRMES Results and Sequence Logos" />
+  </outputs>
+
+  <help>
+
+
+.. class:: infomark
+
+**Introduction**
+
+This is KIRMES: Kernel-based Identification of Regulatory Modules
+in Euchromatic Sequences. KIRMES predicts coregulation based on
+gene sets that exhibit similar behavior. 
+
+You can upload a pair of FASTA files, containing the regulatory region
+of genes e.g. from a microarray experiment, ChIP-chip binding or 
+next generation sequencing data. A comparison to common motif finding 
+methods and data about its effectiveness has been published in [1].
+
+The following is a description of the Motif Finding, Training and 
+Prediction tools found on this web server.
+
+If you have additional questions about KIRMES, please write an
+email to sebi@tue.mpg.de. For problems with our Galaxy server, please 
+write to galaxy@tue.mpg.de
+
+For a general introduction to Galaxy, please visit 
+http://galaxy.psu.edu/
+
+**References** 
+
+[1] Schultheiss SJ, Busch W, Lohmann JU, Kohlbacher O, Raetsch G. 
+(2009) KIRMES: Kernel-based identification of regulatory modules in 
+euchromatic sequences. Bioinformatics 25(16):2126-33.
+
+------
+
+.. class:: infomark
+
+**Training and Prediction**
+
+The output of the motif finders is used to train a classifier to discriminate between
+examples from the positive and negative datasets. It will use the FASTA files from before
+and the generated GFF files as input. Optionally, information about sequence conservation 
+can be provided. 
+
+The trained classifier is used on unlabeled FASTA sequences. They have to be scanned for
+the location of every motif identified in step 1. This can be done using the KIRMES INCLUSive
+Motif Scanning tool. 
+
+This tool returns sequence logos of the top discriminating motifs and an HTML file 
+with the FASTA header names of each entry and a classification: It is positive,
+i.e. +1, if this promoter region contains enough similarities to the ones in 
+the positive input dataset, and negative otherwise.
+
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+
+
+**FASTA format** A sequence in FASTA format begins with a single-line
+description, followed by lines of sequence data. The description line
+is distinguished from the sequence data by a "greater than" (>) symbol
+in the first column. The token until the first space or the end of the 
+line is used as an identifier for the sequence. The remainder of the 
+description line is ignored.
+
+An example sequence in FASTA format is:
+
+>Sequence_1
+CCCTAAACCCTAAACCCTAAACCCTAAACCTCTGAATCCTTAATCCCTAAATCCCTAAAT
+CTTTAAATCCTACATCCATGAATCCCTAAATACCTAATTCCCTAAACCCGAAACCGGTTT
+CTCTGGTTGAAAATCATTGTGTATATAATGATAATTTTATCGTTTTTATGTAATTGCTTA
+>Sequence_2
+TTGTGTATATAATGATAATTTTATCGTTTTTATGTAATTGCTTACTCTGGTTGAAAATCA
+ATGATAATTTTATCGTTTTTATGTAATTGCTTACTCTGGTTGAAAATCATTGTGTATATA
+...
+
+**GFF3 format** General Feature Format is a format for describing genes
+and other features associated with DNA, RNA, and protein sequences. GFF
+lines have nine tab-separated fields:
+
+    1. seqname - The name of the chromosome or scaffold (e.g., chr1, chrY_random).
+    2. source - The program that generated this feature.
+    3. feature - The name of this type of feature. Some examples of standard feature types are "CDS", "start_codon", "stop_codon", and "exon".
+    4. start - The starting position of the feature in the sequence. (The first base on a chromosome is numbered 1.)
+    5. end - The ending position of the feature (inclusive).
+    6. score - A score between 0 and 1000. If there is no score value, enter ".".
+    7. strand - Defines the strand - either '+' or '-'.
+    8. frame - If the feature is a coding exon, frame should be a number between 0 and 2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+    9. group - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+
+**TKP format** Trained KIRMES Predictor is an internal structure that
+contains the complete trained model including information about every
+motif and its contribution to the classification accuracy.
+
+
+------
+
+.. class:: infomark
+
+**Licence Information: GPL**
+
+
+      Copyright (C) Sebastian J. Schultheiss (sebi@umich.edu)                           
+                                                                                             
+      This program is free software; you can redistribute it and/or modify                   
+      it under the terms of the GNU General Public License as published by                   
+      the Free Software Foundation; either version 3 of the License, or                      
+      (at your option) any later version.                                                    
+                                                                                             
+      This program is distributed in the hope that it will be useful,                        
+      but WITHOUT ANY WARRANTY; without even the implied warranty of                         
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
+      GNU General Public License for more details.                                           
+                                                                                             
+      You should have received a copy of the GNU General Public License                       
+      along with this program; if not, see http://www.gnu.org/licenses                       
+      or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
+      Fifth Floor, Boston, MA 02110-1301  USA                                                
+
+</help>
+</tool>

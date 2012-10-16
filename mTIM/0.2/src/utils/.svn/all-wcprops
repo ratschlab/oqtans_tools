@@ -1,0 +1,221 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils
+END
+mmap.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/mmap.h
+END
+closed_to_half_open.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/closed_to_half_open.m
+END
+read_fasta_file.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/read_fasta_file.m
+END
+get_pair_features_from_bam.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_pair_features_from_bam.m
+END
+get_string.c
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_string.c
+END
+interval_query.c
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/interval_query.c
+END
+save_struct.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/save_struct.m
+END
+mex_input.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/mex_input.h
+END
+read.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/read.h
+END
+interval_query.mex
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/interval_query.mex
+END
+find_interval.c
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/find_interval.c
+END
+symlog.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/symlog.m
+END
+color_grad.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/color_grad.m
+END
+symlog10.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/symlog10.m
+END
+eval_separation.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/eval_separation.m
+END
+load_genomic.m
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/load_genomic.m
+END
+interval_query.mexa64
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/interval_query.mexa64
+END
+plot_PRC.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/plot_PRC.m
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/Makefile
+END
+get_reads_direct.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_reads_direct.h
+END
+load_struct.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/load_struct.m
+END
+half_open_to_closed.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/half_open_to_closed.m
+END
+area_trapz.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/area_trapz.m
+END
+get_reads.mex
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_reads.mex
+END
+.swp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/.swp
+END
+symlog2.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/symlog2.m
+END
+init_genome.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/init_genome.m
+END
+mex_input.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/mex_input.cpp
+END
+read.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/read.cpp
+END
+get_reads.mexa64
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_reads.mexa64
+END
+get_read_features_from_bam.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_read_features_from_bam.m
+END
+find_blocks.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/find_blocks.m
+END
+get_reads_direct.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_reads_direct.cpp
+END
+mmap.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/mmap.c
+END
+plot_ROC.m
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/plot_ROC.m
+END
+get_reads.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/utils/get_reads.cpp
+END

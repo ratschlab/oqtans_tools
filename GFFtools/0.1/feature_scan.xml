@@ -1,0 +1,98 @@
+<tool id="gff_available_limits" name="FeatureScan" version="0.1">
+  <description>gives an overview about GFF file content</description>
+  <command interpreter="python"> 
+    gff_available_limits.py $gff_input 	> $overview
+    </command>
+  <inputs>
+    <param format="gff3" name="gff_input" type="data" label="Query data in Generic feature format Version 3" help="Genome annotation in GFF3 format describing the known gene structures and other features for the provided genome."/>
+  </inputs>
+  <outputs>
+    <data format="txt" name="overview"  />
+  </outputs>
+    	<tests>
+    		<test>
+            	<param name="gff_input" value="GFF_2_Source.gff3" />
+            	<output name="overview" file="GFF_2_Source_FeatureScan.txt" />
+            </test>
+    	</tests>
+  <help>
+
+**What it does** 
+
+This tool provides an overview of available contig identifiers, sources and feature types and their corresponding counts from a given GFF Version 3 file.
+
+--------
+
+**Example**
+
+- The features ID mapping in the following data in GFF3::
+
+	##gff-version 3
+	scaffold_1      JGI_Filtered    gene    33131338        33131726        .       -       .       ID=scaffold_105720.1;Name=scaffold_105720.1
+	scaffold_1      JGI_Filtered    mRNA    33131338        33131726        .       -       .       ID=Transcript:924439;Name=Transcript:924439;Parent=scaffold_105720.1
+	scaffold_1      JGI_Filtered    three_prime_UTR 33131338        33131357        .       -       .       ID=three_prime_UTR:924439;Parent=Transcript:924439
+	scaffold_1      JGI_Filtered    exon    33131338        33131654        .       -       .       ID=exon:924439;Parent=Transcript:924439
+	scaffold_1      JGI_Filtered    CDS     33131358        33131654        .       -       0       ID=CDS:924439;Parent=Transcript:924439;Name=scaffold_105720.1
+	scaffold_1      JGI_Filtered    exon    33131703        33131726        .       -       .       ID=exon:924439;Parent=Transcript:924439
+	scaffold_1      JGI_Filtered    CDS     33131703        33131705        .       -       0       ID=CDS:924439;Parent=Transcript:924439;Name=scaffold_105720.1
+	scaffold_1      JGI_Filtered    five_prime_UTR  33131706        33131726        .       -       .       ID=five_prime_UTR:924439;Parent=Transcript:924439
+	Chr4    TAIR9   gene    1180    1536    .       -       .       ID=AT4G00005;Note=protein_coding_gene;Name=AT4G00005
+	Chr4    TAIR9   mRNA    1180    1536    .       -       .       ID=AT4G00005.1;Parent=AT4G00005;Name=AT4G00005.1;Index=1
+	Chr4    TAIR9   protein 1180    1536    .       -       .       ID=AT4G00005.1-Protein;Name=AT4G00005.1;Derives_from=AT4G00005.1
+	Chr4    TAIR9   CDS     1180    1536    .       -       0       Parent=AT4G00005.1,AT4G00005.1-Protein;
+	Chr4    TAIR9   exon    1180    1536    .       -       .       Parent=AT4G00005.1
+
+- Will be displayed as::
+
+	Chromosome identifier(s) and corresponding count:
+		Chr4	5
+		scaffold_1	8
+
+	Source(s) of feature and corresponding count:
+		JGI_Filtered	8
+		TAIR9	5
+
+	Feature type(s) and corresponding count:
+		gene	2
+		mRNA	2
+		five_prime_UTR	1
+		three_prime_UTR	1
+		exon	3
+		CDS	3
+		protein	1
+
+	Unique combination of Feature type(s), Source(s) and corresponding count:
+		JGI_Filtered, CDS       2
+		JGI_Filtered, exon      2
+		JGI_Filtered, five_prime_UTR    1
+		JGI_Filtered, gene      1
+		JGI_Filtered, mRNA      1
+		JGI_Filtered, three_prime_UTR 1
+		TAIR9, CDS      1
+		TAIR9, exon     1
+		TAIR9, protein	1
+		TAIR9, mRNA	1
+		TAIR9, gene	1
+	
+--------
+
+**About formats**
+
+**GFF3 format** Generic Feature Format is a format for describing genes and other features associated with DNA, RNA and Protein sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - Must be a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+--------
+
+This tool is a part of the **Machine Learning in Biology Group at Friedrich Miescher Laboratory of the Max Planck Society**. Copyright (C) 2009-2011 Max Planck Society
+
+</help>
+</tool>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool id="kirmes_priority"
+  name="(1) PRIORITY Gibbs Sampler">
+  <description>Find over-represented motifs using Raluca Gordan's PRIORITY program</description>
+  <requirements>
+	<requirement type='package'>kirmes</requirement>
+  </requirements>
+  <command interpreter="python">
+    ../src/kmotif.py -t krgp -l $len -m $n -p $positives -n $negatives -i $pgff -j $ngff
+  </command>
+  <inputs>
+    <param format="fasta" name="positives" type="data"
+      label="Positive regulatory gene set" 
+      help="Set contains regulatory regions of e.g. co-expressed genes" />
+    <param format="fasta" name="negatives" type="data"
+      label="Negative regulatory gene set" 
+      help="Set contains similar regulatory regions of negative controls, e.g. genes expressed invariantly at high levels" />
+    <param name="len" type="integer" size="3" value="8" 
+      help="Length of motifs to be found, use values between 5 and 15">
+      <label>Motif length</label>
+    </param>
+    <param name="n" type="integer" size="5" value="20"
+      label="Number of motifs" 
+      help="Total number of motifs to be found in this dataset, use values between 10 and 100">
+    </param>
+  </inputs>
+  <outputs>
+    <data format="gff" name="pgff" label="PRIORITY Motif Positions (Positives)"/>
+    <data format="gff" name="ngff" label="PRIORITY Motif Positions (Negatives)"/>
+  </outputs>
+  <help>
+
+.. class:: infomark
+
+**Introduction**
+
+This is KIRMES: Kernel-based Identification of Regulatory Modules
+in Euchromatic Sequences. KIRMES predicts coregulation based on
+gene sets that exhibit similar behavior. 
+
+You can upload a pair of FASTA files, containing the regulatory region
+of genes e.g. from a microarray experiment, ChIP-chip binding or 
+next generation sequencing data. A comparison to common motif finding 
+methods and data about its effectiveness has been published in [1].
+
+The following is a description of the Motif Finding, Training and 
+Prediction tools found on this web server.
+
+If you have additional questions about KIRMES, please write an
+email to sebi@tue.mpg.de. For problems with our Galaxy server, please 
+write to galaxy@tue.mpg.de
+
+For a general introduction to Galaxy, please visit 
+http://galaxy.psu.edu/
+
+------
+
+.. class:: infomark
+
+**Motif Finders** 
+
+In a first step, KIRMES identifies the "interesting" areas of the 
+regulatory regions in the input data, using common motif finding algorithms.
+You can choose between a simple k-mer counting strategy (fastest), the INCLUSive
+MotifSampler developed by Gert Thijs et al. [2], and PRIORITY, a state-of-the-art
+Gibbs sampler, developed by Raluca Gordan et al. [3]. These programs return a list of 
+50-200 motifs and their best-matching location in each entry of the FASTA file. 
+
+*This is the PRIORITY tool [3]*
+
+It is important to upload both a positive and a negative dataset. Here, positive 
+means the FASTA file contains mainly regulatory regions from genes that
+are suspected to be co-regulated, e.g. as shown by an experiment. The negative 
+dataset consists of regulatory regions of genes that are not regulated by the same 
+mechanism as the ones in the positive set. Such a set can be obtained, for example, 
+from unbound regions in a ChIP-chip experiment. The ratio of positive examples to 
+negative examples should be the same as the one expected in the prediction dataset.
+For instance, if 10% of the genome are suspected to be regulated by the mechanism
+under scrutiny, the ratio should be 1:10 positives:negatives.
+   
+
+**References** 
+
+[1] Schultheiss SJ, Busch W, Lohmann JU, Kohlbacher O, Raetsch G. 
+(2009) KIRMES: Kernel-based identification of regulatory modules in 
+euchromatic sequences. Bioinformatics 25(16):2126-33.
+
+[2] Thijs G, Moreau Y, De Smet F, Mathys J, Lescot M, Rombauts S, Rouze P, 
+De Moor B, Marchal K. (2002) INCLUSive: integrated clustering, upstream 
+sequence retrieval and motif sampling. Bioinformatics 18(2):331-332.
+
+[3] Gordan R, Narlikar L, Hartemink AJ. (2008) A fast, alignment-free, 
+conservation-based method for transcription factor binding site discovery.
+Lecture Notes in Computer Science: RECOMB 2008, Vingron M and Wong L, Eds.
+Springer Verlag Heidelberg, Germany. 4955:98-111.
+
+
+
+
+------
+
+.. class:: infomark
+
+**Licence Information: GPL**
+
+
+      Copyright (C) Sebastian J. Schultheiss (sebi@umich.edu)                           
+                                                                                             
+      This program is free software; you can redistribute it and/or modify                   
+      it under the terms of the GNU General Public License as published by                   
+      the Free Software Foundation; either version 3 of the License, or                      
+      (at your option) any later version.                                                    
+                                                                                             
+      This program is distributed in the hope that it will be useful,                        
+      but WITHOUT ANY WARRANTY; without even the implied warranty of                         
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
+      GNU General Public License for more details.                                           
+                                                                                             
+      You should have received a copy of the GNU General Public License                       
+      along with this program; if not, see http://www.gnu.org/licenses                       
+      or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
+      Fifth Floor, Boston, MA 02110-1301  USA                                                
+
+  </help>
+</tool>

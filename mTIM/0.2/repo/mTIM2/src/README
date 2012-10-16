@@ -1,0 +1,47 @@
+mTIM: margin-based transcript mapper 
+====================================
+
+TRAIN'n'PREP : for an working example see mTIM_galaxy_test.m
+
+GALAXY
+------
+
+The current implementation of mTIM uses a
+full annotation. In short, mTIM can be divided into 4 parts:
+
+A) data preparation:
+   - divides the genome into train/vald and test chunks
+     using information from the annotation file
+   - the annotation/reads and splice-sites are read 
+     in and the train/vald and test chunks are filled with the features
+   - this process can take long time 
+   - 3 xval
+
+B) training:
+   - n chunks from all training chunks are used for training (n is preset)
+   
+C) prediction:
+   - uses a trained model to predict on the test chunks
+   
+D) evaluation:
+   - takes the predicted genes from mtim and
+     compares them against the annotation delivering
+     intron/transcript and gene f-scores (and sens/prec)
+   
+
+
+Problems:
+---------
+- it is necessary in the current implementation that the annotation covers the whole genome 
+- in prediction it should be possible to add user defined chunks
+
+
+
+Configuration-pipeline during start of mTIM_galaxy
+------------------------------------------------
+
+mTIM_galaxy_* 		: either _prepntrain, _predict or _evaluate
+    calls
+general_settings 	: setup general mTIM parameters
+    calls
+create_dirs 		: mkdir of the directories defined in setup_galaxy_path

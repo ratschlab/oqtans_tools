@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/ag-raetsch/!svn/ver/24846/projects/sotool2/apps/bacteria/preparation
+END
+prepare.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/ag-raetsch/!svn/ver/24846/projects/sotool2/apps/bacteria/preparation/prepare.py
+END
+taxonomy.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/ag-raetsch/!svn/ver/24545/projects/sotool2/apps/bacteria/preparation/taxonomy.py
+END
+prepare_for_training.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/ag-raetsch/!svn/ver/24654/projects/sotool2/apps/bacteria/preparation/prepare_for_training.m
+END
+data_generation.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/ag-raetsch/!svn/ver/24518/projects/sotool2/apps/bacteria/preparation/data_generation.py
+END

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/ag-raetsch/!svn/ver/22768/projects/sotool2/src/solver/triple_smo
+END
+triple_smo_grad_wss.m
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/ag-raetsch/!svn/ver/22768/projects/sotool2/src/solver/triple_smo/triple_smo_grad_wss.m
+END
+triple_smo.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/ag-raetsch/!svn/ver/22768/projects/sotool2/src/solver/triple_smo/triple_smo.m
+END
+triple_smo_update1.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/22768/projects/sotool2/src/solver/triple_smo/triple_smo_update1.m
+END
+fast_tsmo_update.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/ag-raetsch/!svn/ver/22768/projects/sotool2/src/solver/triple_smo/fast_tsmo_update.m
+END
+triple_smo_update2.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/22768/projects/sotool2/src/solver/triple_smo/triple_smo_update2.m
+END

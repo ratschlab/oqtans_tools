@@ -1,0 +1,164 @@
+<tool id="rquantweb" name="rQuant" version="2.2">
+  <description>Determines transcript abundance from read alignments</description>
+  <command> 
+    source ../../../oqtans_conf.sh; 
+    #if $profiles.select_profiles=="0":
+    ${OQTANS_PATH}/rQuant-2.2/src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 0 dummy_pr_in 0 dummy_pr_out
+    #end if
+    #if $profiles.select_profiles=="1":
+    ${OQTANS_PATH}/rQuant-2.2/src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 1 $profiles.profiles_fn 0 dummy_pr_out
+    #end if
+    #if $profiles.select_profiles=="2":
+    ${OQTANS_PATH}/rQuant-2.2/src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 0 dummy_pr_in 1 $profiles_fn_out
+    #end if
+    >> $Log_File
+  </command>
+  <inputs>
+	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 format" help="Partial genome annotation in GFF3 format describing the known gene structures for the provided genome."/>
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
+   <conditional name="profiles">
+      <param name="select_profiles" type="select" label="Transcript profiles" help="Usage of transcript profiles." >
+	<option value="0">No profiles</option>
+	<option value="1">Load profiles</option>
+	<option value="2">Learn profiles</option>
+      </param>
+      <when value="0">
+      </when>
+      <when value="1">
+	<param name="profiles_fn" type="data" format="txt" label="Profile file" help="Input file containing profiles." />
+      </when>
+      <when value="2">
+      </when>
+   </conditional>  
+  </inputs>
+
+  <outputs>
+    <data format="gff3" name="rquant_out" label="rQuant transcript quantification" />
+    <data format="txt" name="profiles_fn_out" label="Profile file" >
+      <filter>profiles['select_profiles'] == "2"</filter>
+    </data>
+    <data format="txt" name="Log_File" label="rQuant log file"/>
+  </outputs>
+
+  <tests>
+    <test>
+      <!--
+	commands:
+	./rquant.sh ../test_data/rquant_nGASP-Train-I.gff3 0 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case0.gff3 ../test_data 0 dummy_pr_in 0 dummy_pr_out
+	./rquant.sh ../test_data/rquant_nGASP-Train-I_genes.mat 1 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case0.gff3 ../test_data 0 dummy_pr_in 0 dummy_pr_out
+	-->
+      <param name="anno_input_selected" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
+      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
+      <param name="select_profiles" value="0" />
+      <output name="rquant_out" file="rquant_nGASP-Train-I_rquant_case0.gff3" />
+    </test>
+    <test>
+      <!--
+	commands:
+	./rquant.sh ../test_data/rquant_nGASP-Train-I.gff3 0 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case1.gff3 ../test_data 1 ../test_data/rquant_profiles.txt 0 dummy_pr_out
+	./rquant.sh ../test_data/rquant_nGASP-Train-I_genes.mat 1 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case1.gff3 ../test_data 1 ../test_data/rquant_profiles.txt 0 dummy_pr_out
+	-->
+      <param name="anno_input_selected" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
+      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
+      <param name="select_profiles" value="1" />
+      <param name="profiles_fn" value="rquant_profiles.txt" ftype="txt" />
+      <output name="rquant_out" file="rquant_nGASP-Train-I_rquant_case1.gff3" />
+    </test>
+    <!-- <test>
+	commands:
+	./rquant.sh ../test_data/rquant_nGASP-Train-I.gff3 0 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case2.gff3 ../test_data 0 dummy_pr_in 1 ../test_data/rquant_profiles_out.txt
+	./rquant.sh ../test_data/rquant_nGASP-Train-I_genes.mat 1 .../test_data/genes_parsed.mat ./test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case2.gff3 ../test_data 0 dummy_pr_in 1 ../test_data/rquant_profiles_out.txt
+      <param name="anno_input_selected" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
+      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
+      <param name="select_profiles" value="1" />
+      <param name="num_iter" value="2" />
+      <output name="rquant_out" file="rquant_nGASP-Train-I_rquant_case2.gff3"/>
+      <output name="profiles_fn_out" file="rquant_profiles_out.txt" />
+    </test> -->
+  </tests>
+  
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+`rQuant` determines the abundances of a given
+set transcripts based on aligned reads from an RNA-Seq experiment.
+
+**Inputs**
+
+`rQuant` requires two input files to run:
+
+1. Annotation file in GFF3, containing the necessary information about the transcripts that are to be quantified.
+2. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
+
+For the feature Transcript Profiles you have three options:
+
+1. "No profiles": This disables the estimation of the density model.
+2. "Load profiles": You can load a pre-learned density model (consisting of transcripts profiles). 
+3. "Learn profiles": This enables the estimation of the density model. You can specify the number of iterations. As an additional output one file describing the density model (transcripts profiles) is generated in your history. 
+
+
+**Output**
+
+`rQuant` generates a GFF3 file with the attributes `ARC` and `RPKM` that describe the abundance of a transcript in ARC (estimated average read coverage) and RPKM (reads per kilobase of exon model per million mapped reads), respectively.
+
+------
+
+**Licenses**
+
+If **rQuant.web** is used to obtain results for scientific publications it
+should be cited as [1]_ or [2]_.
+
+**References** 
+
+.. [1] Bohnert, R, and Rätsch, G (2010): `rQuant.web. A tool for RNA-Seq-based transcript quantitation`_. Nucleic Acids Research, 38(Suppl 2):W348-51.
+
+.. [2] Bohnert, R, Behr, J, and Rätsch, G (2009): `Transcript quantification with RNA-Seq data`_. BMC Bioinformatics, 10(S13):P5.
+
+.. _rQuant.web. A tool for RNA-Seq-based transcript quantitation: http://nar.oxfordjournals.org/cgi/content/abstract/38/suppl_2/W348
+.. _Transcript quantification with RNA-Seq data: http://www.biomedcentral.com/1471-2105/10/S13/P5
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF3 format** General Feature Format is a format for describing genes
+and other features associated with DNA, RNA and protein
+sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For the quantitation we provide two additional attributes:
+
+1. ARC: estimated average read coverage (direct output from rQuant)
+2. RPKM: the number of reads per thousand bases per million mapped reads
+
+describing the estimated expression value for each transcript.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a
+tab-limited text format that stores large nucleotide sequence
+alignments. BAM is the binary version of a SAM file that allows for
+fast and intensive data processing. The format specification and the
+description of SAMtools can be found on
+http://samtools.sourceforge.net/.
+
+------
+
+Version 2.2 (April 2012)
+
+</help>
+</tool>

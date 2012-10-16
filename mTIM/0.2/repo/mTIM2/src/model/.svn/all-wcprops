@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/ag-raetsch/!svn/ver/26196/projects/galaxy/RNASeq_galaxy/mTIM2/src/model
+END
+discretize_expression.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/discretize_expression.m
+END
+model_config.m
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/model_config.m
+END
+init_parameters.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/init_parameters.m
+END
+calc_loss_matrix.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/calc_loss_matrix.m
+END
+states_to_labels.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/states_to_labels.m
+END
+labels_to_states.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/labels_to_states.m
+END
+view_segmentation.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/view_segmentation.m
+END
+complete_model.m
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/complete_model.m
+END
+view_model.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/view_model.m
+END
+get_feature_set_mTIM.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/ag-raetsch/!svn/ver/26196/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/get_feature_set_mTIM.m
+END
+convert_states2labels.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/convert_states2labels.cpp
+END
+find_limits.m
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/find_limits.m
+END
+view_label_seqs.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/view_label_seqs.m
+END
+get_label_set_mTIM.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/get_label_set_mTIM.m
+END
+states_to_levels.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/states_to_levels.m
+END
+get_state_set_mTIM.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/get_state_set_mTIM.m
+END
+convert_states2labels.mexa64
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/convert_states2labels.mexa64
+END
+specify_model.m
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/ag-raetsch/!svn/ver/26196/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/specify_model.m
+END
+set_permitted_feature_ranges.m
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/set_permitted_feature_ranges.m
+END
+suppress_features.m
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/ag-raetsch/!svn/ver/26196/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/suppress_features.m
+END
+symm_plifs.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/symm_plifs.m
+END
+make_model_mTIM.m
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/ag-raetsch/!svn/ver/25979/projects/galaxy/RNASeq_galaxy/mTIM2/src/model/make_model_mTIM.m
+END

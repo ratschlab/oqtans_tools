@@ -1,0 +1,37 @@
+Installation
+------------
+
+On most platforms it is sufficient to run
+
+make
+
+Depending on the compiler, the compiler flags need to be adapted in Makefile.  
+To get a list of command line options, use
+
+./pmindex
+or
+./palmapper  
+
+Testing
+-------
+
+To test whether palmapper produces expected results, use
+
+cd ./testcase
+make test
+
+Additional Contents
+-------------------
+
+The directory ./qpalma_parameters contains parameter settings for
+spliced alignments with Palmapper (see ./qpalma_parameters/README for
+more details).
+
+The directory ./splice_predictions contains instructions on how to
+obtain precomputed splice site predictions for a growing list of
+organisms (see ./splice_predictions/README for more details). To
+obtain predictions use:
+
+cd splice_predictions
+make <organism-name>
+

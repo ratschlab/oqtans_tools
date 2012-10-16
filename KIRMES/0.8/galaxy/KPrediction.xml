@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool id="kirmes_prediction" name="(3) KIRMES Prediction">
+  <description>
+    Predicts whether given regulatory regions are controlled by the same mechanism
+    as the ones from a trained KIRMES predictor
+  </description>
+  <requirements>
+	<requirement type='package'>kirmes</requirement>
+  </requirements>
+  <command interpreter="python">
+    ../src/kirmes.py -q $query -k $tkp -o $html 
+  </command>
+  <inputs>
+    <param format="fasta" name="query" type="data"
+      label="Gene set for prediction" 
+      help="A FASTA file of gene regulatory regions that will be used to predict co-regulation given a trained KIRMES predictor" />
+    <param format="tkp" name="tkp" type="data"
+      label="Trained KIRMES predictor" 
+      help="The result from a KIRMES Training run, a predictor trained on a positive and negative dataset" />
+  </inputs>
+  <outputs>
+    <data format="html" name="html" label="KIRMES Classified Sequences" />
+  </outputs>
+
+  <help>
+
+
+.. class:: infomark
+
+**Introduction**
+
+This is KIRMES: Kernel-based Identification of Regulatory Modules
+in Euchromatic Sequences. KIRMES predicts coregulation based on
+gene sets that exhibit similar behavior. 
+
+You can upload a pair of FASTA files, containing the regulatory region
+of genes e.g. from a microarray experiment, ChIP-chip binding or 
+next generation sequencing data. A comparison to common motif finding 
+methods and data about its effectiveness has been published in [1].
+
+The following is a description of the Motif Finding, Training and 
+Prediction tools found on this web server.
+
+If you have additional questions about KIRMES, please write an
+email to sebi@tue.mpg.de. For problems with our Galaxy server, please 
+write to galaxy@tue.mpg.de
+
+For a general introduction to Galaxy, please visit 
+http://galaxy.psu.edu/
+
+**References** 
+
+[1] Schultheiss SJ, Busch W, Lohmann JU, Kohlbacher O, Raetsch G. 
+(2009) KIRMES: Kernel-based identification of regulatory modules in 
+euchromatic sequences. Bioinformatics 25(16):2126-33.
+
+------
+
+.. class:: infomark
+
+
+**Prediction**
+
+This tool uses an unlabeled FASTA file and a trained KIRMES predictor as input. 
+It returns the FASTA header names of each entry and a classification: It is positive,
+i.e. +1, if this promoter region contains enough similarities to the ones in 
+the positive input dataset, and negative otherwise.
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+
+
+**FASTA format** A sequence in FASTA format begins with a single-line
+description, followed by lines of sequence data. The description line
+is distinguished from the sequence data by a "greater than" (>) symbol
+in the first column. The token until the first space or the end of the 
+line is used as an identifier for the sequence. The remainder of the 
+description line is ignored.
+
+An example sequence in FASTA format is:
+
+>CHR1
+
+CCCTAAACCCTAAACCCTAAACCCTAAACCTCTGAATCCTTAATCCCTAAATCCCTAAAT
+CTTTAAATCCTACATCCATGAATCCCTAAATACCTAATTCCCTAAACCCGAAACCGGTTT
+CTCTGGTTGAAAATCATTGTGTATATAATGATAATTTTATCGTTTTTATGTAATTGCTTA
+TTGTTGTGTGTAGATTTTTTAAAAATATCATTTGAGGTCAATACAAATCCTATTTCTTGT
+GGTTTTCTTTCCTTCACTTAGCTATGGATGGTTTATCTTCATTTGTTATATTGGATACAA
+GCTTTGCTACGATCTACATTTGGGAATGTGAGTCTCTTATTGTAACCTTAGGGTTGGTTT
+ATCTCAAGAATCTTATTAATTGTTTGGACTGTTTATGTTTGGACATTTATTGTCATTCTT
+ACTCCTTTGTGGAAATGTTTGTTCTATCAATTTATCTTTTGTGGGAAAATTATTTAGTTG
+TAGGGATGAAGTCTTTCTTCGTTGTTGTTACGCTTGTCATCTCATCTCTCAATGATATGG
+GATGGTCCTTTAGCATTTATTCTGAAGTTCTTCTGCTTGATGATTTTATCCTTAGCCAAA
+AGGATTGGTGGTTTGAAGACACATCATATCAAAAAAGCTATCGCCTCGACGATGCTCTAT
+TTCTATCCTTGTAGCACACATTTTGGCACTCAAAAAAGTATTTTTAGATGTTTGTTTTGC
+...
+
+**GFF3 format** General Feature Format is a format for describing genes
+and other features associated with DNA, RNA, and protein sequences. GFF
+lines have nine tab-separated fields:
+
+    1. seqname - The name of the chromosome or scaffold (e.g., chr1, chrY_random).
+    2. source - The program that generated this feature.
+    3. feature - The name of this type of feature. Some examples of standard feature types are "CDS", "start_codon", "stop_codon", and "exon".
+    4. start - The starting position of the feature in the sequence. (The first base on a chromosome is numbered 1.)
+    5. end - The ending position of the feature (inclusive).
+    6. score - A score between 0 and 1000. If there is no score value, enter ".".
+    7. strand - Defines the strand - either '+' or '-'.
+    8. frame - If the feature is a coding exon, frame should be a number between 0 and 2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+    9. group - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+
+**TKP format** Trained KIRMES Predictor is an internal structure that
+contains the complete trained model including information about every
+motif and its contribution to the classification accuracy.
+
+
+------
+
+.. class:: infomark
+
+**Licence Information: GPL**
+
+
+      Copyright (C) Sebastian J. Schultheiss (sebi@umich.edu)                           
+                                                                                             
+      This program is free software; you can redistribute it and/or modify                   
+      it under the terms of the GNU General Public License as published by                   
+      the Free Software Foundation; either version 3 of the License, or                      
+      (at your option) any later version.                                                    
+                                                                                             
+      This program is distributed in the hope that it will be useful,                        
+      but WITHOUT ANY WARRANTY; without even the implied warranty of                         
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
+      GNU General Public License for more details.                                           
+                                                                                             
+      You should have received a copy of the GNU General Public License                       
+      along with this program; if not, see http://www.gnu.org/licenses                       
+      or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
+      Fifth Floor, Boston, MA 02110-1301  USA                                                
+
+</help>
+</tool>

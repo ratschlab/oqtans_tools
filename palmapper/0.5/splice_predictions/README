@@ -1,0 +1,8 @@
+Computational splice site predictions are available at:
+
+ftp://ftp.tuebingen.mpg.de/pub/fml/raetsch-lab/predictions/splice/
+
+These splice site predictions have to be used together with the genome
+version that is provided with the splice site predictions.  The
+sequences and their order in the fasta file have to be correct for a
+successful application of Palmapper.
