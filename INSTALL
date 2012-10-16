@@ -1,4 +1,4 @@
-Before trying to use oqtans, install the following 
+Before using oqtans, install the following 
 standard linux software packages:
 
 Ubuntu/Debian:
@@ -7,6 +7,9 @@ Ubuntu/Debian:
      python-dev pkg-config libncurses5-dev libreadline-dev libltdl-dev
      libpcre3-dev libhdf5-serial-dev gnuplot libidn11-dev cmake m4
      help2man texinfo texlive python2.6 (or python2.7)
+     libcholmod1.7.1 libcurl4-openssl-dev libglu1-mesa-dev libfltk1.3-dev
+     libfreetype6-dev libgraphicsmagick1-dev libgraphicsmagick++3 libgraphicsmagick++1-dev
+     libfontconfig1-dev
 
 Redhat/CentOS
      pkgconfig python-devel make gcc gcc-c++ cmake m4 texlive-latex texinfo texinfo-tex
@@ -14,9 +17,14 @@ Redhat/CentOS
      automake bison-devel readline-devel ncurses-devel zlib-devel help2man 
      numpy-f2py python2.6 (or python2.7) 
 
-Mac OS X (macports packages)
-     scipy numpy gcc help2man git gcc46 (or gcc44 gcc45) texlive
-	 make m4 cmake texinfo R pkgconfig libpng R 
+Mac OS X (macports packages with system python v2.7)
+     py27-scipy py27-numpy help2man git-core gcc46 texlive
+     m4 cmake texinfo R pkgconfig libpng 
+     g95 qhull pcre gnuplot fltk-devel hdf5 readline-5
+     qhull GraphicsMagick wget fftw-3-single hdf5-18
+
+     also set the gcc compiler to gcc46:	
+     sudo port select --set gcc mp-gcc46
 
 Update the file
    oqtans/oqtans_conf.sh
