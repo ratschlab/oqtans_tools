@@ -65,7 +65,7 @@ build=i386-apple-darwin11.4.0
 build_os=darwin11.4.0
 
 # A sed program that does not truncate output.
-SED="/opt/local/bin/gsed"
+SED="/mnt/oqtansTools/oqtans_dep/bin/sed"
 
 # Sed that helps us avoid accidentally triggering echo(1) options like -n.
 Xsed="$SED -e 1s/^X//"
