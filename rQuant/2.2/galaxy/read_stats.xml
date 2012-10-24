@@ -1,8 +1,10 @@
 <tool id="readstats" name="ReadStats" version="2.2">
   <description>Outputs a statistic about the read alignments and the coverage of the genes.</description>
-  <command><!-- Please replace RQUANT_PATH by the correct path to rQuant -->
-    source ../../../oqtans_conf.sh; 
-    ${OQTANS_PATH}/rQuant-2.2/src/./read_stats.sh $gff_input $bam_alignments $read_stats_out $read_stats_out.extra_files_path
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash">
+    ../src/./read_stats.sh $gff_input $bam_alignments $read_stats_out $read_stats_out.extra_files_path
     >> $Log_File
   </command>
   

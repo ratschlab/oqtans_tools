@@ -1,8 +1,10 @@
 <tool id="rdiffweb" name="rDiff" version="0.1">
   <description>Determines differentially expressed transcripts from read alignments</description>
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
   <command interpreter="bash">
-        source ../../../oqtans_conf.sh; 
-	${OQTANS_PATH}/rDiff_0.1/src/rdiff.sh $anno_input_selected $bam_alm_1 $bam_alm_2 $test_meth $rdiff_out $rdiff_out.extra_files_path >> $Log_File
+	../src/rdiff.sh $anno_input_selected $bam_alm_1 $bam_alm_2 $test_meth $rdiff_out $rdiff_out.extra_files_path >> $Log_File
   </command>
   <inputs>
     <param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 file" help="A tab delimited format for storing sequence features and annotations"/>

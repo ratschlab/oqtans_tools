@@ -1,9 +1,11 @@
 <tool id="topgo" name="topGO" version="2.6.0">
   <description>Enrichment analysis for Gene Ontology</description>
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
   <command interpreter="bash"> 
-    source ../../../oqtans_conf.sh; 
-    ${OQTANS_PATH}/topGO/src/topgo_conf.sh $topgo_out.extra_files_path $topgo_out $organism $diff_exp_genes $pvalue $stat_test $ontology_type 
-    </command>
+    ../src/topgo_conf.sh $topgo_out.extra_files_path $topgo_out $organism $diff_exp_genes $pvalue $stat_test $ontology_type 
+  </command>
   <inputs>
 	<param name="organism" type="select" label="Gene list correspnding the organism" help="Select one">
     <option value="Arabidopsis_thaliana">Arabidopsis thaliana</option>

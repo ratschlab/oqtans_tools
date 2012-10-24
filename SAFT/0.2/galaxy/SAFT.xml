@@ -1,8 +1,10 @@
 <tool id="SAFT" name="SAFT" version="0.2">
   <description>Simple Alignment Filtering Tool</description>
-  <command>
-    source ../../../oqtans_conf.sh;
-     ${OQTANS_PATH}/SAFT_0.2/galaxy/optimal_filter_set_galaxy.sh $anno_input_selected $sam_alignments $best_score $score_matrix $Filtered_Alignment 
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash">
+     ./optimal_filter_set_galaxy.sh $anno_input_selected $sam_alignments $best_score $score_matrix $Filtered_Alignment 
     2> /dev/null >> $Log_File
   </command>
 

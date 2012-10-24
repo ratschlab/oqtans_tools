@@ -1,8 +1,10 @@
 <tool id="rquantweb_instructions" name="Examples and Instructions (rQuant)" version="2.2">
   <description>Instructions on how to use the rQuant tools and examples with predefined data sets</description>
-  <command> <!-- Please replace RQUANT_PATH by the correct path to rQuant -->
-    source ../../../oqtans_conf.sh; 
-    ${OQTANS_PATH}/rQuant-2.2/src/./rquant_gendata.sh $organism $Genome_Sequence $GFF3_Annotation $SAM_Alignments $Info $Profiles > /dev/null
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash"> 
+    ../src/./rquant_gendata.sh $organism $Genome_Sequence $GFF3_Annotation $SAM_Alignments $Info $Profiles > /dev/null
   </command>
   
   <inputs>

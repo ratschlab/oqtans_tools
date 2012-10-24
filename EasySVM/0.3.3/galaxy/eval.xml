@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <tool id="eval" name="Evaluate Predictions">
 <description>Use predictions and labeled examples to measure prediction performance</description>
-  <command interpreter="python">${OQTANS_PATH}/EasySVM/0.3.3/scripts/easysvm.py 
+  <command interpreter="python">../scripts/easysvm.py 
         eval
 	$predfile	
 	#if $datatype.inputdatatype=="1"

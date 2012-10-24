@@ -1,8 +1,10 @@
 <tool id="deseq-hts" name="DESeq" version="1.6.1">
   <description>Determines differentially expressed transcripts from read alignments</description>
-  <command> 
-    source ../../../oqtans_conf.sh; 
-${OQTANS_PATH}/DESeq/1.6/src/deseq.sh $anno_input_selected $deseq_out $deseq_out.extra_files_path/gene_map.mat 
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash"> 
+../src/deseq.sh $anno_input_selected $deseq_out $deseq_out.extra_files_path/gene_map.mat 
 #for $i in $replicate_groups
 #for $j in $i.replicates
 $j.bam_alignment:#slurp

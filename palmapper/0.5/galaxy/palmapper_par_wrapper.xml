@@ -1,8 +1,10 @@
 <tool id="palmapper_par_wrapper" name="Map with PALMapper" version="0.5">
   <description></description>
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
   <command interpreter="bash">
-    source ../../../oqtans_conf.sh; 
-    palmapper_par_wrapper.sh
+    ./palmapper_par_wrapper.sh
 
     #if $singlePaired.sPaired == "paired":
     -2

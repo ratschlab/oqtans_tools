@@ -1,6 +1,6 @@
 #!/bin/bash
 export RDIFF_VERSION=0.1
-export RDIFF_PATH=$OQTANS_PATH/rDiff_0.1
+export RDIFF_PATH=$OQTANS_PATH/rDiff/0.1
 export RDIFF_SRC_PATH=${RDIFF_PATH}/src
 export RDIFF_BIN_PATH=${RDIFF_PATH}/bin
 export INTERPRETER=octave

@@ -1,6 +1,6 @@
 <tool id="motifgen-fasta" name="MotifGen (FASTA)">
   <description>Generation of a sequence toy data set for motif discovery in FASTA format.</description>
-  <command interpreter="python">${OQTANS_PATH}/EasySVM/0.3.3/scripts/datagen.py motif fasta $p_motif
+  <command interpreter="python">../scripts/datagen.py motif fasta $p_motif
   $p_number_of_sequences $p_length $p_position
   $p_mutation_rate $outfile_fasta
   </command>

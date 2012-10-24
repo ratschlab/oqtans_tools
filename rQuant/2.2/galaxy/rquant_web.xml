@@ -1,15 +1,17 @@
 <tool id="rquantweb" name="rQuant" version="2.2">
   <description>Determines transcript abundance from read alignments</description>
-  <command> 
-    source ../../../oqtans_conf.sh; 
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash"> 
     #if $profiles.select_profiles=="0":
-    ${OQTANS_PATH}/rQuant-2.2/src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 0 dummy_pr_in 0 dummy_pr_out
+    ../src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 0 dummy_pr_in 0 dummy_pr_out
     #end if
     #if $profiles.select_profiles=="1":
-    ${OQTANS_PATH}/rQuant-2.2/src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 1 $profiles.profiles_fn 0 dummy_pr_out
+    ../src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 1 $profiles.profiles_fn 0 dummy_pr_out
     #end if
     #if $profiles.select_profiles=="2":
-    ${OQTANS_PATH}/rQuant-2.2/src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 0 dummy_pr_in 1 $profiles_fn_out
+    ../src/./rquant.sh $anno_input_selected $bam_alignments $rquant_out $rquant_out.extra_files_path 0 dummy_pr_in 1 $profiles_fn_out
     #end if
     >> $Log_File
   </command>

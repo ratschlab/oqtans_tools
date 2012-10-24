@@ -1,1 +1,0 @@
-../../../oqtans_conf.sh

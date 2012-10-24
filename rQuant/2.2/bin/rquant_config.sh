@@ -6,7 +6,7 @@
 # (at your option) any later version.
 #
 export RQUANT_VERSION=2.2
-export RQUANT_PATH=${OQTANS_PATH}/rQuant-2.2
+export RQUANT_PATH=${OQTANS_PATH}/rQuant/2.2
 export RQUANT_SRC_PATH=${RQUANT_PATH}/src
 export RQUANT_BIN_PATH=${RQUANT_PATH}/bin
 export INTERPRETER=octave

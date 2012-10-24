@@ -1,8 +1,9 @@
 <tool id="trinity" name="Trinity" version="r2012-06-08">
     <description>De novo assembly of transcriptome from RNA-Seq data</description>
-    <command>
-        source ../../../oqtans_conf.sh;
-        cd ${OQTANS_PATH}/trinity/r2012-06-08/;
+    <requirements>
+  	<requirement type="package" version="0.1">oqtans</requirement>
+    </requirements>
+    <command interpreter="bash">
         ./Trinity.pl --JM $JM --CPU $CPU
         #if str($inputs.paired_or_single) == "paired":
             --left $inputs.left_input --right $inputs.right_input

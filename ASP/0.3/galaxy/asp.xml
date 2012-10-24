@@ -1,7 +1,9 @@
 <tool id="asp" name="ASP" version="0.3">
 	<description>Accurate splice site prediction</description>
+	<requirements>
+		<requirement type="package" version="0.1">oqtans</requirement>
+	</requirements>
 	<command interpreter="bash">        
-	  source ../../../oqtans_conf.sh; 
 	  ./asp.sh
 		$fasta_input
 		$organism
