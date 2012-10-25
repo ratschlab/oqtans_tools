@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 pwd
-cd $OQTANS_PATH/ASP_0.3
+cd $OQTANS_PATH/ASP/0.3
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OQTANS_DEP_PATH/lib/
 export PYTHONPATH=$PYTHONPATH:$OQTANS_DEP_PATH/lib/python2.6/site-packages/:$OQTANS_DEP_PATH/lib/python2.6/dist-packages/
 

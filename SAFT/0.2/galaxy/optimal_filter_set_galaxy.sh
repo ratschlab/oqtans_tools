@@ -47,8 +47,8 @@ else
     filter_out="$5"
 fi
 
-SRC_DIR="$OQTANS_PATH/SAFT_0.2/"
-SAMTOOLS="$OQTANS_DEP_PATH/samtools/"
+SRC_DIR="$OQTANS_PATH/SAFT/0.2/"
+SAMTOOLS="$OQTANS_DEP_PATH/bin/"
 export PYTHONPATH="$SRC_DIR/tools/:$PYTHONPATH"
 
 echo "Generating annotation intron list"
