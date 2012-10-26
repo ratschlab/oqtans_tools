@@ -23,20 +23,24 @@ echo
 echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 echo '1. Genome Sequence Preparation'
 echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-#/usr/bin/python ${DIR}/../tools/GenomePrep.py $FASTA_IN $OUT_DIR 
+/usr/bin/python ${DIR}/../tools/GenomePrep.py $FASTA_IN $OUT_DIR 
 echo '  Done...'
 echo
 echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 echo '2. Genome Annotation Preparation'
 echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-#/usr/bin/python ${DIR}/../tools/ParseGFF.py $GFF_IN $OUT_DIR/genes.mat
-#${DIR}/../bin/genes_cell2struct ${OUT_DIR}/genes.mat 2>&1
-#${DIR}/../bin/genes_cell2struct ${OUT_DIR}/
+/usr/bin/python ${DIR}/../tools/ParseGFF.py $GFF_IN $OUT_DIR/genes.mat
+${DIR}/../bin/genes_cell2struct ${OUT_DIR}/
 echo '  Done...'
 echo
 echo '%%%%%%%%%%%'
 echo '3. Training'
 echo '%%%%%%%%%%%'
+### check if bam file is indexed
+if [ ! -f ${BAM_IN}.bai ]
+then
+	$OQTANS_DEP_PATH/bin/samtools index ${BAM_IN}
+fi
 ${DIR}/../bin/mTIM_galaxy_train ${OUT_DIR}/ ${ACC_SPF} ${DON_SPF} ${BAM_IN} ${OUT_DIR}/ ${OUT_DIR}/ 
 echo '  Done...'
 echo

@@ -1,14 +1,17 @@
 function mTIM_config
 % Global configuration file 
 
+OQTANS = getenv('OQTANS_PATH');
+OQTANS_DEP = getenv('OQTANS_DEP_PATH');
+
 % add 
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/sw_require/utils/'));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/sw_require/utils/rproc'));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/mTIM_2/tools/r2007a'));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/mTIM_2/tools/sotool/src'));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/mTIM_2/src/model'));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/mTIM_2/src/utils'));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/mTIM_2/src/data_preparation'));
+addpath(sprintf('%s/utils/', OQTANS_DEP));
+addpath(sprintf('%s/utils/rproc', OQTANS_DEP));
+addpath(sprintf('%s/mTIM/0.2/tools/r2007a', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/tools/sotool/src', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/src/model', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/src/utils', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/src/data_preparation', OQTANS))
 
 engine = 'octave';
 if isequal(engine, 'octave'),

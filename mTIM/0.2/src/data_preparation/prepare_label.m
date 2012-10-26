@@ -31,7 +31,10 @@ end
 tic
 for g=1:length(genes),
   strand = genes(g).strand;
-  chr = genes(g).chr_num;
+  chr = genes(g).chr_num; 
+  if isempty(chr),
+    fprintf(stderr, '\nERROR: Chromosome not found - maybe chromosome strings in different sources do not match!\n');
+  end;
   for t=1:length(genes(g).transcripts),
     exons = genes(g).exons{t};
     
@@ -70,8 +73,7 @@ for g=1:length(genes),
       % convert half-open exon intervals into closed ones
       exons(:,1) = exons(:,1) + 1;
       for e=1:size(exons,1),
-        idx = find(label_map{chr}(exons(e,1):exons(e,2)) ~= LABELS.intergenic ...
-                   & label_map{chr}(exons(e,1):exons(e,2)) ~= LABELS.exon_C);
+        idx = find(bitand(label_map{chr}(exons(e,1):exons(e,2)) ~= LABELS.intergenic, label_map{chr}(exons(e,1):exons(e,2)) ~= LABELS.exon_C));
         idx = idx + exons(e,1) - 1;
         label_map{chr}(exons(e,1):exons(e,2)) = LABELS.exon_C;
         label_map{chr}(idx) = LABELS.ambiguous;
