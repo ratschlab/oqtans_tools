@@ -1,7 +1,7 @@
 <tool id="bowtie_index_wrapper" name="Create Bowtie Index" version="1.0.0">
+  <requirements><requirement type='package'>bowtie</requirement></requirements>
   <description></description>
   <command>
-export PATH=/home/galaxy/software/bowtie-0.11.3/;
 bowtie-build -f 
 #if $auto_behavior.auto_b == "set"
  --noauto -p $auto_behavior.packed --bmax=$auto_behavior.bmax  --bmaxdivn=$auto_behavior.bmaxdivn  --dcv=$auto_behavior.dcv 

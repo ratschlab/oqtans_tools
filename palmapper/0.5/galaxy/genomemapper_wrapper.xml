@@ -1,5 +1,8 @@
 <tool id="genomemapper_wrapper" name="Map with GenomeMapper" version="0.5">
   <description></description>
+  <requirements>
+	<requirement type="package">oqtans</requirement>
+  </requirements>
   <command interpreter="python">
     genomemapper_wrapper.py 
     --input1=$singlePaired.input1

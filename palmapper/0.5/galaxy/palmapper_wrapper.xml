@@ -1,5 +1,8 @@
 <tool id="palmapper_wrapper" name="Map with PALMapper" version="0.5">
   <description></description>
+  <requirements>
+	<requirement type="package">oqtans</requirement>
+  </requirements>
   <command interpreter="python">
     palmapper_wrapper.py
 

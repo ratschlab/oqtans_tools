@@ -1,6 +1,7 @@
 <tool id="tophat" name="Tophat" version="2.0.5">
     <description>Find splice junctions using RNA-seq data</description>
     <requirements>
+        <requirement type="package">oqtans</requirement>
         <requirement type="package">tophat</requirement>
     </requirements>
     <command interpreter="python">

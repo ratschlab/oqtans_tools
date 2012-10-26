@@ -1,5 +1,6 @@
-<tool id="bwa_wrapper" name="Map with BWA for Illumina" version="1.2.3">
+<tool id="bwa_wrapper" name="Map with BWA for Illumina" version="0.6.2">
   <requirements>
+    <requirement type="package">oqtans</requirement>
     <requirement type="package" version="0.6.2">bwa</requirement>
   </requirements>
   <description></description>

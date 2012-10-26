@@ -216,7 +216,7 @@ def __main__():
         ref_file_name = ref_file.name
         ref_file.close()
         os.symlink( options.ref, ref_file_name )
-        cmd1 = '/home/galaxy/software/bowtie-0.11.3/bowtie-build %s -f %s %s' % ( indexing_cmds, ref_file_name, ref_file_name )
+        cmd1 = 'bowtie-build %s -f %s %s' % ( indexing_cmds, ref_file_name, ref_file_name )
         try:
             tmp = tempfile.NamedTemporaryFile( dir=tmp_index_dir ).name
             tmp_stderr = open( tmp, 'wb' )
@@ -412,9 +412,9 @@ def __main__():
         try:
             # prepare actual mapping commands
             if options.paired == 'paired':
-                cmd2 = '/home/galaxy/software/bowtie-0.11.3/bowtie %s %s -1 %s -2 %s > %s' % ( aligning_cmds, ref_file_name, options.input1, options.input2, options.output )
+                cmd2 = 'bowtie %s %s -1 %s -2 %s > %s' % ( aligning_cmds, ref_file_name, options.input1, options.input2, options.output )
             else:
-                cmd2 = '/home/galaxy/software/bowtie-0.11.3/bowtie %s %s %s > %s' % ( aligning_cmds, ref_file_name, options.input1, options.output )
+                cmd2 = 'bowtie %s %s %s > %s' % ( aligning_cmds, ref_file_name, options.input1, options.output )
             # align
             tmp = tempfile.NamedTemporaryFile( dir=tmp_index_dir ).name
             tmp_stderr = open( tmp, 'wb' )
