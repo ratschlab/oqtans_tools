@@ -3,8 +3,8 @@
     <requirements>
   	<requirement type="package" version="0.1">oqtans</requirement>
     </requirements>
-    <command interpreter="bash">
-        ./Trinity.pl --JM $JM --CPU $CPU
+    <command interpreter="perl">
+        ../Trinity.pl --JM $JM --CPU $CPU
         #if str($inputs.paired_or_single) == "paired":
             --left $inputs.left_input --right $inputs.right_input
             #if  $inputs.left_input.ext == 'fa':
