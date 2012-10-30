@@ -135,7 +135,7 @@ def arffread(kernelname,datafilename):
 
 def fastawrite_sequence(filename,p):
     """Write a FASTA file containing a sequence dataset"""
-    import arff
+    #import arff
 
     (metadata,seqlist) = motifgen(p.motif, p.numseq, p.seqlenmin, p.seqlenmax, p.posstart, p.posend, p.mutrate)
     labels = ones(len(seqlist))

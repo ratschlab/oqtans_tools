@@ -42,7 +42,7 @@ import csv
 import re
 
 try:
-    import arff
+    from scipy.io import arff
     have_arff = True
 except ImportError:
     have_arff = False
@@ -204,7 +204,11 @@ class DatasetFileFASTA(DatasetFileBase):
         assert(line[0] == '>')
         # Use list comprehension to get the integer that comes after label=
         a = line.split()
-        label = float([b.split('=')[1] for b in a if b.split('=')[0]=='label'][0])
+        label=float(1)
+        try:
+           label = float([b.split('=')[1] for b in a if b.split('=')[0]=='label'][0])
+        except:
+           pass
 
         lines = []
         line = self.fp.readline()

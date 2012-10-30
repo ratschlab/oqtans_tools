@@ -1,4 +1,4 @@
-<tool id="motifgen-fasta" name="MotifGen (FASTA)">
+<tool id="motifgen-fasta" name="MotifGen (FASTA)" version="0.3.3">
   <description>Generation of a sequence toy data set for motif discovery in FASTA format.</description>
   <command interpreter="python">../scripts/datagen.py motif fasta $p_motif
   $p_number_of_sequences $p_length $p_position

@@ -49,7 +49,7 @@ except:
     LinAddSVM = GPBTSVM
     LinearSVM = LibSVM
     
-from shogun.PreProc import SortWordString, SortUlongString
+from shogun.Preprocessor import SortWordString, SortUlongString
 
 from utils import calcprc, calcroc, accuracy
 from utils import getPartitionedSet, getCurrentSplit
@@ -160,8 +160,8 @@ def create_features(kname, examples, kparam, train_mode, preproc, seq_source, nu
         if train_mode:
             preproc = SortUlongString()
             preproc.init(wf)
-        wf.add_preproc(preproc)
-        ret = wf.apply_preproc()
+        wf.add_preprocessor(preproc)
+        ret = wf.apply_preprocessor()
         #assert(ret)
 
         feats = wf
@@ -182,8 +182,8 @@ def create_features(kname, examples, kparam, train_mode, preproc, seq_source, nu
         if train_mode:
             preproc = SortWordString()
             preproc.init(wf)
-        wf.add_preproc(preproc)
-        ret = wf.apply_preproc()
+        wf.add_preprocessor(preproc)
+        ret = wf.apply_preprocessor()
         assert(ret)
         feats['combined'].append_feature_obj(wf)
         feats['f0'] = wf
@@ -196,8 +196,8 @@ def create_features(kname, examples, kparam, train_mode, preproc, seq_source, nu
         if train_mode:
             preproc = SortWordString()
             preproc.init(wf)
-        wf.add_preproc(preproc)
-        ret = wf.apply_preproc()
+        wf.add_preprocessor(preproc)
+        ret = wf.apply_preprocessor()
         assert(ret)
         feats['combined'].append_feature_obj(wf)
         feats['f1'] = wf
@@ -354,7 +354,7 @@ def train_and_test(trainex,trainlab,testex,C,kname,kparam, seq_source, nuc_con):
         kernel.init(feats_train, feats_test)
 
     kernel.set_optimization_type(SLOWBUTMEMEFFICIENT)
-    output = svm.classify().get_labels()
+    output = svm.apply().get_labels()
     
     return output
 

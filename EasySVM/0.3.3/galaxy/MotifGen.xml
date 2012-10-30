@@ -1,4 +1,4 @@
-<tool id="motifgen-arff" name="MotifGen (ARFF)">
+<tool id="motifgen-arff" name="MotifGen (ARFF)" version="0.3.3">
   <description>Generation of a sequence toy data set for motif discovery in ARFF format.</description>
   <command interpreter="python">../scripts/datagen.py motif arff $p_motif
   $p_number_of_sequences $p_length $p_position
