@@ -41,7 +41,7 @@ end
 % more output to stdout
 CFG.VERBOSE = 1; % 0: no output, 1: more output, 2: debug output
 % parallelisation with rproc (1: cluster submission or 0: locally)
-if ~isfield(CFG, 'use_rproc'), CFG.use_rproc = 1; end
+if ~isfield(CFG, 'use_rproc'), CFG.use_rproc = 0; end
 
 
 %%%%% paths %%%%%

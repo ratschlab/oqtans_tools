@@ -15,6 +15,6 @@ export MATLAB_MEX_PATH=
 export MATLAB_INCLUDE_DIR=
 export OCTAVE_BIN_PATH=${OQTANS_DEP_PATH}/octave/bin/octave
 export OCTAVE_MKOCT=${OQTANS_DEP_PATH}/octave/bin/mkoctfile
-export SAMTOOLS_DIR=${OQTANS_DEP_PATH}/samtools/
+export SAMTOOLS_DIR=${OQTANS_DEP_PATH}/bin/
 export PYTHON_PATH=/usr/bin/python2.6
 export SCIPY_PATH=${OQTANS_DEP_PATH}/lib/python2.6/site-packages/
