@@ -39,6 +39,14 @@ echo %%%%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo test method ${TEST_FN} 
 echo 
+if [ ! -f ${BAM_INPUT_1}.bai ]
+then
+	$SAMTOOLS_DIR/samtools index ${BAM_INPUT_1}
+fi	
+if [ ! -f ${BAM_INPUT_2}.bai ]
+then
+	$SAMTOOLS_DIR/samtools index ${BAM_INPUT_2}
+fi	
 ${DIR}/../bin/galaxy_rdiff_web ${RDIFF_RES_DIR} ${BAM_INPUT_1} ${BAM_INPUT_2} ${RDIFF_RES_FILE} ${TEST_FN} 2>&1
 echo
 echo %%%%%%%%

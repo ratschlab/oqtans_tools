@@ -17,11 +17,12 @@ INTERPRETER = getenv('INTERPRETER');
 MATLAB_BIN_PATH = getenv('MATLAB_BIN_PATH');
 OCTAVE_BIN_PATH = getenv('OCTAVE_BIN_PATH');
 SAMTOOLS_DIR = getenv('SAMTOOLS_DIR');
+OQTANS_DEP_PATH = getenv('OQTANS_DEP_PATH');
 
 % switch off a few expected warnings
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/sw_require/utils/'));
+addpath(sprintf('%s/utils', OQTANS_DEP_PATH));
+addpath(sprintf('%s/utils/rproc', OQTANS_DEP_PATH));
 addpath(sprintf('%s/mex', RDIFF_PATH));
-addpath(sprintf('/mnt/galaxyTools/tools/oqtans/sw_require/utils/rproc'));
 
 engine = determine_engine();
 if isequal(engine, 'octave'),
