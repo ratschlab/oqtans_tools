@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
-<tool id="easysvm" name="Train and Test SVMs">
+<tool id="easysvm" name="Train and Test SVMs" version="0.3.3">
 <description>Train SVMs and predict for given hyper-parameters</description>
+  <requirements>
+	<requirement type="package">oqtans</requirement>
+  </requirements>
   <command interpreter="python">../scripts/easysvm.py 
   	#if $protocol.expt_type=="1"
   		cv $protocol.crossval

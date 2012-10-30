@@ -35,10 +35,11 @@ def plotroc(output, LTE, draw_random=False, figure_fname="", roc_label='ROC'):
     import pylab
     import matplotlib
 
-    pylab.figure(1,dpi=150,figsize=(4,4))
-    fontdict=dict(family="cursive",weight="bold",size=7,y=1.05) ;
+    pylab.figure(1,dpi=300,figsize=(8,8))
+    fontdict=dict(family="serif", weight="bold",size=7,y=1.05) ; # family="cursive"
 
-    pm=PerformanceMeasures(Labels(numpy.array(LTE)), Labels(numpy.array(output)))
+    pm=ROCEvaluation()
+    pm.evaluate(Labels(numpy.array(output)), Labels(numpy.array(LTE)))
 
     points=pm.get_ROC()
     points=numpy.array(points).T # for pylab.plot
@@ -51,7 +52,7 @@ def plotroc(output, LTE, draw_random=False, figure_fname="", roc_label='ROC'):
     pylab.yticks(ticks,size=10)
     pylab.xlabel('1 - specificity (false positive rate)',size=10)
     pylab.ylabel('sensitivity (true positive rate)',size=10)
-    pylab.legend(loc='lower right', prop = matplotlib.font_manager.FontProperties('tiny')) 
+    pylab.legend(loc='lower right') #, prop = matplotlib.font_manager.FontProperties('small')) 
 
     if figure_fname!=None:
         warnings.filterwarnings('ignore','Could not match*')
@@ -67,9 +68,10 @@ def plotprc(output, LTE, figure_fname="", prc_label='PRC'):
     import pylab
     import matplotlib
 
-    pylab.figure(2,dpi=150,figsize=(4,4))
+    pylab.figure(2,dpi=300,figsize=(8,8))
 
-    pm=PerformanceMeasures(Labels(numpy.array(LTE)), Labels(numpy.array(output)))
+    pm=PRCEvaluation()
+    pm.evaluate(Labels(numpy.array(output)), Labels(numpy.array(LTE)))
 
     points=pm.get_PRC()
     points=numpy.array(points).T # for pylab.plot
@@ -96,7 +98,7 @@ def plotcloud(cloud, figure_fname="", label='cloud'):
     import pylab
     import matplotlib
 
-    pylab.figure(1,dpi=150,figsize=(4,4))
+    pylab.figure(1,dpi=300,figsize=(8,8))
 
     pos = [] 
     neg = [] 
@@ -106,7 +108,7 @@ def plotcloud(cloud, figure_fname="", label='cloud'):
         elif cloud[i][0]==-1:
             neg.append(cloud[i][1:])
 
-    fontdict=dict(family="cursive",weight="bold",size=10,y=1.05) ;
+    fontdict=dict(family="serif", weight="bold",size=10,y=1.05) ; # family="cursive"
     pylab.title(label, fontdict)
     points=numpy.array(pos).T # for pylab.plot
     pylab.plot(points[0], points[1], 'b+', label='positive')
@@ -131,10 +133,10 @@ def plot_poims(poimfilename, poim, max_poim, diff_poim, poim_totalmass, poimdegr
     import pylab
     import matplotlib
 
-    pylab.figure(3, dpi=150, figsize=(4,5))
+    pylab.figure(3, dpi=300, figsize=(8,8))
 
     # summary figures
-    fontdict=dict(family="cursive",weight="bold",size=7,y=1.05) ;
+    fontdict=dict(family="serif", weight="bold",size=7,y=1.05) ; # family="cursive"
     pylab.subplot(3,2,1)
     pylab.title('Total POIM Mass', fontdict)
     pylab.plot(poim_totalmass) ;
@@ -159,7 +161,7 @@ def plot_poims(poimfilename, poim, max_poim, diff_poim, poim_totalmass, poimdegr
         pylab.ylabel('degree', size=5)
 
     # per k-mer figures
-    fontdict=dict(family="cursive",weight="bold",size=7,y=1.04) ;
+    fontdict=dict(family="serif", weight="bold",size=7,y=1.04) ; # family="cursive"
 
     # 1-mers
     pylab.subplot(3,2,2)

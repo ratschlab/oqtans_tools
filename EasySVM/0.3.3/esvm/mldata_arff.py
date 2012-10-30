@@ -27,7 +27,7 @@
 #############################################################################################
 
 try:
-    import arff
+    from scipy.io import arff
     have_arff = True
 except ImportError:
     have_arff = False

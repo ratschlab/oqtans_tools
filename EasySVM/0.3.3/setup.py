@@ -46,7 +46,7 @@ except:
     sys.stderr.write("         See shogun website: http://www.shogun-toolbox.org)\n")
 
 try:
-    import arff
+    from scipy.io import arff
 except:
     sys.stderr.write("WARNING: did not find 'arff'\n")
     sys.stderr.write("         arff is required for reading and writing ARFF data files\n")

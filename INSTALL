@@ -9,7 +9,7 @@ Ubuntu/Debian:
      help2man texinfo texlive python2.6 (or python2.7)
      libcholmod1.7.1 libcurl4-openssl-dev libglu1-mesa-dev libfltk1.3-dev
      libfreetype6-dev libgraphicsmagick1-dev libgraphicsmagick++3 libgraphicsmagick++1-dev
-     libfontconfig1-dev
+     libfontconfig1-dev libfftw3-3 python-numpy python-matplotlib
 
 Redhat/CentOS
      pkgconfig python-devel make gcc gcc-c++ cmake m4 texlive-latex texinfo texinfo-tex
