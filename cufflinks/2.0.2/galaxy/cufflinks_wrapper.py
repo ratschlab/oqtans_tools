@@ -140,6 +140,7 @@ def __main__():
         except OverflowError:
             pass
         tmp_stderr.close()
+	print >> sys.stderr, stderr
 
         # Copy outputs.
         shutil.copyfile( "transcripts.gtf" , options.assembled_isoforms_output_file )

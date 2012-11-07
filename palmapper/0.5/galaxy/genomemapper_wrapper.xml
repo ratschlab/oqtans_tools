@@ -87,7 +87,7 @@
           <when value="pre_set" />
           <when value="full">
             <param name="format" type="select" label="Output format">
-	      <option value="bed">BED format</option>
+	      <option value="sam">SAM format</option>
    	      <option value="shore">Shore format</option>
 	    </param>
             <param name="alignseedlength" type="integer" value="20" label="GenomeMapper alignment seed length (-l)" help="Integer not smaller than the index seed length." />
@@ -109,7 +109,7 @@
           <when value="pre_set" />
           <when value="full">
             <param name="format" type="select" label="Output format">
-	      <option value="bed">BED format</option>
+	      <option value="sam">SAM format</option>
    	      <option value="shore">Shore format</option>
 	    </param>
             <param name="alignseedlength" type="integer" value="20" label="GenomeMapper alignment seed length (-l)" help="Integer not smaller than the index seed length." />
@@ -124,7 +124,7 @@
     <!-- <param name="suppressHeader" type="boolean" truevalue="true" falsevalue="false" checked="true" label="Suppress the header in the output SAM file" help="GenomeMapper produces SAM with several lines of header information" /> -->
   </inputs>
   <outputs>
-    <data format="bed" name="output" />
+    <data format="sam" name="output" />
   </outputs>
   <help>
 

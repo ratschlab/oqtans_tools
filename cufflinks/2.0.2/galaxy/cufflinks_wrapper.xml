@@ -1,6 +1,7 @@
 <tool id="cufflinks" name="Cufflinks" version="2.0.2">
     <description>transcript assembly and FPKM (RPKM) estimates for RNA-Seq data</description>
     <requirements>
+        <requirement type="package">oqtans</requirement>
         <requirement type="package">cufflinks</requirement>
     </requirements>
     <command interpreter="python">
@@ -39,6 +40,7 @@
                 --dbkey=${input.metadata.dbkey} 
                 --index_dir=${GALAXY_DATA_INDEX_DIR}
             #end if
+	2> /dev/null
     </command>
     <inputs>
         <param format="sam,bam" name="input" type="data" label="SAM or BAM file of aligned RNA-Seq reads" help=""/>
