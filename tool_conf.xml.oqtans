@@ -1,4 +1,11 @@
   <label text="Oqtans (v0.1)" id="oqtans-0.1" />
+  <section name="KIRMES" id="kirmes_0.8">
+    <tool file="KIRMES/0.8/galaxy/KExamplesInstructions.xml" />
+    <tool file="KIRMES/0.8/galaxy/KKMC.xml" />
+    <tool file="KIRMES/0.8/galaxy/KIMS.xml" />
+    <tool file="KIRMES/0.8/galaxy/KIML.xml" />
+    <tool file="KIRMES/0.8/galaxy/KTraining.xml" />
+  </section>
   <section name="Read Mapping" id="oqtans_mapping">
    <label text="Unspliced Alignment" id="unspliced" />
    <tool file="../../../oqtansTools/oqtans/bowtie/0.12.7/bowtie_wrapper.xml" /> 
