@@ -33,7 +33,7 @@
 		<param name="result_format" type="select" label="Prediction result file format" help="Types of file format available for prediction results.">
 			<option value="gff2">GFF (Version 2)</option>
 			<option value="spf1">ASCII SPF (Version 1)</option>
-			<option value="binary">SPF format (binary format compatible with Palmapper and QPALMA)</option>
+			<option value="binary" selected="true">SPF format (binary format compatible with Palmapper and QPALMA)</option>
 		</param>
 	</inputs>
 	<outputs>
@@ -49,7 +49,7 @@
 		<data format="spf" name="don_spf_binary" label="Donor splice site signal predictions in binary SPF format">
 			<filter>result_format=="binary"</filter>
 		</data>
-		<data format="txt" name="log_file" label="Log File">
+		<data format="txt" name="log_file" label="${tool.name} Log File">
 			<filter>result_format=="binary"</filter>
 		</data>
 	</outputs>
@@ -67,7 +67,7 @@ around each position. Therefore, there are no predictions near the
 boundaries. Predictions are performed on the forward and backward
 strand for all sequences in the FASTA file.
 
-.. _ASP: http://www.fml.tuebingen.mpg.de/raetsch/suppl/splice
+.. _ASP: http://raetschlab.org/suppl/splice
 
 **References:**
 
@@ -75,7 +75,7 @@ strand for all sequences in the FASTA file.
 
 ------
 
-**Output:**
+**Output**
 
 The output is a file in GFF-like format which contains a prediction
 score for each candidate location in the genomic input sequence.
