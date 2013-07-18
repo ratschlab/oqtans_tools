@@ -1,0 +1,44 @@
+import( Biobase )
+import( lattice )
+importFrom( genefilter, rowVars )
+importFrom( geneplotter, multiecdf )
+importFrom( RColorBrewer, brewer.pal )
+
+useDynLib( DESeq, calc_pvals )
+
+exportClasses( "CountDataSet" )
+
+exportMethods(
+   counts, "counts<-",
+   sizeFactors, "sizeFactors<-",
+   conditions,  "conditions<-",
+   dispTable, "dispTable",
+   estimateSizeFactors,
+   estimateDispersions
+)
+
+export(
+   newCountDataSet,
+   estimateVarianceFunctions,  # defunct
+   varianceFitDiagnostics,     # defunct
+   residualsEcdfPlot,          # defunct
+   nbinomTest,
+   getBaseMeansAndVariances,
+   nbinomTestForMatrices,
+   estimateSizeFactorsForMatrix,
+   scvPlot,                    # defunct
+   getVarianceStabilizedData,
+   varianceStabilizingTransformation,
+   makeExampleCountDataSet,
+   adjustScvForBias,
+   fitNbinomGLMsForMatrix,
+   fitNbinomGLMs,
+   nbkd.sf,
+   nbinomGLMTest,
+   dispTable,
+   fitInfo,
+   plotDispEsts,
+   plotMA,
+   plotPCA,
+   newCountDataSetFromHTSeqCount
+)
