@@ -21,7 +21,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define if siginfo_t.si_int exists */
-#define HAVE_SI_INT 1
+/* #undef HAVE_SI_INT */
 
 /* Define if you have SSE */
 /* #undef HAVE_SSE */
