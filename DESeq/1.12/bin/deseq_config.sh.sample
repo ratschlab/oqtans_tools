@@ -1,0 +1,17 @@
+#!/bin/bash
+export DESEQ_VERSION=1.10.1
+export DESEQ_PATH=/home/galaxy/software/deseq_hts/
+export DESEQ_SRC_PATH=$DESEQ_PATH/src
+export DESEQ_BIN_PATH=$DESEQ_PATH/bin
+export INTERPRETER=octave
+export MATLAB_BIN_PATH=
+export MATLAB_MEX_PATH=
+export MATLAB_INCLUDE_DIR=
+export OCTAVE_BIN_PATH=/home/galaxy/software/octave/source/octave-3.6.3/octave
+export OCTAVE_MKOCT=/home/galaxy/software/bin/mkoctfile
+export SAMTOOLS_DIR=/home/galaxy/software/samtools-0.1.17/
+export PYTHON_PATH=/usr/bin/python
+export SCIPY_PATH=/home/galaxy/software/lib/python2.6/site-packages/
+export R_PATH=/home/galaxy/software/bin/R
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/oqtansTools/oqtans_dep/octave-3.6.2_64/lib/octave/3.6.2/
+export ENVIRONMENT=galaxy
