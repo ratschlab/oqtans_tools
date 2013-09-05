@@ -1,0 +1,81 @@
+------------------------------------------------------
+A Galaxy wrapper for DESeq2 version 1.0.19
+------------------------------------------------------
+
+Description:
+------------
+    DESeq2 can be used as a web service embedded in a Galaxy instance. 
+
+Requirements:
+-------------
+    MATLAB/OCTAVE and Python :- Preprocessing of sequencing reads and GFF files
+    R, Bio-conductor package :- Required for DESeq2
+    SCIPY, NUMPY :- for python  
+    SAMTOOLS :- Sequencing read processing 
+
+Contents:
+---------
+    ./src
+    All relevant scripts for DESeq-hts are located in the subdirectory
+    src. src/deseq2-hts.sh is the main script to start DESeq2-hts. The 
+    preprocessing of BAM and GFF file start before the R DESeq2 script. 
+	Please follow the shell script to understand the details. 
+    
+    ./galaxy
+    Galaxy tool configuration file can be found galaxy folder. Please 
+    make necessary editing for .xml file and remaining .sh files and 
+    perform few tests. 
+
+    ./setup.sh
+    Setup script for DESeq2-hts.
+
+    ./mex
+    matlab executable files.
+
+    ./bin
+    Contains deseq2_config.sh file which is used for the configuration of 
+    DESeq2-hts. According to your platform, the default file will be changed.
+
+    ./test_data
+    This sub-directory contains all data for running a functional test in
+    Galaxy framework. You may need to move these test files into the test-data
+    directory.
+
+    ./tools
+    A python based GFF parsing program. Also contains small utils programs.
+
+Getting started:
+----------------
+    Check for all requirements first, then
+
+    a) Run ./setup.sh and setup paths and configuration options for DESeq2-hts.
+
+    b) Inside the mex folder execute the make file to create platform dependent .mex files 
+	    cd mex/Makefile 
+	    make [interpreter] 
+            make octave for octave 
+            make matlab for matlab 
+            make all for octave and matlab 
+
+    c) Edit the Galaxy tool configuration file to adjust the path if necessary. 
+
+Licenses:
+---------
+    If **DESeq2** is used to obtain results for scientific publications it should be cited as [1].
+
+    This wrapper program (DESeq2-hts) is free software; you can redistribute it and/or modify it 
+    under the terms of the GNU General Public License as published by the Free Software Foundation; 
+    either version 3 of the License, or (at your option) any later version.
+
+    Written (W) 2009-2012 Jonas Behr, Regina Bohnert, Andre Kahles, Gunnar Raetsch, Vipin T. Sreedharan
+    Copyright (C) 2009-2012 Friedrich Miescher Laboratory of the Max Planck Society, Tubingen, Germany and 
+                  2013 cBio Memorial Sloan Kettering Cancer Center, New York City, USA.
+
+References:
+-----------
+    [1] Anders, S and Huber, W (2010): `Differential expression analysis for sequence count data`. 
+
+Contact:
+--------
+    support [at] oqtans.org
+
