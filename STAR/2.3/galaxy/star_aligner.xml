@@ -1,0 +1,192 @@
+<tool id="star" name="STAR" version="0.1">
+    <description>RNA-seq read mapper</description>
+    <requirements>
+        <requirement type="package">star</requirement>
+        <requirement type="package">samtools</requirement>
+    </requirements>
+    <command>
+        STAR
+        ## Can adjust this as appropriate for the system.
+        --genomeLoad NoSharedMemory
+
+        --genomeDir ${refGenomeSource.index.fields.path} 
+        --readFilesIn $input1 
+        #if $singlePaired.sPaired == "paired"
+            $singlePaired.input2
+        #end if
+
+        --runThreadN 8
+
+        ## Parameters.
+        #if $params.settingsType == "full":
+            --chimSegmentMin $params.chim_segment_min
+            --chimScoreMin $params.chim_score_min
+        #end if
+
+        ## Needed to generate SAM tags for Cufflinks tools.
+        --outSAMstrandField intronMotif
+
+        ;
+
+        ##
+        ## BAM conversion.
+        ##
+
+        ## Convert aligned reads.
+        samtools view -Shb Aligned.out.sam | samtools sort - Aligned.out
+
+        ## Convert chimeric reads.
+        #if $params.settingsType == "full" and $params.chim_segment_min > 0:
+            ; samtools view -Shb Chimeric.out.sam | samtools sort - Chimeric.out
+        #end if
+    </command>
+
+    <stdio>
+        <regex match=".*" source="both" level="warning" description="generic stdout/err chatter"/>
+    </stdio>
+
+    <inputs>
+        <!-- FASTQ input(s) and options specifically for paired-end data. -->
+        <conditional name="singlePaired">
+            <param name="sPaired" type="select" label="Is this library mate-paired?">
+              <option value="single">Single-end</option>
+              <option value="paired" selected="true">Paired-end</option>
+            </param>
+            <when value="single">
+                <param format="fastq,fasta" name="input1" type="data" label="RNA-Seq FASTQ file" help="Nucleotide-space: Must have Sanger-scaled quality values with ASCII offset 33"/>
+            </when>
+            <when value="paired">
+                <param format="fastq,fasta" name="input1" type="data" label="RNA-Seq FASTQ file, forward reads" help="Nucleotide-space: Must have Sanger-scaled quality values with ASCII offset 33" />
+                <param format="fastq,fasta" name="input2" type="data" label="RNA-Seq FASTQ file, reverse reads" help="Nucleotide-space: Must have Sanger-scaled quality values with ASCII offset 33" />
+            </when>
+        </conditional>
+
+        <!-- Genome source. -->
+        <conditional name="refGenomeSource">
+            <param name="genomeSource" type="select" label="Will you select a reference genome from your history or use a built-in index?" help="Built-ins were indexed using default options">
+                <option value="indexed">Use a built-in index</option>
+                <option value="history">Use one from the history</option>
+            </param>
+            <when value="indexed">
+            <param name="index" type="select" label="Select a reference genome">
+                <options from_data_table="star_indexes">
+                    <filter type="sort_by" column="2"/>
+                    <validator type="no_options" message="No indexes are available for the selected input dataset"/>
+                </options>
+            </param>
+            </when>
+            <when value="history">
+                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select the reference genome" />
+            </when>
+        </conditional>
+
+        <!-- Parameter settings. -->
+        <conditional name="params">
+            <param name="settingsType" type="select" label="Settings to use" help="You can use the default settings or set custom values for any STAR parameter.">
+                <option value="preSet" selected="true">Use Defaults</option>
+                <option value="full">Full parameter list</option>
+            </param>
+            <when value="preSet" />
+            <!-- Full/advanced params. -->
+            <when value="full">
+                <param name="chim_segment_min" type="integer" min="0" value="0" label="Minimum chimeric segment length" />
+                <param name="chim_score_min" type="integer" min="0" value="0" label="Minimum total (summed) score of the chimeric segments" />
+            </when>
+        </conditional>
+    </inputs>
+
+    <outputs>
+        <data format="txt" name="output_log" label="${tool.name} on ${on_string}: log file" from_work_dir="Log.final.out"/>
+        <data format="interval" name="chimeric_junctions" label="${tool.name} on ${on_string}: chimeric junctions" from_work_dir="Chimeric.out.junction">
+          <filter>(params['settingsType'] == 'full' and params['chim_segment_min'] > 0)</filter>
+          <actions>
+            <conditional name="refGenomeSource.genomeSource">
+              <when value="indexed">
+                <action type="metadata" name="dbkey">
+                  <option type="from_data_table" name="star_indexes" column="1" offset="0">
+                    <filter type="param_value" column="0" value="#" compare="startswith" keep="False"/>
+                    <filter type="param_value" ref="refGenomeSource.index" column="0"/>
+                  </option>
+                </action>
+              </when>
+              <when value="history">
+                <action type="metadata" name="dbkey">
+                  <option type="from_param" name="refGenomeSource.ownFile" param_attribute="dbkey" />
+                </action>
+              </when>
+            </conditional>
+          </actions>
+        </data>
+        <data format="bam" name="chimeric_reads" label="${tool.name} on ${on_string}: mapped chimeric reads" from_work_dir="Chimeric.out.bam">
+          <filter>(params['settingsType'] == 'full' and params['chim_segment_min'] > 0)</filter>
+          <actions>
+            <conditional name="refGenomeSource.genomeSource">
+              <when value="indexed">
+                <action type="metadata" name="dbkey">
+                  <option type="from_data_table" name="star_indexes" column="1" offset="0">
+                    <filter type="param_value" column="0" value="#" compare="startswith" keep="False"/>
+                    <filter type="param_value" ref="refGenomeSource.index" column="0"/>
+                  </option>
+                </action>
+              </when>
+              <when value="history">
+                <action type="metadata" name="dbkey">
+                  <option type="from_param" name="refGenomeSource.ownFile" param_attribute="dbkey" />
+                </action>
+              </when>
+            </conditional>
+          </actions>
+        </data>
+        <data format="interval" name="splice_junctions" label="${tool.name} on ${on_string}: splice junctions" from_work_dir="SJ.out.tab">
+          <actions>
+            <conditional name="refGenomeSource.genomeSource">
+              <when value="indexed">
+                <action type="metadata" name="dbkey">
+                  <option type="from_data_table" name="star_indexes" column="1" offset="0">
+                    <filter type="param_value" column="0" value="#" compare="startswith" keep="False"/>
+                    <filter type="param_value" ref="refGenomeSource.index" column="0"/>
+                  </option>
+                </action>
+              </when>
+              <when value="history">
+                <action type="metadata" name="dbkey">
+                  <option type="from_param" name="refGenomeSource.ownFile" param_attribute="dbkey" />
+                </action>
+              </when>
+            </conditional>
+          </actions>
+        </data>
+        <data format="bam" name="mapped_reads" label="${tool.name} on ${on_string}: mapped reads" from_work_dir="Aligned.out.bam">
+          <actions>
+            <conditional name="refGenomeSource.genomeSource">
+              <when value="indexed">
+                <action type="metadata" name="dbkey">
+                  <option type="from_data_table" name="star_indexes" column="1" offset="0">
+                    <filter type="param_value" column="0" value="#" compare="startswith" keep="False"/>
+                    <filter type="param_value" ref="refGenomeSource.index" column="0"/>
+                  </option>
+                </action>
+              </when>
+              <when value="history">
+                <action type="metadata" name="dbkey">
+                  <option type="from_param" name="refGenomeSource.ownFile" param_attribute="dbkey" />
+                </action>
+              </when>
+            </conditional>
+          </actions>
+        </data>
+    </outputs>
+    
+    <tests>
+    </tests>
+    <help>
+        STAR_ aligns RNA-seq reads to a reference genome using uncompressed suffix arrays.
+        
+        .. _STAR: https://code.google.com/p/rna-star/
+
+-----
+
+STAR Wrapper Version 0.1 (July 2013)
+
+    </help>
+</tool>
