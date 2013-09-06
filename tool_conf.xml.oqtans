@@ -20,8 +20,10 @@
   <section name="Transcript Prediction/Assembly" id="mTIM.web">
     <label text="mTIM (v0.2)" id="mtim" />
     <tool file="oqtans_tools/mTIM/0.2/galaxy/mTIM_Train.xml"/>
+    <tool file="oqtans_tools/mTIM/0.2/galaxy/mTIM_Predict.xml"/>
+    <tool file="oqtans_tools/mTIM/0.2/galaxy/mTIM_Eval.xml"/>
     <label text="Trinity (r2012-08-08)" id="deno_assmb" />
-    <tool file="oqtans_tools/trinity/r2012-06-08/galaxy/trinity.xml"/>
+    <tool file="oqtans_tools/trinity/r2013_08_14/galaxy/trinity.xml"/>
     <label text="Scripture" id="abinito_assmb" />
     <tool file="oqtans_tools/Scripture/galaxy/scripture.xml"/>
     <label text="Cufftools (v2.0.2)" id="rna_seq" />
