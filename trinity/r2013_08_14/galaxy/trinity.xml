@@ -28,9 +28,9 @@
             #end if
         #end if
         #if str($additional_params.use_additional) == "yes":
-			--min_kmer_cov $inputs.min_kmer_cov --max_reads_per_graph $inputs.max_reads_per_graph --bflyHeapSpaceMax $input.bflyHeapSpaceMax
-			#if $inputs.bfly_opts != 'None':
-				--bfly_opts " $inputs.bfly_opts "
+			--min_kmer_cov $additional_params.min_kmer_cov --max_reads_per_graph $additional_params.max_reads_per_graph --bflyHeapSpaceMax $additional_params.bflyHeapSpaceMax
+			#if $additional_params.bfly_opts != 'None':
+				--bfly_opts " $additional_params.bfly_opts "
 			#end if
         #end if
         > $trinity_log 2>&amp;1
