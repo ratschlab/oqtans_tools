@@ -1,0 +1,17 @@
+#!/bin/bash
+export edgeR_VERSION=3.2.4
+export edgeR_PATH=/home/apps/difftest/edgeR-hts
+export edgeR_SRC_PATH=${edgeR_PATH}/src
+export edgeR_BIN_PATH=${edgeR_PATH}/bin
+export INTERPRETER=octave
+export MATLAB_BIN_PATH=
+export MATLAB_MEX_PATH=
+export MATLAB_INCLUDE_DIR=
+export OCTAVE_BIN_PATH=/home/apps/kubuntu/bin/octave
+export OCTAVE_MKOCT=/home/apps/kubuntu/bin/mkoctfile
+export SAMTOOLS_DIR=/home/apps/samtools-0.18/
+export PYTHON_PATH=/usr/bin/python
+export SCIPY_PATH=/python2.7/dist-packages/:$PYTHON_PATH
+export R_PATH=/home/Path/bin/R
+export LD_LIBRARY_PATH=/home/apps/kubuntu/lib/:$LD_LIBRARY_PATH
+export ENVIRONMENT=galaxy
