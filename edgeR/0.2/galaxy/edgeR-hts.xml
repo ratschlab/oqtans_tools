@@ -14,7 +14,7 @@ $j.bam_alignment:#slurp
 #end for
     >> $Log_File </command>
   <inputs>
-	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF file" help="A tab delimited format for storing sequence features and annotations"/>
+	<param format="gff3,gtf,gff" name="anno_input_selected" type="data" label="Genome annotation in GFF file" help="A tab delimited format for storing sequence features and annotations"/>
     <repeat name="replicate_groups" title="Replicate group" min="2">
       <repeat name="replicates" title="Replicate">
       <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
