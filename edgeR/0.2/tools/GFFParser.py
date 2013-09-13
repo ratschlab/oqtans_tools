@@ -58,8 +58,8 @@ def _attribute_tags(col9):
     # get key, val items 
     for item in key_vals:
         key, val = item
-        if val[0] == '"' and val[-1] == '"':
-            val = val[1:-1] 
+        # replace the double qoutes from feature identifier 
+        val = re.sub('"', '', val)
         # replace the web formating place holders to plain text format 
         info[key].extend([urllib.unquote(v) for v in val.split(',') if v])
 
