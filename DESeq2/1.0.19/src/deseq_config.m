@@ -1,5 +1,5 @@
 function deseq_config
-% DESE2_CONFIG   Sets a few global variables with system dependent paths.
+% DESEQ2_CONFIG   Sets a few global variables with system dependent paths.
 %
 %
 % This program is free software; you can redistribute it and/or modify

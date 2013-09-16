@@ -1,10 +1,11 @@
 ------------------------------------------------------
-A Galaxy wrapper for DESeq2 version 1.0.19
+DESeq2-hts: A Galaxy wrapper for DESeq2 version 1.0.19
 ------------------------------------------------------
 
 Description:
 ------------
     DESeq2 can be used as a web service embedded in a Galaxy instance. 
+    We call it as DESeq2-hts. 
 
 Requirements:
 -------------
@@ -77,5 +78,5 @@ References:
 
 Contact:
 --------
-    support [at] oqtans.org
+    vipin [at] cbio.mskcc.org 
 

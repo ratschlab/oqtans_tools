@@ -2,6 +2,7 @@
   <description> Differential gene expression analysis based on the negative binomial distribution</description>
   <command interpreter="bash"> 
 ./../src/deseq2-hts.sh $anno_input_selected $deseq_out $deseq_out.extra_files_path/gene_map.mat 
+$distype
 #for $i in $replicate_groups
 #for $j in $i.replicates
 $j.bam_alignment:#slurp
@@ -10,12 +11,19 @@ $j.bam_alignment:#slurp
 #end for
     >> $Log_File </command>
   <inputs>
-	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 file" help="A tab delimited format for storing sequence features and annotations"/>
+	<param format="gff,gtf,gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF file" help="A tab delimited format for storing sequence features and annotations"/>
    <repeat name="replicate_groups" title="Replicate group" min="2">
      <repeat name="replicates" title="Replicate">
-      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
+      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAMTools."/>
      </repeat>
    </repeat>
+
+    <param name="distype" type="select" label="Select fitting of dispersions to the mean intensity">
+            <option value="parametric">Parametric</option>
+            <option value="local">Local</option>
+            <option value="mean" selected="true">Mean</option>
+    </param>
+
   </inputs>
 
   <outputs>
@@ -25,7 +33,6 @@ $j.bam_alignment:#slurp
 
   <tests>
     <test> 
-	command:
 	./deseq2-hts.sh ../test_data/deseq_c_elegans_WS200-I-regions.gff3 ../test_data/deseq_c_elegans_WS200-I-regions_deseq.txt ../test_data/genes.mat ../test_data/deseq_c_elegans_WS200-I-regions-SRX001872.bam ../test_data/deseq_c_elegans_WS200-I-regions-SRX001875.bam
 	
       <param name="anno_input_selected" value="deseq_c_elegans_WS200-I-regions.gff3" ftype="gff3" />
@@ -47,7 +54,7 @@ DESeq2_ Estimate variance-mean dependence in count data from high-throughput seq
 
 `DESeq2` requires:
 
-Genome annotation file in GFF3, containing the necessary information about the transcripts that are to be quantified.
+Genome annotation in GFF file type, containing the necessary information about the transcripts that are to be quantified.
 
 The BAM alignment files grouped into replicate groups, each containing several replicates. BAM files store the read alignments, The program will also work with only two groups containing only a single replicate each. However, this analysis has less statistical power and is therefore not recommended!
 
@@ -70,10 +77,7 @@ should be cited as [1]_.
 
 **About formats**
 
-
-**GFF3 format** General Feature Format is a format for describing genes
-and other features associated with DNA, RNA and protein
-sequences. GFF3 lines have nine tab-separated fields:
+**GFF/GTF format** General Feature Format/Gene Transfer Format is a format for describing genes and other features associated with DNA, RNA and protein sequences. GFF3 lines have nine tab-separated fields:
 
 1. seqid - The name of a chromosome or scaffold.
 2. source - The program that generated this feature.
@@ -87,7 +91,7 @@ sequences. GFF3 lines have nine tab-separated fields:
 
 For more information see http://www.sequenceontology.org/gff3.shtml
 
-**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a
+**BAM format** The Sequence Alignment/Map (SAM) format is a
 tab-limited text format that stores large nucleotide sequence
 alignments. BAM is the binary version of a SAM file that allows for
 fast and intensive data processing. The format specification and the

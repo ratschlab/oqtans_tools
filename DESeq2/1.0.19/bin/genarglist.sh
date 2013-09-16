@@ -1,6 +1,7 @@
 #/bin/bash
-# Copyright (C) 2010-2012 Max Planck Society
-
+##
+# Copyright (C) 2009-2013 Max Planck Society and Memorial Sloan Kettering Cancer Center
+##
 until [ -z $1 ] ; do
 	if [ $# != 1 ];
 	then
