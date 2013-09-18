@@ -1,0 +1,44 @@
+---------------------------------------
+A Galaxy wrapper for STAR version 2.3.0
+---------------------------------------
+
+STAR aligns RNA-seq reads to a reference genome using uncompressed suffix arrays.
+more details: https://code.google.com/p/rna-star/
+
+Contents:
+---------
+
+./galaxy 
+    Galaxy tool configuration file can be found here. Please make necessary editing 
+    for .xml files. STAR genome index are added to the .loc file and please make sure
+    that the fields are seperated with tab-delimited (not space delimited). Then please 
+    add the content of file tool_data_table_conf.xml to the instances tool_data_table_conf.xml 
+    file. 
+
+./src
+    All relevant scripts for STAR are located in the subdirectory src. src/run_rna-star.sh 
+    is the main script to start STAR aligner. Please follow the shell script to understand 
+    the details.
+
+Licenses:
+---------
+    If **STAR** is used to obtain results for scientific publications it should be cited as [1].
+
+    This wrapper program is free software; you can redistribute it and/or modify it under the 
+    terms of the GNU General Public License as published by the Free Software Foundation; either 
+    version 3 of the License, or (at your option) any later version.
+
+    Copyright(C) 2013 cBio Memorial Sloan Kettering Cancer Center, New York City, USA.
+
+References:
+-----------
+    [1] A. Dobin et al, Bioinformatics 2012; doi: 10.1093/bioinformatics/bts635
+
+Contributions:
+--------------
+    Thanks to Jeremy Goecks, Galaxy team, for providing the partial STAR wrapper. 
+
+Contact:
+--------
+    Technical questions about STAR: https://groups.google.com/d/forum/rna-star
+    About this Galaxy wrapper: support [at] oqtans.org
