@@ -35,6 +35,7 @@
     <tool file="oqtans_tools/rDiff/0.1/galaxy/rdiff_web.xml" />
     <tool file="oqtans_tools/DESeq/1.12/galaxy/deseq.xml" />
     <tool file="oqtans_tools/DESeq2/1.0.19/galaxy/deseq2.xml" />
+    <tool file="oqtans_tools/DEXSeq/1.6/galaxy/DEXSeq.xml" />
     <tool file="oqtans_tools/cufflinks/2.0.2/galaxy/cuffdiff_wrapper.xml" />
     <tool file="oqtans_tools/edgeR/0.2/galaxy/edgeR.xml" />
   </section>
