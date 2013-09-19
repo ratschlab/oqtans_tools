@@ -1,0 +1,52 @@
+-----------------------------------------
+A Galaxy wrapper for DEXSeq version 1.6.0
+-----------------------------------------
+
+DEXSeq is focused on finding differential exon usage using RNA-seq exon counts between samples with different experimental designs. 
+DEXSeq: http://www.bioconductor.org/packages/release/bioc/html/DEXSeq.html
+
+Requirements:
+-------------
+    Python, HTSeq package :- Preprocessing of sequencing reads and GFF files
+    R, Bio-conductor package :- Required for DEXSeq 
+    SAMTOOLS :- Sequencing read processing 
+
+Contents:
+---------
+
+./bin 
+    Contains a config file for running DEXSeq in different settings, setup_dexseq-hts.sh
+    will help to create the config file according to your local work station. 
+
+./setup_dexseq-hts.sh
+    Setup script, which helps to set the right path to the config file present in the bin
+    folder. 
+    
+./README 
+    Basic information about the wrapper 
+
+./galaxy 
+    Galaxy tool configuration file can be found here. 
+
+./src
+    All relevant scripts for DEXSeq execution, Please follow the shell script to 
+    understand the details.
+
+Licenses:
+---------
+
+    If DEXSeq is used to obtain results for scientific publications it should be cited as [1].
+
+    This wrapper program is free software; you can redistribute it and/or modify it under the 
+    terms of the GNU General Public License as published by the Free Software Foundation; either 
+    version 3 of the License, or (at your option) any later version.
+
+    Copyright(C) 2013 cBio Memorial Sloan Kettering Cancer Center, New York City, USA.
+
+References
+----------
+    [1] Simon Anders and Alejandro Reyes and Wolfgang Huber (2012): Detecting differential usage of exons from RNA-seq data. 
+
+Contact:
+--------
+    support [at] oqtans.org

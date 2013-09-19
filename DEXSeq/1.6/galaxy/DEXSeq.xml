@@ -1,0 +1,117 @@
+<tool id="dexseq-hts" name="DEXSeq" version="1.6.0">
+    <description> Inference of differential exon usage in RNA-Seq</description>
+    <command interpreter="bash"> 
+    ./../src/DEXseq-hts.sh 
+    $anno_input
+    $sPaired
+    $library_type
+    $minQUAL
+    $dexseq_out $dexseq_out.extra_files_path
+#for $i in $replicate_groups
+#for $j in $i.replicates
+$j.bam_alignment:#slurp
+#end for
+
+#end for
+    >> $Log_File </command>
+    <inputs>
+    
+    <!-- Genome annotation in GFF/GTF/GFF3 file --> 
+	<param format="gff,gtf,gff3" name="anno_input" type="data" label="Reference genome annotation file" help="A tab delimited format for storing sequence features and annotations (GFF/GTF/GFF3)."/>
+
+    <!-- RNA-Seq read alignment files-->  
+    <repeat name="replicate_groups" title="Replicate group" min="2">
+        <repeat name="replicates" title="Replicate">
+        <param format="bam" name="bam_alignment" type="data" label="BAM file of aligned RNA-Seq reads" help="Can be generated from SAM file using the SAMTools."/> 
+        </repeat>
+    </repeat>
+
+    <!--Paired -->
+    <param name="sPaired" type="select" display="radio" label="Is this library mate-paired?" help="Indicates whether the data is paired-end (default: single-end)">
+        <option value="no" selected="true">Single-end</option>
+        <option value="yes">Paired-end</option>
+    </param>
+
+    <!-- RNA-Seq library type-->
+    <param name="library_type" type="select" display="radio" label="Strand-specific library type" help="Indicates RNA-Seq library preparation protocol (default: strand-specific assay)">
+        <option value="yes">Stranded</option>
+        <option value="no">Non stranded</option>
+        <option value="reverse">Reverse</option>
+    </param>
+
+    <!-- Read alignment quality-->
+    <param name="minQUAL" type="integer" min="0" value="10" label="Minimum alignment quality" help="Skip all reads with alignment quality lower than the given minimum value (default: 10)"/>
+  </inputs>
+
+  <outputs>
+    <data format="txt" name="dexseq_out" label="${tool.name} on ${on_string}: Differential Expression"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log"/>
+  </outputs>
+
+  <tests>
+    <test> 
+    </test>
+  </tests> 
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+DEXSeq_ is focused on finding differential exon usage using RNA-seq exon counts between samples with different experimental designs. 
+
+.. _DEXSeq: http://www.bioconductor.org/packages/release/bioc/html/DEXSeq.html
+
+`DEXSeq` requires:
+
+Genome annotation in GFF file type, containing the necessary information about the transcripts that are to be quantified.
+
+The BAM alignment files grouped into replicate groups, each containing several replicates. BAM files store the read alignments, The program will also work with only two groups containing only a single replicate each. However, this analysis has less statistical power and is therefore not recommended!
+
+------
+
+**Licenses**
+
+If **DEXSeq** is used to obtain results for scientific publications it
+should be cited as [1]_.
+
+**References** 
+
+.. [1] Simon Anders and Alejandro Reyes and Wolfgang Huber (2012): `Detecting differential usage of exons from RNA-seq data`_. 
+
+.. _Detecting differential usage of exons from RNA-seq data: http://genome.cshlp.org/content/early/2012/06/21/gr.133744.111.full.pdf+html
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF/GTF format** General Feature Format/Gene Transfer Format is a format for describing genes and other features associated with DNA, RNA and protein sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**BAM format** The Sequence Alignment/Map (SAM) format is a
+tab-limited text format that stores large nucleotide sequence
+alignments. BAM is the binary version of a SAM file that allows for
+fast and intensive data processing. The format specification and the
+description of SAMtools can be found on
+http://samtools.sourceforge.net/.
+
+------
+
+DEXSeq-hts Wrapper Version 0.1 (Sept. 2013)
+
+</help>
+</tool>
