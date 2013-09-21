@@ -79,8 +79,9 @@ echo %%%%%%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo testing genes for differential expression using given read alignments
 
+
 echo "cat ${DIR}/../src/difftest_deseq2.R | $R_PATH --slave --args $tmpfile ${DESEQ_RES_FILE} $#"
-cat ${DIR}/../src/difftest_deseq2.R | $R_PATH --slave --args ${FITTYP} $tmpfile ${DESEQ_RES_FILE} 
+(cat ${DIR}/../src/difftest_deseq2.R | $R_PATH --slave --args ${FITTYP} $tmpfile ${DESEQ_RES_FILE} 2>&1 || (echo R script execution failed 1>&2))
 
 echo %%%%%%%%
 echo % Done %
