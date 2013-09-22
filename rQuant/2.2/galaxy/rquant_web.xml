@@ -35,48 +35,14 @@
   </inputs>
 
   <outputs>
-    <data format="gff3" name="rquant_out" label="rQuant transcript quantification" />
-    <data format="txt" name="profiles_fn_out" label="Profile file" >
+    <data format="gff3" name="rquant_out" label="${tool.name} on ${on_string}: Transcript Quantification" />
+    <data format="txt" name="profiles_fn_out" label="${tool.name} on ${on_string}: Profile file" >
       <filter>profiles['select_profiles'] == "2"</filter>
     </data>
-    <data format="txt" name="Log_File" label="rQuant log file"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}:Log file"/>
   </outputs>
 
   <tests>
-    <test>
-      <!--
-	commands:
-	./rquant.sh ../test_data/rquant_nGASP-Train-I.gff3 0 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case0.gff3 ../test_data 0 dummy_pr_in 0 dummy_pr_out
-	./rquant.sh ../test_data/rquant_nGASP-Train-I_genes.mat 1 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case0.gff3 ../test_data 0 dummy_pr_in 0 dummy_pr_out
-	-->
-      <param name="anno_input_selected" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
-      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
-      <param name="select_profiles" value="0" />
-      <output name="rquant_out" file="rquant_nGASP-Train-I_rquant_case0.gff3" />
-    </test>
-    <test>
-      <!--
-	commands:
-	./rquant.sh ../test_data/rquant_nGASP-Train-I.gff3 0 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case1.gff3 ../test_data 1 ../test_data/rquant_profiles.txt 0 dummy_pr_out
-	./rquant.sh ../test_data/rquant_nGASP-Train-I_genes.mat 1 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case1.gff3 ../test_data 1 ../test_data/rquant_profiles.txt 0 dummy_pr_out
-	-->
-      <param name="anno_input_selected" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
-      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
-      <param name="select_profiles" value="1" />
-      <param name="profiles_fn" value="rquant_profiles.txt" ftype="txt" />
-      <output name="rquant_out" file="rquant_nGASP-Train-I_rquant_case1.gff3" />
-    </test>
-    <!-- <test>
-	commands:
-	./rquant.sh ../test_data/rquant_nGASP-Train-I.gff3 0 ../test_data/genes_parsed.mat ../test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case2.gff3 ../test_data 0 dummy_pr_in 1 ../test_data/rquant_profiles_out.txt
-	./rquant.sh ../test_data/rquant_nGASP-Train-I_genes.mat 1 .../test_data/genes_parsed.mat ./test_data/rquant_nGASP-Train-I.bam ../test_data/rquant_nGASP-Train-I_rquant_case2.gff3 ../test_data 0 dummy_pr_in 1 ../test_data/rquant_profiles_out.txt
-      <param name="anno_input_selected" value="rquant_nGASP-Train-I.gff3" ftype="gff3" />
-      <param name="bam_alignments" value="rquant_nGASP-Train-I.bam" ftype="bam" />
-      <param name="select_profiles" value="1" />
-      <param name="num_iter" value="2" />
-      <output name="rquant_out" file="rquant_nGASP-Train-I_rquant_case2.gff3"/>
-      <output name="profiles_fn_out" file="rquant_profiles_out.txt" />
-    </test> -->
   </tests>
   
   <help>
@@ -92,7 +58,7 @@ set transcripts based on aligned reads from an RNA-Seq experiment.
 
 `rQuant` requires two input files to run:
 
-1. Annotation file in GFF3, containing the necessary information about the transcripts that are to be quantified.
+1. Annotation file in GFF, containing the necessary information about the transcripts that are to be quantified.
 2. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
 
 For the feature Transcript Profiles you have three options:
@@ -128,7 +94,7 @@ should be cited as [1]_ or [2]_.
 
 **About formats**
 
-**GFF3 format** General Feature Format is a format for describing genes
+**GFF/GTF format** General Feature Format/ Generic Transfer Format is a format for describing genes
 and other features associated with DNA, RNA and protein
 sequences. GFF3 lines have nine tab-separated fields:
 
@@ -151,7 +117,7 @@ describing the estimated expression value for each transcript.
 
 For more information see http://www.sequenceontology.org/gff3.shtml
 
-**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a
+**BAM format** The Sequence Alignment/Map (SAM) format is a
 tab-limited text format that stores large nucleotide sequence
 alignments. BAM is the binary version of a SAM file that allows for
 fast and intensive data processing. The format specification and the
@@ -160,7 +126,7 @@ http://samtools.sourceforge.net/.
 
 ------
 
-Version 2.2 (April 2012)
+Version 2.2 (Sept 2013)
 
 </help>
 </tool>

@@ -35,8 +35,8 @@ SAMTOOLS_DIR = getenv('SAMTOOLS_DIR');
 OQTANS_DEP_PATH = getenv('OQTANS_DEP_PATH');
 
 % switch off a few expected warnings
-addpath(sprintf('%s/utils', OQTANS_DEP_PATH));
-addpath(sprintf('%s/utils/rproc', OQTANS_DEP_PATH));
+addpath(sprintf('%s/tools', RQUANT_PATH));
+addpath(sprintf('%s/src', RQUANT_PATH));
 
 engine = determine_engine();
 if isequal(engine, 'octave'),

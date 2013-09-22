@@ -32,6 +32,7 @@ LEARN_PROFILES=${7}
 PROFILES_FN_OUT=${8}
 
 mkdir -p $RQUANT_RES_DIR
+touch $RQUANT_RES_DIR/genes.mat
 
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo % 1. Data preparation %
@@ -39,9 +40,7 @@ echo %%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo load the genome annotation in GFF3 format and create an annotation object
 echo
-export PYTHONPATH=$PYTHONPATH:${SCIPY_PATH}
-${PYTHON_PATH} ${DIR}/../tools/ParseGFF.py ${ANNO_INPUT} ${RQUANT_RES_DIR}/genes.mat
-${DIR}/../bin/genes_cell2struct ${RQUANT_RES_DIR}/genes.mat 2>&1
+${PYTHON_PATH} ${DIR}/../tools/GFFParser.py ${ANNO_INPUT} ${RQUANT_RES_DIR}/genes.mat
 
 echo
 echo %%%%%%%%%%%%%%%%%%%%%
