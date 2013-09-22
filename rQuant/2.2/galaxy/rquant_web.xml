@@ -16,8 +16,8 @@
     >> $Log_File
   </command>
   <inputs>
-	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 format" help="Partial genome annotation in GFF3 format describing the known gene structures for the provided genome."/>
-    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
+	<param format="gtf,gff,gff3" name="anno_input_selected" type="data" label="Genome annotation file" help="Partial genome annotation in GFF/GTF format describing the known gene structures for the provided genome."/>
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="Can be generated from SAM files using the SAM Tools."/>
    <conditional name="profiles">
       <param name="select_profiles" type="select" label="Transcript profiles" help="Usage of transcript profiles." >
 	<option value="0">No profiles</option>
