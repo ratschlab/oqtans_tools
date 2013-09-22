@@ -1,0 +1,179 @@
+#/bin/bash
+# rDiff wrapper script to start the interpreter with the correct list of arguments
+
+set -e
+
+
+function usage () {
+echo "
+Usage: rdiff [-OPTION VALUE] 
+
+Options:
+
+   -h  Display this help
+   -o  The output directory for the results
+   -d  Directory where the bam-files are
+   -a  Comma separated list of bam-files for sample 1 (No spaces between the files: File1.bam,File2.bam,...) 
+   -b  Comma separated list of bam-files for sample 2 (No spaces between the files: File1.bam,File2.bam,...)
+   -g  Path to GFF3 gene structure
+   -L  Read length used for rDiff.parametric (Default: 75) 
+   -m  Method to use for testing:       param  for rDiff.parametric (Default)
+                                        nonparam  for rDiff.nonparametric
+                                        poisson  for rDiff.poisson
+                                        mmd  for rDiff.mmd
+
+Advanced options:
+
+   -M  Minimal read length required (Default: 30)
+   -e  Estimate the gene expression and counts in alternative regions (Yes (Default):1, No: 0)
+   -E  Only estimate the gene expression do not perform testing  (Yes:1, No (Default): 0)
+   -A  Path to variance function for sample 1 (Experimental)
+   -B  Path to variance function for sample 2 (Experimental)
+   -S  Filename under which variance function for sample 1 will be saved (Experimental)
+   -T  Filename under which variance function for sample 2 will be saved (Experimental)
+   -P  Parameters of variance function for sample 1 of the form a+b*x+b*x^2 (Given as: a,b,c) (Experimental)
+   -Q  Parameters of variance function for sample 2 of the form a+b*x+b*x^2 (Given as: a,b,c) (Experimental)
+   -y  Use only the gene start and stop for the rDiff.nonparametric variance function estimation (Yes:1, No (Default): 0) (Experimental)
+   -s  Number of reads per gene to which to downsample (Default: 10000) 
+   -C  Number of bases to clip from each end of each read (Default: 3)
+   -p  Number of permutations performed for rDiff.nonparametric (Default: 1000)
+   -x  Merge sample 1 and sample 2 for variance function estimation (Yes:1, No (Default): 0)
+
+"
+   exit 0
+}
+
+CURR_DIR=`dirname $0`
+. $CURR_DIR/rdiff_config.sh
+
+PROG=`basename $0`
+DIR=`dirname $0`
+
+
+#check if arguments are given
+[[ ! $1 ]] && { usage; }
+
+
+#Initializing defaults
+RDIFF_RES_DIR="."
+RDIFF_INPUT_DIR="."
+BAM_INPUT1=""
+BAM_INPUT2=""
+GFF_INPUT=""
+READ_LENGTH="75"
+MIN_READ_LENGTH="30"
+EST_GENE_EXPR="1"
+ONLY_GENE_EXPR="0"
+VAR_PATH1=""
+VAR_PATH2=""
+SAVE_VAR1=""
+SAVE_VAR2=""
+PRED_VAR1=""
+PRED_VAR2=""
+ONLY_GENE_START="0"
+SUBSAMPLE="10000"
+CLIP="3"
+BOOTSTRAP="1000"
+TEST_METH_NAME="param"
+
+#Parsing command line arguments
+while getopts ":d:o:a:b:g:L:m:e:E:A:B:S:T:P:Q:s:C:p:m:hx:y:" opt; do
+   case $opt in
+   o ) RDIFF_RES_DIR="$OPTARG" ;;
+   d ) RDIFF_INPUT_DIR="$OPTARG";;
+   a ) BAM_INPUT1="$OPTARG";;
+   b ) BAM_INPUT2="$OPTARG";;
+   g ) GFF_INPUT="$OPTARG";;
+   L ) READ_LENGTH="$OPTARG";;
+   M ) MIN_READ_LENGTH="$OPTARG";;
+   e ) EST_GENE_EXPR="$OPTARG";;
+   E ) ONLY_GENE_EXPR="$OPTARG";;
+   A ) VAR_PATH1="$OPTARG";;
+   B ) VAR_PATH2="$OPTARG";;
+   S ) SAVE_VAR1="$OPTARG";;
+   T ) SAVE_VAR2="$OPTARG";;
+   P ) PRED_VAR1="$OPTARG";;
+   Q ) PRED_VAR2="$OPTARG";;
+   y ) ONLY_GENE_START="$OPTARG";;
+   s ) SUBSAMPLE="$OPTARG";;
+   C ) CLIP="$OPTARG";;
+   p ) BOOTSTRAP="$OPTARG";;
+   m ) TEST_METH_NAME="$OPTARG";;
+   x ) MERGE_SAMPLE="$OPTARG";;
+   h )  usage ;exit  ;;
+   \?)  echo "Unkown parameter: $OPTARG"
+   	usage ;;
+   
+   esac
+done
+
+#Perform baic checks of variables
+
+errorFlag=true #No errors ecountered
+
+if [ -z "$BAM_INPUT1" ]; then
+    echo "Please provide bamfiles for sample 1" >&2
+    errorFlag=false
+fi
+if [ -z "$BAM_INPUT2" ]; then
+    echo "Please provide bamfiles for sample 2" >&2
+    errorFlag=false
+fi
+if [ -z "$GFF_INPUT" ]; then
+    echo "Please provide genome annotation file in GFF" >&2
+    errorFlag=false
+fi
+
+if [ ! $errorFlag ]
+then
+    echo "Error" >&2
+    exit 1
+fi
+
+
+#Generate parameter vector
+PARAM_VECT="RDIFF_RES_DIR:$RDIFF_RES_DIR;"
+PARAM_VECT="$PARAM_VECT""RDIFF_INPUT_DIR:$RDIFF_INPUT_DIR;"
+PARAM_VECT="$PARAM_VECT""BAM_INPUT1:$BAM_INPUT1;"
+PARAM_VECT="$PARAM_VECT""BAM_INPUT2:$BAM_INPUT2;"
+PARAM_VECT="$PARAM_VECT""READ_LENGTH:$READ_LENGTH;"
+PARAM_VECT="$PARAM_VECT""MIN_READ_LENGTH:$MIN_READ_LENGTH;"
+PARAM_VECT="$PARAM_VECT""EST_GENE_EXPR:$EST_GENE_EXPR;"
+PARAM_VECT="$PARAM_VECT""ONLY_GENE_EXPR:$ONLY_GENE_EXPR;"
+PARAM_VECT="$PARAM_VECT""VAR_PATH1:$VAR_PATH1;"
+PARAM_VECT="$PARAM_VECT""VAR_PATH2:$VAR_PATH2;"
+PARAM_VECT="$PARAM_VECT""SAVE_VAR1:$SAVE_VAR1;"
+PARAM_VECT="$PARAM_VECT""SAVE_VAR2:$SAVE_VAR2;"
+PARAM_VECT="$PARAM_VECT""PRED_VAR1:$PRED_VAR1;"
+PARAM_VECT="$PARAM_VECT""PRED_VAR2:$PRED_VAR2;"
+PARAM_VECT="$PARAM_VECT""ONLY_GENE_START:$ONLY_GENE_START;"
+PARAM_VECT="$PARAM_VECT""SUBSAMPLE:$SUBSAMPLE;"
+PARAM_VECT="$PARAM_VECT""CLIP:$CLIP;"
+PARAM_VECT="$PARAM_VECT""BOOTSTRAP:$BOOTSTRAP;"
+PARAM_VECT="$PARAM_VECT""TEST_METH_NAME:$TEST_METH_NAME;"
+PARAM_VECT="$PARAM_VECT""MERGE_SAMPLE:$MERGE_SAMPLE;"
+
+
+
+echo %%%%%%%%%%%%%%%%%%%%%%%
+echo % 1. Data preparation %
+echo %%%%%%%%%%%%%%%%%%%%%%%
+echo
+
+echo 1a. load the genome annotation in GFF3 format, create an annotation object 
+
+touch ${RDIFF_RES_DIR}/genes.mat
+${RDIFF_PYTHON_PATH} ${DIR}/../tools/GFFParser.py ${GFF_INPUT} ${RDIFF_RES_DIR}/genes.mat 
+
+PARAM_VECT="$PARAM_VECT""GFF_INPUT:${RDIFF_RES_DIR}/genes.mat;"
+
+echo %%%%%%%%%%%%%%%%%%%%%%%%%%%
+echo % 2. Differential testing %
+echo %%%%%%%%%%%%%%%%%%%%%%%%%%%
+echo
+
+exec ${DIR}/start_interpreter.sh ${PROG} "$PARAM_VECT"
+
+echo %%%%%%%%
+echo % Done %
+echo %%%%%%%%

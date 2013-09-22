@@ -1,0 +1,69 @@
+---------------------
+  rDiff version 0.3
+---------------------
+http://bioweb.me/rdiff
+
+DESCRIPTION
+-----------
+rDiff performs differential expression testing and 
+creates a list of gene names with corresponding 
+p-values.
+
+REQUIREMENTS
+------------
+- Octave/Matlab >=3.4
+- Python >=2.6.5 and Scipy >=0.7.1
+- SAMTools >= 0.1.7
+
+GETTING STARTED
+---------------
+To install rDiff and the required software please 
+follow the instructions in INSTALL in this directory.
+
+CONTENTS
+--------
+All relevant scripts for rDiff are located in the 
+subdirectory src. rdiff.sh is the main script to 
+start rDiff.
+
+    ./bin
+    Contains rdiff_config.sh file which is used for the configuration.
+    According to your platform, the default file will be changed.
+
+    ./galaxy
+    Galaxy tool configuration files
+
+    ./tools
+    A python based GFF parsing program. Also contains small utils 
+    programs.
+            
+    ./examples
+    This sub-directory contains all data for running a functional 
+    tests.
+
+    ./mex 
+    matlab executable files.
+
+LICENSE
+-------
+rDiff is licensed under the GPL version 3 or any later version
+(cf. LICENSE).
+
+CITE US
+-------
+If you use rDiff in your research you are kindly asked to cite 
+the following publication [1]:
+
+[1] Philipp Drewe, Oliver Stegle, Lisa Hartmann, Andŕe Kahles, 
+Regina Bohnert, Andreas Wachter, Karsten Borgwardt, Gunnar Raetsch,
+Accurate Detection of Differential RNA Processing, NAR, 2013
+
+COPYRIGHT
+---------
+Copyright (C) 
+        2009-2012 Friedrich Miescher Laboratory of the Max Planck Society, Tubingen, Germany
+        2012-2013 Memorial Sloan-Kettering Cancer Center, New York City, USA 
+
+CONTACT
+-------
+support [at] oqtans.org 
