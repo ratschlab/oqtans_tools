@@ -1,0 +1,10 @@
+-------------------------------
+MMR: Multiple Mapper Resolution
+-------------------------------
+
+MMR tool infers an optimal mapping location only on the distribution of mapped reads.
+http://www.raetschlab.org/suppl/MMR
+
+Contact 
+-------
+    support [at] oqtans.org 
