@@ -1,14 +1,34 @@
 <tool id="MMRtool" name="MMR" version="0.1">
   <description> Multiple Mapper Resolution</description>
   <requirements>
-	<requirement type="" version=""></requirement>
+	<requirement type="package" version="0.1">oqtans</requirement>
   </requirements>
   <command interpreter="bash">
     ./../src/mmr 
     -t $Threads
+    
+    #
+    ## options
+    #
+    #if $alignment_type == "yes":
+        -S
+    #end if 
 
-    ##options
+    #if $inputs.paired_or_single == "paired":
+        -p -i $fragment_length -A $max_pair_list_length
+    #end if 
 
+    #if $input2.pre-filter == "yes": 
+        -f -F $filter-dist
+    #end if 
+
+    #if $use-variants == "yes":
+        -V
+    #end if
+    
+    -L $max-list-length
+    -w $windowsize
+    -I $iterations
 
     $bam_file
     >> $Log_File
@@ -42,12 +62,16 @@
     </conditional>
 
     <!--Pre filter-->
-    <param name="pre-filter" type="select" display="radio" label="Pre-filter" help="Switch off pre filter for alignments that have F more edit operations than the best.">
-        <option value="no">No</option>
-        <option value="yes" selected="true">Yes</option>
-    </param>
-    
-    <param name="filter-dist" type="integer" value="1" min="1" label="Fiter distance (F)" help="Filter distance F for pre-filter."/> 
+    <conditional name="input2">
+        <param name="pre-filter" type="select" label="Pre-filter" help="Switch off pre filter for alignments that have F more edit operations than the best.">
+            <option value="no">No</option>
+            <option value="yes" selected="true">Yes</option>
+        </param>
+        <when value="no" />
+        <when value="yes">
+            <param name="filter-dist" type="integer" value="1" min="1" label="Fiter distance (F)" help="Filter distance F for pre-filter."/> 
+        </when>
+    </conditional>
     
     <param name="use-variants" type="select" display="radio" label="Use variants" help="Use variant alignments for filtering (different edit operation count, requires XG and XM Tag in alignment files).">
         <option value="no" selected="true">No</option>
@@ -63,7 +87,7 @@
   </inputs>
 
   <outputs>
-    <data format="bam" name="filtered_bam" label="${tool.name} on ${on_string}: Filtered Alignment file"/>
+    <data format="bam" name="filtered_bam" label="${tool.name} on ${on_string}: Filtered BAM"/>
     <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log file"/>
   </outputs>
 
@@ -73,7 +97,9 @@
 
 **What it does** 
 
-`MMR` infers an optimal mapping location only on the distribution of mapped reads.
+MMR_ infers an optimal mapping location only on the distribution of mapped reads.
+
+.. _MMR: http://bioweb.me/mmr
 
 ------
 
