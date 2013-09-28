@@ -4,20 +4,20 @@
 	<requirement type="package" version="0.1">oqtans</requirement>
   </requirements>
   <command interpreter="bash">
-     ./optimal_filter_set_galaxy.sh $anno_input_selected $sam_alignments $best_score $score_matrix $Filtered_Alignment 
+     ./optimal_filter_set_galaxy.sh $anno_input_selected $bam_alignments $best_score $score_matrix $Filtered_Alignment 
     2> /dev/null >> $Log_File
   </command>
 
   <inputs>
 	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 format" help="Partial genome annotation in GFF3 format describing the known gene structures for the provided genome."/>
-    <param format="bam" name="sam_alignments" type="data" label="BAM alignment file" help="Alignment file in BAM format."/>
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="Alignment file in BAM format."/>
   </inputs>
 
   <outputs>
-    <data format="bam" name="Filtered_Alignment" label="Optimally filtered output file"/>
-    <data format="txt" name="best_score" label="Best Scorings"/>
-    <data format="txt" name="score_matrix" label="Evaluated Filter Combinations"/>
-    <data format="txt" name="Log_File" label="SAFT log file"/>
+    <data format="bam" name="Filtered_Alignment" label="${tool.name} on ${on_string}: Optimally filtered"/>
+    <data format="txt" name="best_score" label="${tool.name} on ${on_string}: Best Scorings"/>
+    <data format="txt" name="score_matrix" label="${tool.name} on ${on_string}: Evaluated Filter Combinations"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: log file"/>
   </outputs>
 
   <help>
@@ -34,7 +34,7 @@ accuracy, measured on a given annotation in GFF format.
 
 `SAFT` requires two input files to run:
 
-1. Annotation file either in GFF3 or AGS format, containing the necessary information about the transcripts that are used for accuracy estimation.
+1. Annotation file either in GFF3, containing the necessary information about the transcripts that are used for accuracy estimation.
 2. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
 
 **Output**
@@ -55,7 +55,7 @@ should be cited as [1]_ .
 
 **References** 
 
-.. [1] Kahles, A, Bohnert, R, Behr, J, and Rätsch, G (2011): SAFT: Simple Alignment Filtering Tool. in Preparation.
+.. [1] Kahles, A, Bohnert, R, Behr, J, and Rätsch, G (2013): SAFT: Simple Alignment Filtering Tool. in Preparation.
 
 ------
 
@@ -88,7 +88,7 @@ http://samtools.sourceforge.net/.
 
 ------
 
-Version 0.2 (June 2011)
+Version 0.2 (Sept. 2013)
 
 </help>
 </tool>
