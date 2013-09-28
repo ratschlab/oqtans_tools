@@ -8,13 +8,14 @@
   </section>
   <section name="Read Mapping" id="oqtans_mapping">
    <label text="Unspliced Alignment" id="unspliced" />
-   <tool file="oqtans_tools/bowtie/0.12.7/bowtie_wrapper.xml" /> 
-   <tool file="oqtans_tools/bwa/0.6.2/galaxy/bwa_wrapper.xml" /> 
-   <tool file="oqtans_tools/palmapper/0.5/galaxy/genomemapper_wrapper.xml" />
+   <tool file="oqtans_tools/Bowtie/2.1.0/galaxy/bowtie2_wrapper.xml" /> 
+   <tool file="oqtans_tools/BWA/0.6.2/galaxy/bwa_wrapper.xml" /> 
+   <tool file="oqtans_tools/PALMapper/0.5/galaxy/genomemapper_wrapper.xml" />
    <label text="Spliced Alignment" id="spliced" />
-   <tool file="oqtans_tools/palmapper/0.5/galaxy/palmapper_wrapper.xml" />
-   <tool file="oqtans_tools/tophat/2.0.5/galaxy/tophat_wrapper.xml" />
+   <tool file="oqtans_tools/PALMapper/0.5/galaxy/palmapper_wrapper.xml" />
    <tool file="oqtans_tools/STAR/2.3/galaxy/star_aligner.xml" />
+   <tool file="oqtans_tools/TopHat/1.4.1/galaxy/tophat_wrapper.xml" />
+   <tool file="oqtans_tools/TopHat/2.0.9/galaxy/tophat2_wrapper.xml" />
    <tool file="oqtans_tools/ASP/0.3/galaxy/asp.xml" />
   </section>
   <section name="Transcript Prediction/Assembly" id="mTIM.web">
@@ -27,24 +28,26 @@
     <label text="Scripture (R4.2)" id="abinito_assmb" />
     <tool file="oqtans_tools/Scripture/galaxy/scripture.xml"/>
     <label text="Cufftools (v2.0.2)" id="rna_seq" />
-    <tool file="oqtans_tools/cufflinks/2.0.2/galaxy/cufflinks_wrapper.xml" />
-    <tool file="oqtans_tools/cufflinks/2.0.2/galaxy/cuffcompare_wrapper.xml" />
+    <tool file="oqtans_tools/Cufflinks/2.1.1/galaxy/cufflinks_wrapper.xml" />
+    <tool file="oqtans_tools/Cufflinks/2.1.1/galaxy/cuffcompare_wrapper.xml" />
+    <tool file="oqtans_tools/Cufflinks/2.1.1/galaxy/cuffmerge_wrapper.xml" />
   </section>
   <section name="Differential/Quantitative Analysis" id="diffquant-0.1">
     <tool file="oqtans_tools/rQuant/2.2/galaxy/rquant_web.xml" />
-    <tool file="oqtans_tools/rDiff/0.1/galaxy/rdiff_web.xml" />
+    <tool file="oqtans_tools/rDiff/0.3/galaxy/rdiff.xml" />
     <tool file="oqtans_tools/DESeq/1.12/galaxy/deseq.xml" />
     <tool file="oqtans_tools/DESeq2/1.0.19/galaxy/deseq2.xml" />
     <tool file="oqtans_tools/DEXSeq/1.6/galaxy/DEXSeq.xml" />
-    <tool file="oqtans_tools/cufflinks/2.0.2/galaxy/cuffdiff_wrapper.xml" />
     <tool file="oqtans_tools/edgeR/0.2/galaxy/edgeR.xml" />
+    <tool file="oqtans_tools/Cufflinks/2.1.1/galaxy/cuffdiff_wrapper.xml" />
   </section>
   <section name="Enrichment Analysis " id="enrichment-0.1">
      <tool file="oqtans_tools/topGO/galaxy/topgo.xml" />
-     <tool file="oqtans_tools/geneSetter/0.1/genesetter_conf.xml" />
+     <tool file="oqtans_tools/GeneSetter/0.1/genesetter.xml" />
   </section>
   <section name="Read Alignment Filtering " id="filtering_reads-0.2">
-     <tool file="oqtans_tools/SAFT/0.2/galaxy/SAFT.xml" />
+     <tool file="oqtans_tools/RNAgeeq/0.2/SAFT/galaxy/SAFT.xml" />
+     <tool file="oqtans_tools/RNAgeeq/0.2/MM_Resolve/galaxy/MMRtool.xml" />
   </section>
   <section name="GFF Toolkit " id="gfftools-0.1">
     <label text="Grooming Programs" id="groomer" />
