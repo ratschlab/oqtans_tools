@@ -1,19 +1,19 @@
 <tool id="fml_genbank2gff" name="GenBank_to_GFF3" version="0.1">
   <description>converter</description>
   	<command interpreter="python">
-	  genbank_to_gff_converter.py $inf_gbk > $gff_format
+	  gbk_to_gff_conv.py $inf_gbk > $gff_format
   	</command>
   	<inputs>
 		<param format="gb,gbk,genbank,txt" name="inf_gbk" type="data" label="Convert this query" help="Flat file format consists of an annotation section and a sequence section."/>
   	</inputs>
 	<outputs>
-		<data format="gff3" name="gff_format" />
+		<data format="gff3" name="gff_format" label="${tool.name} on ${on_string}: Converted GFF"/>
   	</outputs>
   	<help>
 
 **What it does**
 
-This tool converts annotations in GenBank format to Generic Feature Format Version 3 (GFF3). For more information on GenBank, please refer to `here`__
+GenBank-to-GFF3 converts annotations in GenBank format to Generic Feature Format Version 3 (GFF3). For more information on GenBank, please refer to `here`__
  .. __: http://www.ncbi.nlm.nih.gov/genbank/ 
 
 ------
@@ -80,7 +80,7 @@ This tool converts annotations in GenBank format to Generic Feature Format Versi
 
 --------
 
-This tool is a part of the **Machine Learning in Biology Group at Friedrich Miescher Laboratory of the Max Planck Society**. Copyright (C) 2010-2011 Max Planck Society
+Copyright (C) 2010-2013 Max Planck Society and Memorial Sloan-Kettering Cancer Center
 
 	</help>
 </tool>

@@ -1,20 +1,14 @@
 #!/usr/bin/env python
-"""Program to find the relationship between features in GFF dataset.
+"""
+Program to find the relationship between features in GFF dataset.
 Usage: gff_examiner.py in.gff
 """
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# Written (W) 2009-2011 Vipin T Sreedharan, Friedrich Miescher Laboratory
-# Copyright (C) 2009-2011 Max Planck Society
 
 import re, sys 
 import collections
 import urllib
 import time 
+from common_util import _open_file
 
 def _gff_line_map(line):
     """Parses a line of GFF into a dictionary.
@@ -193,9 +187,11 @@ def parent_child_id_map(gff_handle):
 
 if __name__=='__main__':
     try:
-        gff_handle = open(sys.argv[1], 'rU')
+        gff_file = sys.argv[1]
     except:
         print "Incorrect arguments supplied"
         print __doc__
         sys.exit(-1)
+    
+    gff_handle = _open_file(gff_file)
     parent_child_id_map(gff_handle)

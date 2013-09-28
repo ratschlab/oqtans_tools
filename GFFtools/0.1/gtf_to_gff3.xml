@@ -1,12 +1,15 @@
 <tool id="fml_gtf2gff3" name="GTF_to_GFF3" version="0.1">
 	<description>converter</description> 
-	<command interpreter="python">gtf_to_gff3_converter.py -q $inf_gtf -o $gff3_format 
+	<command interpreter="python">
+        gtf_to_gff_conv.py 
+        $inf_gtf 
+        > $gff3_format 
 	</command> 
 	<inputs>
-  		<param format="gff" name="inf_gtf" type="data" label="Convert this query" help="Data in Gene Transfer Format (GTF)."/>
-        </inputs>
+  		<param format="gtf,gff" name="inf_gtf" type="data" label="Convert this query" help="Data in Gene Transfer Format (GTF)."/>
+    </inputs>
   	<outputs>
-  		<data format="gff3" name="gff3_format" /> 
+  		<data format="gff3" name="gff3_format" label="${tool.name} on ${on_string}: Converted GFF"/> 
   	</outputs>
 	    <tests>
         	<test>
@@ -30,7 +33,7 @@
 
 **What it does**
 
-This tool converts data from Gene Transfer Format (GTF) to a valid Generic Feature Format Version 3 (GFF3).
+GTF-to-GFF3 converts data from Gene Transfer Format (GTF) to a valid Generic Feature Format Version 3 (GFF3).
 
 --------
 
@@ -83,7 +86,7 @@ This tool converts data from Gene Transfer Format (GTF) to a valid Generic Featu
 
 --------
 
-This tool is a part of the **Machine Learning in Biology Group at Friedrich Miescher Laboratory of the Max Planck Society**. Copyright (C) 2009-2012 Max Planck Society
+Copyright (C) 2009-2013 Max Planck Society and Memorial Sloan-Kettering Cancer Center
 
 	</help>
 </tool>
