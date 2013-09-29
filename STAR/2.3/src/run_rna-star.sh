@@ -24,8 +24,8 @@ then
     shift
 
     tmpDIR=`mktemp -d --tmpdir=/tmp`
-    #STAR --runMode genomeGenerate --genomeDir ${tmpDIR} --genomeFastaFiles ${genomeFILE} --runThreadN 4 
-    #wait
+    STAR --runMode genomeGenerate --genomeDir ${tmpDIR} --genomeFastaFiles ${genomeFILE} --runThreadN 4 
+    wait
     OPTIONS=$OPTIONS" --genomeDir $tmpDIR"    
 else
     ## built-in index  
@@ -84,7 +84,7 @@ shift
 if [ $defaultSET != "full" ];
 then 
     echo "STAR run with default settings"
-    #STAR ${OPTIONS} || echo ERROR: STAR failed
+    STAR ${OPTIONS} || echo ERROR: STAR failed
 else
     ## adding additional parameters 
     NM=${1}
@@ -117,6 +117,6 @@ else
 
     #echo ${OPTIONS} 
     ## run STAR with the provided advanced settings 
-    #STAR ${OPTIONS} || echo ERROR: STAR failed
+    STAR ${OPTIONS} || echo ERROR: STAR failed
 fi 
 wait 
