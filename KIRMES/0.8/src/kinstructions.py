@@ -105,7 +105,7 @@ def optionparse(parser):
                       help = "determines which set of example files to return (ath, gen, ...)")
     parser.add_option("-d", "--exampledir", dest = "edir", type = "string", 
                       help = "directory for the example files [auto-default: %default]")
-    parser.set_defaults(edir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "examples/"), 
+    parser.set_defaults(edir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../examples/"), 
                         eset = "gen")
 
 #######################
