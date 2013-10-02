@@ -21,6 +21,8 @@ import cPickle
 import sys
 from Bio.SeqFeature import SeqFeature
 import pdb
+from Bio import BiopythonDeprecationWarning
+warnings.simplefilter('ignore', BiopythonDeprecationWarning)
 
 def parse_options(argv):
 
