@@ -47,7 +47,7 @@ else
     filter_out="$5"
 fi
 
-SRC_DIR="$OQTANS_PATH/SAFT/0.2/"
+SRC_DIR="$OQTANS_PATH/RNAgeeq/0.2/SAFT"
 SAMTOOLS="$OQTANS_DEP_PATH/bin/"
 export PYTHONPATH="$SRC_DIR/tools/:$PYTHONPATH"
 
@@ -95,7 +95,7 @@ then
         support_string="-i ${alignment}.features_filtered"
     fi
 
-    python $SRC_DIR/filter_alignment.py -b -a $alignment -o $filter_out -e $min_ex_len -X $max_mm $support_string -s $SAMTOOLS
+    (python $SRC_DIR/filter_alignment.py -b -a $alignment -o $filter_out -e $min_ex_len -X $max_mm $support_string -s $SAMTOOLS 2>&1 ||(echo Writing BAM file failed 1>&2))
 
     echo done
     echo ""
