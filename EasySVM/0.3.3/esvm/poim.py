@@ -29,18 +29,12 @@ from numpy import ones
 def compute_poims(svm, kernel, poimdegree, max_len):
     """For a trained SVM, compute Position Oligomer Importance Matrices"""
 
-    #distr = ones((max_len,4), numpy.double)/4 ; 
-    #kernel.prepare_POIM2(distr, 4, max_len)
-    kernel.prepare_POIM3(4, max_len)
+    distr = ones((max_len,4))/4 ;
+    kernel.prepare_POIM2(distr)
 
     kernel.compute_POIM2(poimdegree, svm) ;
-    poimlen=kernel.get_POIM3_len() ; 
-    poim = numpy.zeros((poimlen), numpy.double) ;
-    for i in xrange(0,poimlen):
-       poim[i]=kernel.get_POIM3_elem(i) ;
-
-    #poim=kernel.get_POIM2()
-    kernel.cleanup_POIM2() 
+    poim = kernel.get_POIM2()
+    kernel.cleanup_POIM2()
 
     (poim, max_poim, diff_poim) = reshape_normalize_contribs(poim, poimdegree, max_len)
     (poim_weightmass, poim_totalmass) = compute_weight_mass(poim, poimdegree, max_len)

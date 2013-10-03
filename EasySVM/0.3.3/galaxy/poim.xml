@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <tool id="easypoim" name="Positional Oligomer Matrices" version="0.3.3">
 <description>Visualize SVMs with WD kernel</description>
-  <command interpreter="python">../scripts/easysvm.py 
+  <command interpreter="bash">../scripts/easysvm.sh 
         poim
         $C 
 	${poimdegree}

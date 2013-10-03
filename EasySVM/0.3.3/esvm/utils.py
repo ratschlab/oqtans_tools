@@ -23,7 +23,7 @@ import numpy
 import warnings
 import shutil
 
-from shogun.Features import Labels
+from shogun.Features import BinaryLabels
 from shogun.Evaluation import *
 
 ################################################################################
@@ -53,7 +53,7 @@ def accuracy(output, labels_test):
 def calcroc(output, LTE):
     """The area under the receiver operating characteristic curve"""
     pm=ROCEvaluation()
-    pm.evaluate(Labels(numpy.array(output)), Labels(numpy.array(LTE)))
+    pm.evaluate(BinaryLabels(numpy.array(output)), BinaryLabels(numpy.array(LTE)))
 
     auROC=pm.get_auROC()
     return auROC
@@ -61,7 +61,7 @@ def calcroc(output, LTE):
 def calcprc(output, LTE):
     """The area under the precision recall curve"""
     pm=PRCEvaluation()
-    pm.evaluate(Labels(numpy.array(output)), Labels(numpy.array(LTE)))
+    pm.evaluate(BinaryLabels(numpy.array(output)), BinaryLabels(numpy.array(LTE)))
 
     auPRC=pm.get_auPRC()
     return auPRC

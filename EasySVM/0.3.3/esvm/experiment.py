@@ -36,7 +36,7 @@ from shogun.Kernel import CommWordStringKernel, WeightedCommWordStringKernel, Co
 from shogun.Kernel import CombinedKernel
 from shogun.Kernel import SLOWBUTMEMEFFICIENT
 from shogun.Kernel import AvgDiagKernelNormalizer
-from shogun.Features import RealFeatures, Labels, StringCharFeatures, DNA, StringWordFeatures, StringUlongFeatures, PROTEIN
+from shogun.Features import RealFeatures, BinaryLabels, StringCharFeatures, DNA, StringWordFeatures, StringUlongFeatures, PROTEIN
 from shogun.Features import CombinedFeatures
 from shogun.Classifier import LibSVM,GPBTSVM
 
@@ -313,7 +313,7 @@ def train(trainex,trainlab,C,kname,kparam,seq_source,nuc_con):
         kernel.init(feats_train, feats_train)
     kernel.io.disable_progress()
     kernel.set_optimization_type(SLOWBUTMEMEFFICIENT)
-    labels = Labels(numpy.array(trainlab,numpy.double))
+    labels = BinaryLabels(numpy.array(trainlab,numpy.double))
 
     # libsvm is fine for most kernels
     if kname in ('wd', 'spec', 'cumspec', 'spec2', 'cumspec2'):

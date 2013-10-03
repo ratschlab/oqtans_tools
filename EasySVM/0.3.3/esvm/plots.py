@@ -27,7 +27,7 @@ import numpy
 import warnings
 import shutil
 
-from shogun.Features import Labels
+from shogun.Features import BinaryLabels
 from shogun.Evaluation import *
 
 def plotroc(output, LTE, draw_random=False, figure_fname="", roc_label='ROC'):
@@ -39,7 +39,7 @@ def plotroc(output, LTE, draw_random=False, figure_fname="", roc_label='ROC'):
     fontdict=dict(family="serif", weight="bold",size=7,y=1.05) ; # family="cursive"
 
     pm=ROCEvaluation()
-    pm.evaluate(Labels(numpy.array(output)), Labels(numpy.array(LTE)))
+    pm.evaluate(BinaryLabels(numpy.array(output)), BinaryLabels(numpy.array(LTE)))
 
     points=pm.get_ROC()
     points=numpy.array(points).T # for pylab.plot
@@ -71,7 +71,7 @@ def plotprc(output, LTE, figure_fname="", prc_label='PRC'):
     pylab.figure(2,dpi=300,figsize=(8,8))
 
     pm=PRCEvaluation()
-    pm.evaluate(Labels(numpy.array(output)), Labels(numpy.array(LTE)))
+    pm.evaluate(BinaryLabels(numpy.array(output)), BinaryLabels(numpy.array(LTE)))
 
     points=pm.get_PRC()
     points=numpy.array(points).T # for pylab.plot
