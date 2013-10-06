@@ -1,1 +1,0 @@
-!xterm -e top &
