@@ -1,0 +1,74 @@
+<tool id="mTIMTrain" name="mTIM-Train" version="0.2">
+  <description>data preparation and training</description>
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash"> 
+    ../src/mTIM_run.sh 
+    
+    $Genome.genome_select
+    $TrainModel.extra_files_path 
+
+    #if $Genome.genome_select == "fasta":
+        $fasta_input
+    #else:
+        $gio_input    
+    #end if  
+    
+    $anno_input 
+    $bam_alignments 
+    $accpred.extra_files_path 
+    $donpred.extra_files_path 
+
+    >> $LogFile
+
+  </command>
+  <inputs>
+
+     <!--Read alignment file-->
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="Can be generated from SAM files using the SAMTools."/>
+
+    <!-- Genome sequence infomation -->
+	<conditional name="Genome">
+		<param name="genome_select" type="select"  display="radio" label="Genome sequence information">
+			<option value="fasta">Create from FASTA</option>
+			<option value="gio">Use Genome Object from History</option>
+		</param>
+		<when value="fasta">
+			<param format="fasta" name="fasta_input" type="data" label="Genome sequence in FASTA file" help=""/>
+		</when>
+		<when value="gio">
+			<param name="gio_input" type="data" format="bin" label="Genome Object previously created" help="For instance in a previous run of mTIM train on the same genome."/>
+		</when>
+    </conditional>
+
+    <!-- Genome annotation in GFF format --> 
+    <param format="gff3,gtf,gff" name="anno_input" type="data" label="Genome annotation file" help="Partial genome annotation describing the known gene structures for the provided genome (GTF/GFF/GFF3)."/>
+
+    <!-- Splice site predictions -->
+	<param format="spf" name="accpred" type="data" label="Acceptor splice site predictions in SPF format" help="The prediction file contains a signal prediction score for each candidate acceptor splice site. It can be generated with ASP."/>
+	<param format="spf" name="donpred" type="data" label="Donor splice site predictions in SPF format" help="The prediction file contains a signal prediction score for each candidate donor splice site. It can be generated with ASP."/>
+
+  </inputs>
+
+  <outputs>
+      <data format="txt" name="LogFile" label="${tool.name} on ${on_string}: Log" />
+      <data format="txt" name="TrainModel" label="${tool.name} on ${on_string}: Model" />
+  </outputs>
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+mTIM_ margin-based Transcript Mapping from RNA-Seq.
+
+.. _mTIM: http://www.raetschlab.org/suppl/mtim 
+
+-----
+
+Version 0.2 (Sept. 2013)
+
+</help>
+</tool>

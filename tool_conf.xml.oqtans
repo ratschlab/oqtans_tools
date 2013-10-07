@@ -24,7 +24,7 @@
     <tool file="oqtans_tools/mTIM/0.2/galaxy/mTIM_Predict.xml"/>
     <tool file="oqtans_tools/mTIM/0.2/galaxy/mTIM_Eval.xml"/>
     <label text="Trinity (r2013_08_14)" id="deno_assmb" />
-    <tool file="oqtans_tools/trinity/r2013_08_14/galaxy/trinity.xml"/>
+    <tool file="oqtans_tools/Trinity/r2013_08_14/galaxy/trinity.xml"/>
     <label text="Scripture (R4.2)" id="abinito_assmb" />
     <tool file="oqtans_tools/Scripture/galaxy/scripture.xml"/>
     <label text="Cufftools (v2.0.2)" id="rna_seq" />
