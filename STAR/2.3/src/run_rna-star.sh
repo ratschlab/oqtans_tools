@@ -73,11 +73,11 @@ OPTIONS=$OPTIONS" --runThreadN 2"
 OUTPATH=${1}
 shift 
 
-mkdir -p `dirname $OUTPATH`
+mkdir -p $OUTPATH
 cd $OUTPATH
 
 mkfifo Aligned.out.sam
-cat Aligned.out.sam | samtools view -Shb - | samtools sort - Aligned.sort.out &
+(cat Aligned.out.sam | samtools view -Shb - | samtools sort - Aligned.sort.out) 2>&1 &
 
 defaultSET=${1}
 shift 
@@ -120,3 +120,18 @@ else
     STAR ${OPTIONS} || echo ERROR: STAR failed
 fi 
 wait 
+
+## moving file from working dir and cleaning up 
+OUTFILE=${1}
+shift
+mv $OUTPATH/Aligned.sort.out.bam $OUTFILE
+
+SPJNFL=${1}
+shift
+mv $OUTPATH/SJ.out.tab $SPJNFL
+
+SUMMARY=${1}
+shift
+mv $OUTPATH/Log.final.out $SUMMARY
+
+rm -fr $OUTPATH
