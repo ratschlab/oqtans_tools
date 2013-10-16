@@ -27,20 +27,12 @@ Contents:
     make necessary editing for .xml file and remaining .sh files and 
     perform few tests. 
 
-    ./setup.sh
-    Setup script for DESeq2-hts.
-
     ./mex
     matlab executable files.
 
     ./bin
     Contains deseq2_config.sh file which is used for the configuration of 
     DESeq2-hts. According to your platform, the default file will be changed.
-
-    ./test_data
-    This sub-directory contains all data for running a functional test in
-    Galaxy framework. You may need to move these test files into the test-data
-    directory.
 
     ./tools
     A python based GFF parsing program. Also contains small utils programs.
@@ -49,16 +41,16 @@ Getting started:
 ----------------
     Check for all requirements first, then
 
-    a) Run ./setup.sh and setup paths and configuration options for DESeq2-hts.
+    a) Run ./oqtans_make.sh and setup paths and configuration options for DESeq2-hts.
 
-    b) Inside the mex folder execute the make file to create platform dependent .mex files 
-	    cd mex/Makefile 
+    Inside the mex folder it execute the make file to create platform dependent .mex files 
+	    cd mex
 	    make [interpreter] 
             make octave for octave 
             make matlab for matlab 
             make all for octave and matlab 
 
-    c) Edit the Galaxy tool configuration file to adjust the path if necessary. 
+    b) Edit the Galaxy tool configuration file to adjust the path if necessary. 
 
 Licenses:
 ---------
@@ -68,9 +60,9 @@ Licenses:
     under the terms of the GNU General Public License as published by the Free Software Foundation; 
     either version 3 of the License, or (at your option) any later version.
 
-    Written (W) 2009-2012 Jonas Behr, Regina Bohnert, Andre Kahles, Gunnar Raetsch, Vipin T. Sreedharan
+    Written (W) 2009-2013 Jonas Behr, Regina Bohnert, Andre Kahles, Gunnar Raetsch, Vipin T. Sreedharan
     Copyright (C) 2009-2012 Friedrich Miescher Laboratory of the Max Planck Society, Tubingen, Germany and 
-                  2013 cBio Memorial Sloan Kettering Cancer Center, New York City, USA.
+                  2012-2013 cBio Memorial Sloan Kettering Cancer Center, New York City, USA.
 
 References:
 -----------
@@ -78,5 +70,5 @@ References:
 
 Contact:
 --------
-    vipin [at] cbio.mskcc.org 
+    support [at] oqtans.org 
 

@@ -7,7 +7,6 @@
 #
 # Copyright (C) 2009-2013 Max Planck Society & Memorial Sloan-Kettering Cancer Center 
 ##
-
 set -e 
 
 PROG=`basename $0`
@@ -28,14 +27,15 @@ shift
 GENES_FN=${1}
 shift
 
-mkdir -p `dirname $GENES_FN`
-touch ${GENES_FN}
+mkdir -p ${GENES_FN}
+touch ${GENES_FN}/genes.mat
 
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo % 1. Data preparation %
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo load the genome annotation in GFF3 format and create an annotation object
+export PYTHONPATH=$PYTHONPATH:${SCIPY_PATH}
 ${PYTHON_PATH} ${DIR}/../tools/GFFParser.py ${ANNO_INPUT} ${GENES_FN}
 echo 
 echo genome annotation stored in $GENES_FN
@@ -79,10 +79,10 @@ echo %%%%%%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo testing genes for differential expression using given read alignments
 
-
 echo "cat ${DIR}/../src/difftest_deseq2.R | $R_PATH --slave --args $tmpfile ${DESEQ_RES_FILE} $#"
 (cat ${DIR}/../src/difftest_deseq2.R | $R_PATH --slave --args ${FITTYP} $tmpfile ${DESEQ_RES_FILE} 2>&1 || (echo R script execution failed 1>&2))
 
+rm $tmpfile ${tmpfile}_COUNTS.tab ${tmpfile}_CONDITIONS.tab
 echo %%%%%%%%
 echo % Done %
 echo %%%%%%%%

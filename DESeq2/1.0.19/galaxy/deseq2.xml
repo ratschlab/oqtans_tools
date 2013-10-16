@@ -1,8 +1,16 @@
 <tool id="deseq2-hts" name="DESeq2" version="1.0.19">
   <description> Differential gene expression analysis based on the negative binomial distribution</description>
+    <requirements>
+        <requirements type="package" version="3.0.1">R</requirements>
+    </requirements>
   <command interpreter="bash"> 
-./../src/deseq2-hts.sh $anno_input_selected $deseq_out $deseq_out.extra_files_path/gene_map.mat 
+./../src/deseq2-hts.sh 
+
+$anno_input_selected 
+$deseq_out 
+$deseq_out.extra_files_path
 $distype
+
 #for $i in $replicate_groups
 #for $j in $i.replicates
 $j.bam_alignment:#slurp
@@ -11,19 +19,21 @@ $j.bam_alignment:#slurp
 #end for
     >> $Log_File </command>
   <inputs>
-	<param format="gff,gtf,gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF file" help="A tab delimited format for storing sequence features and annotations"/>
+    <!-- Genome annotation -->
+	<param format="gff,gtf,gff3" name="anno_input_selected" type="data" label="Genome annotation file" help="A tab delimited format for storing sequence features and annotations GFF/GTF/GFF3."/>
+
+    <!-- Replicate group and replicates --> 
    <repeat name="replicate_groups" title="Replicate group" min="2">
      <repeat name="replicates" title="Replicate">
-      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAMTools."/>
+      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="Can be generated from SAM files using the SAMTools."/>
      </repeat>
    </repeat>
-
+    <!-- Fitting type -->
     <param name="distype" type="select" label="Select fitting of dispersions to the mean intensity">
             <option value="parametric">Parametric</option>
             <option value="local">Local</option>
             <option value="mean" selected="true">Mean</option>
     </param>
-
   </inputs>
 
   <outputs>
@@ -33,12 +43,7 @@ $j.bam_alignment:#slurp
 
   <tests>
     <test> 
-	./deseq2-hts.sh ../test_data/deseq_c_elegans_WS200-I-regions.gff3 ../test_data/deseq_c_elegans_WS200-I-regions_deseq.txt ../test_data/genes.mat ../test_data/deseq_c_elegans_WS200-I-regions-SRX001872.bam ../test_data/deseq_c_elegans_WS200-I-regions-SRX001875.bam
-	
-      <param name="anno_input_selected" value="deseq_c_elegans_WS200-I-regions.gff3" ftype="gff3" />
-      <param name="bam_alignments1" value="deseq_c_elegans_WS200-I-regions-SRX001872.bam" ftype="bam" />
-      <param name="bam_alignments2" value="deseq_c_elegans_WS200-I-regions-SRX001875.bam" ftype="bam" />
-      <output name="deseq_out" file="deseq_c_elegans_WS200-I-regions_deseq.txt" />
+    <!--TODO-->
     </test>
   </tests> 
 
