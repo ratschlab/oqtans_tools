@@ -1,0 +1,14 @@
+Bowtie2 use its own index set. To create the new genome index
+
+Usage: bowtie2-build [option] genome.fa index_basename
+
+and add the entries in "bowtie2_indices.loc". Please make sure that the 
+fields are tab delimited, not space delimited, and have no trailing or 
+extra whitespace (this is easy to slip in by accident). 
+
+Place the .loc file under $GALAXY_PATH/tool-data/
+
+Add the table details to main "tool_data_table_conf.xml" to get load the
+built-in index in the Bowtie2 interface. 
+
+support [at] oqtans.org 
