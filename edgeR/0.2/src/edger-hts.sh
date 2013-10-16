@@ -28,14 +28,15 @@ shift
 GENES_FN=${1}
 shift
 
-mkdir -p `dirname $GENES_FN`
-touch ${GENES_FN}
+mkdir -p $GENES_FN
+touch ${GENES_FN}/genes.mat
 
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo % 1. Data preparation %
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo load the genome annotation and creating annotation object...
+export PYTHONPATH=$PYTHONPATH:${SCIPY_PATH}
 ${PYTHON_PATH} ${DIR}/../tools/GFFParser.py ${ANNO_GFF} ${GENES_FN}
 echo genome annotation object stored in $GENES_FN
 echo 
