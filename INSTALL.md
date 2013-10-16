@@ -2,7 +2,9 @@
 
 ##### Run
 
-[./oqtans_make.sh](https://github.com/ratschlab/oqtans_tools/blob/master/oqtans_make.sh) all to compile all needed software components of oqtans tools.
+bash [./oqtans_make.sh](https://github.com/ratschlab/oqtans_tools/blob/master/oqtans_make.sh) all 
+
+to compile all needed software components of oqtans tools.
 
 ##### Include the content of 
 
