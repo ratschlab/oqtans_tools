@@ -4,7 +4,7 @@
 	<requirement type="package" version="0.1">oqtans</requirement>
   </requirements>
   <command interpreter="bash"> 
-    ../src/mTIM_run.sh 
+    ../src/mTIM_Train_run.sh
     
     $Genome.genome_select
     $TrainModel.extra_files_path 

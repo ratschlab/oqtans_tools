@@ -43,7 +43,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	// this is the current solution
 	const int M3 = mxGetM(prhs[arg]);
   const int D = mxGetN(prhs[arg]);
+/*
   assert(M3 == 1);
+*/
 	double *w = mxGetPr(prhs[arg]);
 	++arg;
 	// get the delta_y_ybar [1 x t]-array
