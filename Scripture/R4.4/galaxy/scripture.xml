@@ -1,9 +1,9 @@
 <tool id="scripture" name="Scripture" version="R4.4">
     <description> ab initio transcriptome reconstruction from RNA-Seq reads</description>
-
     <command>
     ##
-    ## Scripture requires ".bam" extension for BAM files. Galaxy treat all files with .dat extension and adjusting the extenstion with a symlink
+    ## Scripture requires ".bam" extension for BAM files. Galaxy treat all files with .dat extension 
+    ## and adjusting the extenstion with a symlink
     ##
     ln -s $alformat ${alformat}.bam;
     samtools index ${alformat}.bam;
@@ -11,7 +11,7 @@
     ##
     ## Scripture starts here 
     ##
-    java -Xmx7500m -jar oqtans_tools/Scripture/src/scriptureR4.4.jar 
+    java -Xmx7500m -jar ${OQTANS_PATH}/Scripture/R4.4/src/scriptureR4.4.jar 
     -alignment ${alformat}.bam
     -chrSequence $genomesq
     -maskFileDir $scripture_log.extra_files_path
@@ -42,9 +42,11 @@
     </command>
 
     <inputs>
+        <!-- genome sequence --> 
         <param format="fasta" name="genomesq" type="data" label="Genome sequence" help="Genome sequence in FASTA format."/>
+        <!-- read alignment --> 
         <param format="bam" name="alformat" type="data" label="Read alignment data" help="Alignment file in BAM format."/>
-
+        <!-- Library type -->
         <conditional name="inputs">
 		    <param name="paired_or_single" type="select" label="Paired or Single-end data?">
                 <option value="paired">Paired</option>
@@ -65,7 +67,7 @@
                 </param>
             </when>
         </conditional>
-    	
+        <!-- Additional parameters -->	
 		<conditional name="additional_params">
             <param name="use_additional" type="select" label="Use Additional Params?">
                 <option value="no">No</option>
@@ -83,11 +85,12 @@
     </inputs>
 
     <outputs>
-        <data format="txt" name="scripture_log" label="${tool.name} on ${on_string}: log" />
+        <data format="txt" name="scripture_log" label="${tool.name} on ${on_string}: Log" />
         <data format="bed" name="assembled_transcripts" label="${tool.name} on ${on_string}: Assembled Transcripts" />
     </outputs>
 
     <tests>
+    <!-- TODO-->
     </tests>
     <help>
         Scripture_ is a de novo transcript assembler that uses RNA-seq data as input. 
