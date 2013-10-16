@@ -4,7 +4,7 @@
 #
 set -e 
 
-source ../../../oqtans_config.sh
+source ./../../../oqtans_config.sh
 
 cd $OQTANS_PATH/Trinity/r2013_08_14
 if [ "$1" == "" -o "$1" == "all" ];
