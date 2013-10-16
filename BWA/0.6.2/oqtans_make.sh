@@ -1,10 +1,12 @@
 #!/bin/bash
-
+#
+# oqtans submodule compile program
+# 
 set -e 
 
-source ../../oqtans_conf.sh
+source ./../../../oqtans_config.sh
 
-cd $OQTANS_PATH/bwa/0.6.2
+cd $OQTANS_PATH/BWA/0.6.2
 if [ "$1" == "" -o "$1" == "all" ];
 then
     make 
