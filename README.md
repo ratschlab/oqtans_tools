@@ -32,12 +32,13 @@ To use the buit-in genome reference index files, please edit the index configura
     STAR
 
 To generate new reference genome index please follow the instructions in README
-example: [README](https://github.com/ratschlab/oqtans_tools/blob/master/PALMapper/0.5/galaxy/README)
+
+   example: [README](https://github.com/ratschlab/oqtans_tools/blob/master/PALMapper/0.5/galaxy/README)
 
 TODO:
    automatic genome index generation or syncing from a remote source.
 
 ##### Contact
-###### -------
+###### ========
 
 support [at] oqtans.org
