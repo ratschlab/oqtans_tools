@@ -1,5 +1,5 @@
 ----------------------
-  rQuant version 2.1
+  rQuant version 2.2
 ----------------------
 
 DESCRIPTION
@@ -9,7 +9,7 @@ estimate the effect of biases introduced by experimental settings.
 
 REQUIREMENTS
 - Octave or Matlab
-- Python >=2.6.5 and Scipy >=0.7.1
+- Python >=2.6 and Scipy >=0.7.1
 - SAMTools >= 0.1.7
 
 GETTING STARTED

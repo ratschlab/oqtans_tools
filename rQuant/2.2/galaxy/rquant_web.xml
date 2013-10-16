@@ -39,7 +39,7 @@
     <data format="txt" name="profiles_fn_out" label="${tool.name} on ${on_string}: Profile file" >
       <filter>profiles['select_profiles'] == "2"</filter>
     </data>
-    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}:Log file"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log file"/>
   </outputs>
 
   <tests>
