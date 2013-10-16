@@ -7,6 +7,7 @@
 [Available under GPL license](http://www.gnu.org/licenses/gpl.html)
 
 As stated in [./INSTALL](https://github.com/ratschlab/oqtans_tools/blob/master/INSTALL) file, to compile binary files associated with oqtans tool components, execute:
+
    bash [oqtans\_make.sh](https://github.com/ratschlab/oqtans_tools/blob/master/oqtans_make.sh) all
 
 This will compile the necessary files for following programs:
