@@ -1,6 +1,6 @@
 <tool id="motifgen-fasta" name="MotifGen (FASTA)" version="0.3.3">
   <description>Generation of a sequence toy data set for motif discovery in FASTA format.</description>
-  <command interpreter="bash">../scripts/datagen.sh motif fasta $p_motif
+  <command interpreter="python">../scripts/datagen.py motif fasta $p_motif
   $p_number_of_sequences $p_length $p_position
   $p_mutation_rate $outfile_fasta
   </command>
@@ -54,7 +54,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License                       
 along with this program; if not, see http://www.gnu.org/licenses                       
 or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
-Fifth Floor, Boston, MA 02110-1301  USA    
+Fifth Floor, Boston, MA 02110-1301  USA                                                
 
   </help>
 </tool>

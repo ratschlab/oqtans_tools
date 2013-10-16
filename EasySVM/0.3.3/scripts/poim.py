@@ -1,9 +1,9 @@
-"""
-This module contains code for computing
-Position Oligomer Importance Matrices
-"""
-
 #############################################################################################
+#                                                                                           #
+#    This class is part of the MLB-Galaxy package, adding some sequence analysis            #
+#    functionality to PSU's Galaxy framework.                                               #
+#    Copyright (C) 2008 Gunnar Raetsch <Gunnar.Raetsch@tuebingen.mpg.de>                    #
+#    Copyright (C) 2007 Sebastian J. Schultheiss <sebi@umich.edu>                           #
 #                                                                                           #
 #    This program is free software; you can redistribute it and/or modify                   #
 #    it under the terms of the GNU General Public License as published by                   #
@@ -21,28 +21,14 @@ Position Oligomer Importance Matrices
 #    Fifth Floor, Boston, MA 02110-1301  USA                                                #
 #                                                                                           #
 #############################################################################################
+#                                                                                           #
+#  Original Author: Soeren Sonnenburg, Alexander Zien, Petra Philips                        #
+#  Please add a notice of any modifications here:                                           #
+#     Gunnar Raetsch: ported the relevant portions to python                                #
+#                                                                                           #
+#############################################################################################
 
 import numpy
-from numpy import ones
-
-
-def compute_poims(svm, kernel, poimdegree, max_len):
-    """For a trained SVM, compute Position Oligomer Importance Matrices"""
-
-    distr = ones((max_len,4))/4 ;
-    kernel.prepare_POIM2(distr)
-
-    kernel.compute_POIM2(poimdegree, svm) ;
-    poim = kernel.get_POIM2()
-    kernel.cleanup_POIM2() 
-
-    (poim, max_poim, diff_poim) = reshape_normalize_contribs(poim, poimdegree, max_len)
-    (poim_weightmass, poim_totalmass) = compute_weight_mass(poim, poimdegree, max_len)
-
-    poim_totalmass=poim_totalmass/numpy.sum(poim_totalmass)
-
-    return (poim, max_poim, diff_poim, poim_totalmass)
-
 
 def compute_weight_mass(C, maxOrder, seqLen):
 
