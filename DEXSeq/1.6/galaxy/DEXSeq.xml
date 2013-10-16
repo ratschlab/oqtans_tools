@@ -1,5 +1,9 @@
 <tool id="dexseq-hts" name="DEXSeq" version="1.6.0">
     <description> Inference of differential exon usage in RNA-Seq</description>
+    <requirements>
+        <requirements type="package" version="3.0.1">R</requirements>
+        <requirements type="python-module" version="">HTSeq</requirements>
+    </requirements>
     <command interpreter="bash"> 
     ./../src/DEXseq-hts.sh 
     $anno_input
