@@ -1,0 +1,14 @@
+PALMapper use the same as GenomeMapper index set. To create the new genome index
+
+Usage: $OQTANS_PATH/PALMapper/0.5/pmidex genome.fa
+
+and add the entries in "genomemapper_indices.loc". Please make sure that the 
+fields are tab delimited, not space delimited, and have no trailing or 
+extra whitespace (this is easy to slip in by accident). 
+
+Place the .loc file under $GALAXY_PATH/tool-data/
+
+Please adapt the path in qpalma_parameters.loc according to the local deployment
+to get the default QPALMA parameter file in the PALMapper interface. 
+
+support [at] oqtans.org 

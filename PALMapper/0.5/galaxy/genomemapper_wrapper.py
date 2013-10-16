@@ -12,7 +12,6 @@ def stop_err( msg ):
  
 def __main__():
     #Parse Command Line
-    os.environ['PATH']=os.environ['PATH']+":"+os.environ['OQTANS_PATH']+ "/palmapper/0.5/"
     parser = optparse.OptionParser()
     parser.add_option('', '--threads', dest='threads', help='The number of threads to run')
     parser.add_option('', '--input1', dest='input1', help='The (forward or single-end) reads file in Sanger FASTQ format')

@@ -2,9 +2,9 @@
 
 set -e 
 
-source ../../oqtans_conf.sh
+source ./../../../oqtans_config.sh
 
-cd $OQTANS_PATH/palmapper/0.5
+cd $OQTANS_PATH/PALMapper/0.5
 if [ "$1" == "" -o "$1" == "all" ];
 then
     make all

@@ -10,7 +10,6 @@ def stop_err( msg ):
     sys.exit()
  
 def __main__():
-    os.environ['PATH']=os.environ['PATH']+":"+os.environ['OQTANS_PATH']+ "/palmapper/0.5/"
     stime = time.asctime( time.localtime(time.time()) )
     print '----------------------------------------------'
     print 'PALMapper started on ' + stime
