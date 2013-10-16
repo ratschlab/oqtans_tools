@@ -28,7 +28,8 @@ shift
 GENES_FN=${1}
 shift
 
-mkdir -p `dirname $GENES_FN`
+mkdir -p $GENES_FN
+touch ${GENES_FN}/genes.mat
 
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo % 1. Data preparation %
@@ -36,8 +37,7 @@ echo %%%%%%%%%%%%%%%%%%%%%%%
 echo
 echo load the genome annotation in GFF3 format and create an annotation object
 export PYTHONPATH=$PYTHONPATH:${SCIPY_PATH}
-${PYTHON_PATH} ${DIR}/../tools/ParseGFF.py ${ANNO_INPUT} ${GENES_FN}
-${DIR}/../bin/genes_cell2struct ${GENES_FN} 
+${PYTHON_PATH} ${DIR}/../tools/GFFParser.py ${ANNO_INPUT} ${GENES_FN}
 echo 
 echo genome annotation stored in $GENES_FN
 

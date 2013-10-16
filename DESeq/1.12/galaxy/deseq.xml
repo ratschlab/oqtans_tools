@@ -1,22 +1,28 @@
 <tool id="deseq-hts" name="DESeq" version="1.12.1">
   <description> Determines differentially expressed transcripts from read alignments</description>
-  <requirements>
-	<requirement type="package" version="0.1">oqtans</requirement>
-  </requirements>
+    <requirements>
+        <requirements type="package" version="3.0.1">R</requirements>
+    </requirements>
   <command interpreter="bash"> 
-./../src/deseq-hts.sh $anno_input_selected $deseq_out $deseq_out.extra_files_path/gene_map.mat 
+./../src/deseq-hts.sh 
+
+$anno_input_selected
+$deseq_out 
+$deseq_out.extra_files_path
+
 #for $i in $replicate_groups
 #for $j in $i.replicates
 $j.bam_alignment:#slurp
 #end for
 
 #end for
+
     >> $Log_File </command>
   <inputs>
-	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 file" help="A tab delimited format for storing sequence features and annotations"/>
+	<param format="gff3,gtf.gff" name="anno_input_selected" type="data" label="Genome annotation file" help="A tab delimited format for storing sequence features and annotations GTF/GFF/GFF3."/>
    <repeat name="replicate_groups" title="Replicate group" min="2">
      <repeat name="replicates" title="Replicate">
-      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="BAM alignment file. Can be generated from SAM files using the SAM Tools."/>
+      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="Can be generated from SAM files using the SAM Tools."/>
      </repeat>
    </repeat>
   </inputs>
@@ -28,13 +34,7 @@ $j.bam_alignment:#slurp
 
   <tests>
     <test> 
-	command:
-	./deseq-hts.sh ../test_data/deseq_c_elegans_WS200-I-regions.gff3 ../test_data/deseq_c_elegans_WS200-I-regions_deseq.txt ../test_data/genes.mat ../test_data/deseq_c_elegans_WS200-I-regions-SRX001872.bam ../test_data/deseq_c_elegans_WS200-I-regions-SRX001875.bam
-	
-      <param name="anno_input_selected" value="deseq_c_elegans_WS200-I-regions.gff3" ftype="gff3" />
-      <param name="bam_alignments1" value="deseq_c_elegans_WS200-I-regions-SRX001872.bam" ftype="bam" />
-      <param name="bam_alignments2" value="deseq_c_elegans_WS200-I-regions-SRX001875.bam" ftype="bam" />
-      <output name="deseq_out" file="deseq_c_elegans_WS200-I-regions_deseq.txt" />
+    <!-- TODO-->
     </test>
   </tests> 
 
@@ -50,7 +50,7 @@ DESeq_ is a tool for differential expression testing of RNA-Seq data.
 
 `DESeq` requires:
 
-Genome annotation file in GFF3, containing the necessary information about the transcripts that are to be quantified.
+Genome annotation file in GFF, containing the necessary information about the transcripts that are to be quantified.
 
 The BAM alignment files grouped into replicate groups, each containing several replicates. BAM files store the read alignments, The program will also work with only two groups containing only a single replicate each. However, this analysis has less statistical power and is therefore not recommended!
 
@@ -74,7 +74,7 @@ should be cited as [1]_.
 **About formats**
 
 
-**GFF3 format** General Feature Format is a format for describing genes
+**GFF/GTF format** General Feature Format/Gene Transfer Format is a format for describing genes
 and other features associated with DNA, RNA and protein
 sequences. GFF3 lines have nine tab-separated fields:
 

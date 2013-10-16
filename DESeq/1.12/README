@@ -1,6 +1,6 @@
-----------------------------------------------------
+------------------------------------------------
 DESeq: A Galaxy wrapper for DESeq version 1.12.1
-----------------------------------------------------
+------------------------------------------------
 
 Description:
 ------------
@@ -27,20 +27,12 @@ Contents:
     make necessary editing for .xml file and remaining .sh files and 
     perform few tests. 
 
-    ./setup_deseq-hts.sh
-    Setup script for DESeq-hts.
-
     ./mex
     matlab executable files.
 
     ./bin
     Contains deseq_config.sh file which is used for the configuration of 
     DESeq-hts. According to your platform, the default file will be changed.
-
-    ./test_data
-    This sub-directory contains all data for running a functional test in
-    Galaxy framework. You may need to move these test files into the test-data
-    directory.
 
     ./tools
     A python based GFF parsing program. Also contains small utils programs.
@@ -49,16 +41,16 @@ Getting started:
 ----------------
     Check for all requirements first, then
 
-    a) Run ./setup_deseq-hts.sh and setup paths and configuration options for DESeq-hts.
+    a) Run ./oqtans_make.sh and setup paths and configuration options for DESeq-hts.
 
-    b) Inside the mex folder execute the make file to create platform dependent .mex files 
-	    cd mex/Makefile 
+    Inside the mex folder it execute the make file to create platform dependent .mex files 
+	    cd mex/
 	    make [interpreter] 
             make octave for octave 
             make matlab for matlab 
             make all for octave and matlab 
 
-    c) Edit the Galaxy tool configuration file to adjust the path if necessary. 
+    b) Edit the Galaxy tool configuration file to adjust the path if necessary. 
 
 Licenses:
 ---------
