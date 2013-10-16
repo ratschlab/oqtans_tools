@@ -21,6 +21,7 @@ import cPickle
 import sys
 from Bio.SeqFeature import SeqFeature
 import pdb
+import warnings
 from Bio import BiopythonDeprecationWarning
 warnings.simplefilter('ignore', BiopythonDeprecationWarning)
 

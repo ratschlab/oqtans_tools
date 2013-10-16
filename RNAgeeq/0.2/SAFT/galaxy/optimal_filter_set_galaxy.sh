@@ -46,7 +46,6 @@ then
 else
     filter_out="$5"
 fi
-
 SRC_DIR="$OQTANS_PATH/RNAgeeq/0.2/SAFT"
 SAMTOOLS="$OQTANS_DEP_PATH/bin/"
 export PYTHONPATH="$SRC_DIR/tools/:$PYTHONPATH"
@@ -76,7 +75,7 @@ echo ""
 
 echo "Search for optimal filter setting"
 echo ""
-python $SRC_DIR/find_optimal_param_set.py -v -i ${annotation}.introns -f ${alignment}.features -b $best_score -m $score_matrix
+python  $SRC_DIR/find_optimal_param_set.py -v -i ${annotation}.introns -f ${alignment}.features -b $best_score -m $score_matrix
 echo "done"
 echo ""
 
@@ -100,4 +99,3 @@ then
     echo done
     echo ""
 fi
-

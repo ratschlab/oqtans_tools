@@ -5,7 +5,7 @@
   </requirements>
   <command interpreter="bash">
      ./optimal_filter_set_galaxy.sh $anno_input_selected $bam_alignments $best_score $score_matrix $Filtered_Alignment 
-    2> /dev/null >> $Log_File
+     >> $Log_File
   </command>
 
   <inputs>
