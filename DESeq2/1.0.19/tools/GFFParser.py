@@ -285,12 +285,15 @@ def _format_gene_models(parent_nf_map, child_nf_map):
         g_cnt += 1 
 
     ## deleting empty gene records from the main array
+    XPFLG=0
     for XP, ens in enumerate(gene):
         if ens[0]==0:
+            XPFLG=1
             break
-
-    XQC = range(XP, len(gene)+1)
-    gene = np.delete(gene, XQC)
+    
+    if XPFLG==1:
+        XQC = range(XP, len(gene)+1)
+        gene = np.delete(gene, XQC)
 
     return gene 
 
