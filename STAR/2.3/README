@@ -12,13 +12,10 @@ Contents:
     Galaxy tool configuration file can be found here. Please make necessary editing 
     for .xml files. STAR genome index are added to the .loc file and please make sure
     that the fields are seperated with tab-delimited (not space delimited). Then please 
-    add the content of file tool_data_table_conf.xml to the instances tool_data_table_conf.xml 
-    file. 
+    add the content of file tool_data_table_conf.xml.sample to the instances 
+    tool_data_table_conf.xml file. 
 
-./src
-    All relevant scripts for STAR are located in the subdirectory src. src/run_rna-star.sh 
-    is the main script to start STAR aligner. Please follow the shell script to understand 
-    the details.
+    Please follow the shell script to understand the details of wrapper script works.
 
 Licenses:
 ---------
