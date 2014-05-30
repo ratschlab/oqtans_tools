@@ -26,7 +26,7 @@
 #
 #mm10	mm10	Mouse (mm10)	/depot/data2/galaxy/mm10/bowtie2/mm10
 #dm3	dm3		D. melanogaster (dm3)	/depot/data2/galaxy/mm10/bowtie2/dm3
-#
-Zv9	Zv9	D. rerio (Zebrafish Zv9)	/home/vipin/genomeIndex/D_rerio/
-Galgal4	Galgal4	G. gallus (Chicken Galgal4)	/home/vipin/genomeIndex/G_gallus/
-JGI_4.2	JGI_4.2	X. tropicalis (Xenopus JGI_4.2)	/home/vipin/genomeIndex/X_tropicalis/
+#Zv9	Zv9	D. rerio (Zebrafish Zv9)	/home/vipin/genomeIndex/D_rerio/
+#Galgal4	Galgal4	G. gallus (Chicken Galgal4)	/home/vipin/genomeIndex/G_gallus/
+#JGI_4.2	JGI_4.2	X. tropicalis (Xenopus JGI_4.2)	/home/vipin/genomeIndex/X_tropicalis/
+# 

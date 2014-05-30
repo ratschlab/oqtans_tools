@@ -5,7 +5,7 @@
         <requirement type="package">samtools</requirement>
     </requirements>
     <command interpreter="bash">
-        ./../src/run_rna-star.sh
+        ./star_aligner_wrapper.sh
 
         ## reference genome 
         #if $refGenomeSource.genomeSource == "indexed":
