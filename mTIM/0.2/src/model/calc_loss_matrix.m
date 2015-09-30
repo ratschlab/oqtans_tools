@@ -16,8 +16,18 @@ function loss_matrix = calc_loss_matrix(true_state_seq, state_model, PAR)
 %
 % written by Georg Zeller & Gunnar Raetsch, MPI Tuebingen, Germany, 2008-2011
 
+fp_loss = 0.6;
+fn_loss = 0.4; % TODO: was 0.4 for the good version pred2011-04-28_14h56
+
+% 2nd try
+% TODO: 10.10.2012
+% 1. set the false positive penelization lower to increase sensitivity
+% 2. wrong_level_loss is 0.05 for all levels (=increase specificity for low levels)
+% 3. increase intron to ige penelization in order to decrease amount of splitted genes
+% 4. increase exon to ige penelization in order to decrease amount of splitted genes
 fp_loss = 0.5;
-fn_loss = 0.5; % TODO: was 0.4 for the good version pred2011-04-28_14h56
+fn_loss = 0.5;
+
 
 if isfield(PAR, 'exon_intron_loss'),    
   exon_intron_loss = PAR.exon_intron_loss;
@@ -35,6 +45,8 @@ if isfield(PAR, 'level_loss') && PAR.level_loss == 1,
 else
   level_loss = ones(1,PAR.num_levels);
 end
+% TODO: 10.10.2012
+wrong_level_loss        = 0.01;
 wrong_level_loss        = 0.01;
 intron_boundary_loss    = 10; % TODO: was 5 for the good version pred2011-04-28_14h56
 
@@ -73,8 +85,13 @@ loss([exc_idx' inc_idx'], exw_idx) = strand_loss;
 loss([exc_idx' inc_idx'], inw_idx) = strand_loss; 
 
 % Have a loss for false positive exon and intron predictions
+% TODO: 10.10.2012
 loss([exw_idx' exc_idx'], STATES.IGE) = fp_loss;
-loss([inw_idx' inc_idx'], STATES.IGE) = 0.8*fp_loss; % TODO: was 1 for the good version pred2011-04-28_14h56
+
+
+% TODO: 10.10.2012
+%loss([inw_idx' inc_idx'], STATES.IGE) = 0.8*fp_loss; % TODO: was 1 for the good version pred2011-04-28_14h56
+loss([inw_idx' inc_idx'], STATES.IGE) = 1.0*fp_loss; % TODO: was 1 for the good version pred2011-04-28_14h56
  
 % Have the loss for false negative predictions (exons & introns) weighted by
 % expression level, i.e. penalize low expressed exons that go undetected
@@ -104,22 +121,31 @@ loss([ilc_idx'],            [iiw_idx' ifw_idx' exw_idx']) = intron_boundary_loss
 
  % TODO: was 0 (non-existent) for the good version pred2011-04-28_14h56
 % Have a loss for false-negative intron boundary states
-loss([STATES.IGE iiw_idx' ilw_idx' exw_idx'], [ifw_idx']) = 0.2*intron_boundary_loss;
-loss([iic_idx' ilc_idx' exc_idx'],            [ifw_idx']) = 0.2*intron_boundary_loss;
-loss([STATES.IGE iic_idx' ilc_idx' exc_idx'], [ifc_idx']) = 0.2*intron_boundary_loss;
-loss([iiw_idx' ilw_idx' exw_idx'],            [ifc_idx']) = 0.2*intron_boundary_loss;
-loss([STATES.IGE iiw_idx' ifw_idx' exw_idx'], [ilw_idx']) = 0.2*intron_boundary_loss;
-loss([iic_idx' ifc_idx' exc_idx'],            [ilw_idx']) = 0.2*intron_boundary_loss;
-loss([STATES.IGE iic_idx' ifc_idx' exc_idx'], [ilc_idx']) = 0.2*intron_boundary_loss;
-loss([iiw_idx' ifw_idx' exw_idx'],            [ilc_idx']) = 0.2*intron_boundary_loss;
+
+% TODO: 10.10.2012
+FN_INTRON_LOSS = 0.2;
+FN_INTRON_LOSS = 0.2;
+loss([STATES.IGE iiw_idx' ilw_idx' exw_idx'], [ifw_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([iic_idx' ilc_idx' exc_idx'],            [ifw_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([STATES.IGE iic_idx' ilc_idx' exc_idx'], [ifc_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([iiw_idx' ilw_idx' exw_idx'],            [ifc_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([STATES.IGE iiw_idx' ifw_idx' exw_idx'], [ilw_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([iic_idx' ifc_idx' exc_idx'],            [ilw_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([STATES.IGE iic_idx' ifc_idx' exc_idx'], [ilc_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
+loss([iiw_idx' ifw_idx' exw_idx'],            [ilc_idx']) = FN_INTRON_LOSS*intron_boundary_loss;
 
 
 % Also penalize if expression levels are confused for exon states
 % in a manner increasing with level difference
 level_lm = zeros(PAR.num_levels);
-for i=1:PAR.num_levels-1,
-  level_lm = level_lm + diag(repmat(i*wrong_level_loss,1,PAR.num_levels-i), i);
-  level_lm = level_lm + diag(repmat(i*wrong_level_loss,1,PAR.num_levels-i), -i);
+
+% TODO: 10.10.2012
+%for i=1:PAR.num_levels-1,
+i = 1;
+for n=1:PAR.num_levels-1,
+  i = n;
+  level_lm = level_lm + diag(repmat(i*wrong_level_loss,1,PAR.num_levels-n), +n);
+  level_lm = level_lm + diag(repmat(i*wrong_level_loss,1,PAR.num_levels-n), -n);
 end
 loss(eiw_idx, eiw_idx) = level_lm;
 loss(eic_idx, eic_idx) = level_lm;
@@ -133,6 +159,15 @@ assert(all(diag(loss))==0);
 %keyboard
 
 loss_matrix = compute_loss_matrix(loss, true_state_seq);
+
+% simple hamming loss:
+% of course, performance drops, but not as much as expected...
+%
+%loss_matrix = ones(size(loss,1),length(true_state_seq));
+%for i=1:length(true_state_seq),
+%  loss_matrix(true_state_seq(i),i) = 0.0;
+%end
+
 
 if PAR.extra_checks,
   l = 0;

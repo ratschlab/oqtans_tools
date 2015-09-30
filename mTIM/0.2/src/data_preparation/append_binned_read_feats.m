@@ -9,7 +9,7 @@ function feats = append_binned_read_feats(chunks, feats, CFG)
 % based on append_read_feats 
 % by Georg Zeller, Pramod Mudrakarta & Andre Kahles, MPI Tuebingen, Germany, 2009-2011
 
-assert(issorted(chunks, 'rows'));
+%assert(issorted(chunks, 'rows'));
 tic
 
 L = sum(chunks(:,3)-chunks(:,2)+1);
@@ -24,6 +24,7 @@ bak = CFG.read_intron_span_min_score;
 % for future extensions sort the levels
 % array to be in ascending order
 levels = [0,10,25];
+levels = [0,20,35]; % new levels for d.melanogaster 130107
 levels = sort(levels,'ascend');
 
 intron_feat = [];
@@ -40,7 +41,9 @@ end
 % Subtract the higher levels from the lower to
 % get a clean representation.
 for i=length(levels)-1:-1:1,
-    bins{i} = bins{i}-bins{i+1};
+    for j=1:i,
+        bins{j} = bins{j}-bins{i+1};
+    end
 end
 
 % Add the features in ascending order.

@@ -1,12 +1,14 @@
 <tool id="fml_bed2gff" name="BED_to_GFF3" version="0.1">
 	<description>converter</description>
-	<command interpreter="python">bed_to_gff3_converter.py -q $inf_bed -o $gff_format 
+	<command interpreter="python">
+        bed_to_gff_conv.py 
+        $inf_bed > $gff_format 
 	</command> 
 	<inputs>
   		<param format="bed" name="inf_bed" type="data" label="Convert this query" help="Data in Browser Extensible Data format."/>
     </inputs>
   	<outputs>
-  		<data format="gff3" name="gff_format"/> 
+  		<data format="gff3" name="gff_format" label="${tool.name} on ${on_string}: Converted GFF"/> 
   	</outputs>
 	<tests>
         <test>
@@ -22,7 +24,7 @@
 
 **What it does**
 
-This tool converts data from a 12 column UCSC wiggle Browser Extensible Data (BED) format to Generic Feature Format Version 3 (GFF3).
+BED-to-GFF3 converts data from a 12 column UCSC wiggle Browser Extensible Data (BED) format to Generic Feature Format Version 3 (GFF3).
 
 --------
 
@@ -79,7 +81,7 @@ The additional BED fields (optional) are::
 
 --------
 
-This tool is a part of the **Machine Learning in Biology Group at Friedrich Miescher Laboratory of the Max Planck Society**. Copyright (C) 2010-2011 Max Planck Society
+Copyright (C) 2010-2013 Max Planck Society and Memorial Sloan-Kettering Cancer Center
 
 	</help>
 </tool>

@@ -32,6 +32,7 @@ LEARN_PROFILES=${7}
 PROFILES_FN_OUT=${8}
 
 mkdir -p $RQUANT_RES_DIR
+touch $RQUANT_RES_DIR/genes.mat
 
 echo %%%%%%%%%%%%%%%%%%%%%%%
 echo % 1. Data preparation %
@@ -40,8 +41,7 @@ echo
 echo load the genome annotation in GFF3 format and create an annotation object
 echo
 export PYTHONPATH=$PYTHONPATH:${SCIPY_PATH}
-${PYTHON_PATH} ${DIR}/../tools/ParseGFF.py ${ANNO_INPUT} ${RQUANT_RES_DIR}/genes.mat
-${DIR}/../bin/genes_cell2struct ${RQUANT_RES_DIR}/genes.mat 2>&1
+${PYTHON_PATH} ${DIR}/../tools/GFFParser.py ${ANNO_INPUT} ${RQUANT_RES_DIR}/genes.mat
 
 echo
 echo %%%%%%%%%%%%%%%%%%%%%
@@ -51,7 +51,7 @@ echo
 
 echo quantify transcripts using given alignments
 echo 
-${DIR}/../bin/rquant ${RQUANT_RES_DIR} ${BAM_INPUT} ${RQUANT_RES_FILE} ${RQUANT_RES_DIR}/ ${LOAD_PROFILES} ${PROFILES_FN} ${LEARN_PROFILES} ${PROFILES_FN_OUT} 2>&1
+(${DIR}/../bin/rquant ${RQUANT_RES_DIR} ${BAM_INPUT} ${RQUANT_RES_FILE} ${RQUANT_RES_DIR}/ ${LOAD_PROFILES} ${PROFILES_FN} ${LEARN_PROFILES} ${PROFILES_FN_OUT} 2>&1 || (echo rquant failed 1>&2))
 echo
 echo %%%%%%%%
 echo % Done %

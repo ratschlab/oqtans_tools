@@ -1,0 +1,5 @@
+    <!-- STAR aligner genome indexes --> 
+    <table name="star_indexes" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="tool-data/star_indices.loc" />
+    </table>

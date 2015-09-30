@@ -1,0 +1,58 @@
+<tool id="genesetter" name="GeneSetter" version="0.1">
+	<description> plots family of diff. or not or expressed genes</description> 
+	<command interpreter="python">
+        genesetter_main.py 
+        $in_family_info 
+        $in_gene_exp_info 
+        $out_dist 
+	</command> 
+	<inputs>
+  		<param format="txt" name="in_family_info" type="data" label="Gene family related information" help="Gene name and associated family details."/>
+  		<param format="txt" name="in_gene_exp_info" type="data" label="Gene expression score from RNA-Seq data" help="Differential expression result from rDiff/DESeq/edgeR." />
+    </inputs>
+
+  	<outputs>
+  		<data format="png" name="out_dist" label="${tool.name} on ${on_string}: Plot"/> 
+  	</outputs>
+  	<help>
+
+**What it does**
+
+`GeneSetter` plots the difference in gene expression based on gene families in an organism.
+
+--------
+
+**Tool requires**
+
+- Gene family related information in a text file::
+
+	AT1G01010       NAC_transcription_factor
+	AT1G01030       B3_transcription_factor
+	AT1G01060       MYB_related_transcription_factor
+	AT1G01070       nodulin_like
+	AT1G01100       cytoplasmic_ribosomal
+
+- Gene expression profile from RNA-Seq data, can be created from rDiff/DESeq::
+
+	AT1G01010       0.571091911653599
+	AT1G01020       0.215031793116829
+	AT1G01030       0.579083819481324
+	AT1G01040       0.435609826790365
+	AT1G01046       0.580321410223207
+
+--------
+
+**About formats**
+
+**Gene family info format** 
+
+	A tab-delimited format gives the mapping of gene identifier to the given family of an organism  
+
+**rDiff/DESeq/edgeR expression profiling** 
+
+	P-value generated for each gene in an organism based on multiple statistical testing on RNA-Seq reads coverage 
+
+Copyright (C) 2013 Friedrich Miescher Laboratory of the Max Planck Society and Memorial Sloan-Kettering Cancer Center.
+
+	</help>
+</tool>

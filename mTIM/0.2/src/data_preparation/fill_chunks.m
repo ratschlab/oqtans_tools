@@ -30,7 +30,12 @@ signal = append_read_feats(chunks, signal, CFG);
 % append predicted splice sites to feature matrix
 signal = append_splice_feats(chunks, signal, CFG);
 % append pair features
-signal = append_pair_feats(chunks, signal, CFG);
+if (CFG.PAR.use_pair_feats),
+    signal = append_pair_feats(chunks, signal, CFG);
+else
+    signal = [signal; zeros(3,size(signal,2))];
+    fprintf('fill_chunks: dont generate pair feature.\n');
+end
 % TODO: reanimante
 %  signal = append_repeat_feats(chunks, exp, signal, CFG);
 signal = [signal; zeros(1,size(signal,2))];

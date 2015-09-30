@@ -61,43 +61,52 @@ for i=1:N,
     filtered_ige_blocks = filtered_ige_blocks + 1;
   end
   
-  FTC = strmatch('total_cover', FEATS, 'exact');
-  total_cover = signal(FTC,idx);
-  for b=1:size(ige_blocks,2),
-    ige_cover_blocks = ige_blocks(1,b) - 1 + ...
-        find_blocks(total_cover(ige_blocks(1,b):ige_blocks(2,b)) > 0);
-    for c=1:size(ige_cover_blocks,2),
-      if ige_cover_blocks(2,c)-ige_cover_blocks(1,c)+1 >= MAX_IGE_COVER(1) ...
-          && mean(total_cover(ige_cover_blocks(1,c):ige_cover_blocks(2,c))) >= MAX_IGE_COVER(2),
-        is_good(i) = 0;
-        filtered_ige_cover = filtered_ige_cover + 1;
-        break
-      end
-      if is_good(i) == 0,
-        break
-      end
-    end
-  end
+  if (~isfield(CFG.PAR,'train_filter_ige_cover') || ...
+        (isfield(CFG.PAR,'train_filter_ige_cover') && ...
+        ~CFG.PAR.train_filter_ige_cover)),
 
+      FTC = strmatch('total_cover', FEATS, 'exact');
+      total_cover = signal(FTC,idx);
+      for b=1:size(ige_blocks,2),
+        ige_cover_blocks = ige_blocks(1,b) - 1 + ...
+            find_blocks(total_cover(ige_blocks(1,b):ige_blocks(2,b)) > 0);
+        for c=1:size(ige_cover_blocks,2),
+          if ige_cover_blocks(2,c)-ige_cover_blocks(1,c)+1 >= MAX_IGE_COVER(1) ...
+              && mean(total_cover(ige_cover_blocks(1,c):ige_cover_blocks(2,c))) >= MAX_IGE_COVER(2),
+            is_good(i) = 0;
+            filtered_ige_cover = filtered_ige_cover + 1;
+            break
+          end
+          if is_good(i) == 0,
+            break
+          end
+        end
+      end
+  end
   
   % filter out ambiguous blocks with exon on one strand and intron on the
   % other strand flanking the ambiguous region
-  amb_blocks = find_blocks(label(idx) == LABELS.ambiguous);
-  for j=1:size(amb_blocks,2),
-    l = amb_blocks(1,j);
-    r = amb_blocks(2,j);
-    if (r - l + 1 > MAX_AMB_BLOCK) ...
-          || (label(l)==LABELS.exon_W && label(r)==LABELS.intron_C) ...
-          || (label(l)==LABELS.exon_C && label(r)==LABELS.intron_W) ...
-          || (label(l)==LABELS.intron_W && label(r)==LABELS.exon_C) ...
-          || (label(l)==LABELS.intron_C && label(r)==LABELS.exon_W) ...
-          || (label(l)==LABELS.intron_W && label(r)==LABELS.intron_C) ...
-          || (label(l)==LABELS.intron_C && label(r)==LABELS.intron_W),
+  if (~isfield(CFG.PAR,'train_filter_amb_label') || ...
+        (isfield(CFG.PAR,'train_filter_amb_label') && ...
+        ~CFG.PAR.train_filter_amb_label)),
 
-      is_good(i) = 0;
-      filtered_amb_label = filtered_amb_label + 1;
-      break
-    end
+      amb_blocks = find_blocks(label(idx) == LABELS.ambiguous);
+      for j=1:size(amb_blocks,2),
+        l = amb_blocks(1,j);
+        r = amb_blocks(2,j);
+        if (r - l + 1 > MAX_AMB_BLOCK) ...
+              || (label(l)==LABELS.exon_W && label(r)==LABELS.intron_C) ...
+              || (label(l)==LABELS.exon_C && label(r)==LABELS.intron_W) ...
+              || (label(l)==LABELS.intron_W && label(r)==LABELS.exon_C) ...
+              || (label(l)==LABELS.intron_C && label(r)==LABELS.exon_W) ...
+              || (label(l)==LABELS.intron_W && label(r)==LABELS.intron_C) ...
+              || (label(l)==LABELS.intron_C && label(r)==LABELS.intron_W),
+
+          is_good(i) = 0;
+          filtered_amb_label = filtered_amb_label + 1;
+          break
+        end
+      end
   end
 
   % filter out directly adjacent labelings of gene models on different
@@ -112,14 +121,19 @@ for i=1:N,
 
   % filter out examples with large discrepancies between label and read coverage 
   % also filter out genes which are too lowly expressed
-  FEC = strmatch('exon_cover', FEATS, 'exact');
-  FIC = strmatch('intron_span', FEATS, 'exact');
-  if mean(signal(FEC,exo_idx))    <= 2*mean(signal(FEC,setdiff(idx,exo_idx))) || ...
-        mean(signal(FIC,ino_idx)) <= 2*mean(signal(FIC,setdiff(idx,ino_idx))) || ...
-        mean(signal(FEC,exo_idx)) < MIN_EXPR_LEVEL,
-    is_good(i) = 0;
-    filtered_label_noise = filtered_label_noise + 1;
-  end
+  if (~isfield(CFG.PAR,'train_filter_label_noise') || ...
+        (isfield(CFG.PAR,'train_filter_label_noise') && ...
+        ~CFG.PAR.train_filter_label_noise)),
+      
+      FEC = strmatch('exon_cover', FEATS, 'exact');
+      FIC = strmatch('intron_span', FEATS, 'exact');
+      if mean(signal(FEC,exo_idx))    <= 2*mean(signal(FEC,setdiff(idx,exo_idx))) || ...
+            mean(signal(FIC,ino_idx)) <= 2*mean(signal(FIC,setdiff(idx,ino_idx))) || ...
+            mean(signal(FEC,exo_idx)) < MIN_EXPR_LEVEL,
+        is_good(i) = 0;
+        filtered_label_noise = filtered_label_noise + 1;
+      end
+  end 
 
 %  is_good(i)
 %  view_label_seqs(fh, signal(:,idx), label(idx));
@@ -140,7 +154,6 @@ filtered_amb_label
 filtered_adj_antisense
 filtered_label_noise
 filtered_label_problems
-
 
 fprintf('  retained %i (%2.1f%%) potential training examples\n', ...
         sum(is_good), 100*sum(is_good)/length(is_good));

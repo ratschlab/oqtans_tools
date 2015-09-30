@@ -1,0 +1,94 @@
+<tool id="SAFT" name="SAFT" version="0.2">
+  <description>Simple Alignment Filtering Tool</description>
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command interpreter="bash">
+     ./optimal_filter_set_galaxy.sh $anno_input_selected $bam_alignments $best_score $score_matrix $Filtered_Alignment 
+     >> $Log_File
+  </command>
+
+  <inputs>
+	<param format="gff3" name="anno_input_selected" type="data" label="Genome annotation in GFF3 format" help="Partial genome annotation in GFF3 format describing the known gene structures for the provided genome."/>
+    <param format="bam" name="bam_alignments" type="data" label="BAM alignment file" help="Alignment file in BAM format."/>
+  </inputs>
+
+  <outputs>
+    <data format="bam" name="Filtered_Alignment" label="${tool.name} on ${on_string}: Optimally filtered"/>
+    <data format="txt" name="best_score" label="${tool.name} on ${on_string}: Best Scorings"/>
+    <data format="txt" name="score_matrix" label="${tool.name} on ${on_string}: Evaluated Filter Combinations"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: log file"/>
+  </outputs>
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+`SAFT` optimizes filtering criteria for a given alignemnt in BAM format.
+The filtering is optimized to produce an alignment set with maximal intron
+accuracy, measured on a given annotation in GFF format.
+
+**Inputs**
+
+`SAFT` requires two input files to run:
+
+1. Annotation file either in GFF3, containing the necessary information about the transcripts that are used for accuracy estimation.
+2. The BAM alignment file, which stores the read alignments in a compressed format. It can be generated using the `SAM-to-BAM` tool in the NGS: SAM Tools section.
+
+**Output**
+
+`SAFT` generates four different output files:
+
+1. The best score showing the most sensitive, the most precise, and the best trade of filter in the first, second, and third line, respectively.
+2. The score matrix containing the performances of every single tested filtering combination.
+3. An optimally filtered alignment set. 
+4. The log file summarizing the run.
+
+------
+
+**Licenses**
+
+If **SAFT** is used to obtain results for scientific publications it
+should be cited as [1]_ .
+
+**References** 
+
+.. [1] Kahles, A, Bohnert, R, Behr, J, and Rätsch, G (2013): SAFT: Simple Alignment Filtering Tool. in Preparation.
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF3 format** General Feature Format is a format for describing genes
+and other features associated with DNA, RNA and protein
+sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**SAM/BAM format** The Sequence Alignment/Map (SAM) format is a
+tab-limited text format that stores large nucleotide sequence
+alignments. BAM is the binary version of a SAM file that allows for
+fast and intensive data processing. The format specification and the
+description of SAMtools can be found on
+http://samtools.sourceforge.net/.
+
+------
+
+Version 0.2 (Sept. 2013)
+
+</help>
+</tool>

@@ -1,0 +1,15 @@
+#!/bin/bash
+export RDIFF_VERSION=0.3
+export RDIFF_PATH=/home/galaxy/software/
+export RDIFF_SRC_PATH=${RDIFF_PATH}/src
+export RDIFF_BIN_PATH=${RDIFF_PATH}/bin
+export RDIFF_INTERPRETER=octave
+export RDIFF_OCTAVE_BIN_PATH=/home/galaxy/software/octave/source/octave-3.6.3/octave
+export RDIFF_OCTAVE_MKOCT=/home/galaxy/software/bin/mkoctfile
+export MATLAB_BIN_PATH=
+export MATLAB_MEX_PATH=
+export MATLAB_INCLUDE_DIR=
+export RDIFF_SAMTOOLS_BIN_DIR=/home/galaxy/software/samtools-0.1.17/samtools
+export RDIFF_SAMTOOLS_LIB_DIR=/home/galaxy/software/samtools-0.1.17/
+export RDIFF_SAMTOOLS_INCLUDE_DIR=/home/galaxy/software/samtools-0.1.17/
+export RDIFF_PYTHON_PATH=/usr/bin/python

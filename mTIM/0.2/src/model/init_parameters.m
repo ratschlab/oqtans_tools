@@ -129,7 +129,7 @@ end
 % overwrite supporting points of exon PLiFs using the "active limits"
 % that were computed on exons only
 fn = fieldnames(STATES);
-exon_end_states = sort([strmatch('EF', fn);, strmatch('EL', fn)]);
+exon_end_states = sort([strmatch('EF', fn), strmatch('EL', fn)]);
 for i=1:length(exon_states),
   s = exon_states(i);
   score_plifs(F,s).limits = active_limits;
@@ -265,25 +265,61 @@ end
 % low-coverage blocks
 %  if PAR.switch_features,
     % shift PLIF nodes to the range where learning can still take place
-%    limits = linspace(0, PAR.gene_states_low_cover_cutoff, PAR.num_plif_nodes)
-
-limits = linspace(0, 10, PAR.num_plif_nodes)
+limits = linspace(0, PAR.gene_states_low_cover_cutoff, PAR.num_plif_nodes);
+%limits = linspace(0, 10, PAR.num_plif_nodes)
 score_plifs(F,1).limits = limits;
 score_plifs(F,1).scores = zeros(size(limits));
 
 
 %%% repeat feature
-assert(F < 17);
-for f=17:num_features,
-  limits = find_limits(PAR.num_plif_nodes, signal(f,:));
-  for s=1:length(state_model),
-    score_plifs(f,s).limits = limits;
-    score_plifs(f,s).scores = zeros(size(limits));
-    score_plifs(f,s).dim = (f-1)*length(state_model) + s;
-  end
+F = strmatch('repeats', FEATS, 'exact');
+limits = find_limits(PAR.num_plif_nodes, signal(F,:));
+for s=1:length(state_model),
+    score_plifs(F,s).limits = limits;
+    score_plifs(F,s).scores = zeros(size(limits));
+    score_plifs(F,s).dim = (F-1)*length(state_model) + s;
 end
 fprintf('Repeat limits:\n');
 disp(limits);
+
+%% binned intron coverage features
+for F=18:20,
+general_limits = find_limits(PAR.num_plif_nodes, signal(F,:));
+ino_idx = label==LABELS.intron_W | label==LABELS.intron_C;
+active_limits = find_limits(PAR.num_plif_nodes, signal(F,ino_idx));
+% use general limits for spacing of supporting points by default
+for s=1:length(state_model),
+  score_plifs(F,s).limits = general_limits;
+  score_plifs(F,s).scores = zeros(size(general_limits));
+  score_plifs(F,s).dim = (F-1)*length(state_model) + s;
+end
+% overwrite supporting points of intron PLiFs using the "active limits"
+% that were computed on introns only
+fn = fieldnames(STATES);
+intron_states = [strmatch('IF', fn); strmatch('II', fn); strmatch('IL', fn)];
+for i=1:length(intron_states),
+  s = intron_states(i);
+  score_plifs(F,s).limits = active_limits;
+  score_plifs(F,s).scores = zeros(size(active_limits));
+end
+fprintf('Binned intron span %i limits:\n',F);
+disp(general_limits);
+disp(active_limits);
+end
+
+%%% repeat feature
+assert(PAR.num_plif_nodes>4);
+for F=21:22,
+    limits = linspace(-0.5,2.5,PAR.num_plif_nodes);
+    for s=1:length(state_model),
+        score_plifs(F,s).limits = limits;
+        score_plifs(F,s).scores = zeros(size(limits));
+        score_plifs(F,s).dim = (F-1)*length(state_model) + s;
+    end
+    fprintf('Cufflinks %i limits:\n',F);
+    disp(limits);
+end
+
 
 assert(size(score_plifs,1) == num_features);
 assert(size(score_plifs,2) == length(state_model));

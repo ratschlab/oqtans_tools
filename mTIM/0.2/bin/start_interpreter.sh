@@ -1,7 +1,25 @@
-#!/bin/bash
-set -e
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${OQTANS_DEP_PATH}/octave/lib/
-OCTAVE_BIN_PATH=${OQTANS_DEP_PATH}/octave/bin/octave
-SRC_PATH=${OQTANS_PATH}/mTIM/0.2/src
+#/bin/bash
+##
+# Copyright (C) 2009-2013 Max Planck Society and Memorial Sloan Kettering Cancer Center
+##
 
-echo exit | ${OCTAVE_BIN_PATH} --eval "global SHELL_INTERPRETER_INVOKE; SHELL_INTERPRETER_INVOKE=1; addpath $SRC_PATH; mTIM_config; $1($2); exit;" || (echo starting Octave failed; exit -1) ;
+set -e
+
+. `dirname $0`/mTIM_config.sh
+
+export MATLAB_RETURN_FILE=`mktemp`
+
+if [ "$INTERPRETER" == 'octave' ];
+then
+	echo exit | ${OCTAVE_BIN_PATH} --no-window-system --silent --eval "global SHELL_INTERPRETER_INVOKE; SHELL_INTERPRETER_INVOKE=1; addpath $MTIM_SRC_PATH; mTIM_config; $1($2); exit;" || (echo starting Octave failed; rm -f $MATLAB_RETURN_FILE; exit -1) ;
+fi
+
+if [ "$INTERPRETER" == 'matlab' ];
+then
+	echo exit | ${MATLAB_BIN_PATH} -nodisplay -r "global SHELL_INTERPRETER_INVOKE; SHELL_INTERPRETER_INVOKE=1; addpath $MTIM_SRC_PATH; mTIM_config; $1($2); exit;" || (echo starting Matlab failed; rm -f $MATLAB_RETURN_FILE; exit -1) ;
+fi
+
+test -f $MATLAB_RETURN_FILE || exit 0
+ret=`cat $MATLAB_RETURN_FILE` ;
+rm -f $MATLAB_RETURN_FILE
+exit $ret

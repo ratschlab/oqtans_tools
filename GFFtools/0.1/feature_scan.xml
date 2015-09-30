@@ -1,5 +1,5 @@
 <tool id="gff_available_limits" name="FeatureScan" version="0.1">
-  <description>gives an overview about GFF file content</description>
+  <description>gives an overview about GFF feature content</description>
   <command interpreter="python"> 
     gff_available_limits.py $gff_input 	> $overview
     </command>
@@ -7,7 +7,7 @@
     <param format="gff3" name="gff_input" type="data" label="Query data in Generic feature format Version 3" help="Genome annotation in GFF3 format describing the known gene structures and other features for the provided genome."/>
   </inputs>
   <outputs>
-    <data format="txt" name="overview"  />
+    <data format="txt" name="overview" label="${tool.name} on ${on_string}: Features" />
   </outputs>
     	<tests>
     		<test>
@@ -19,7 +19,7 @@
 
 **What it does** 
 
-This tool provides an overview of available contig identifiers, sources and feature types and their corresponding counts from a given GFF Version 3 file.
+`FeatureScan` provides an overview of available contig identifiers, sources and feature types and their corresponding counts from a given GFF Version 3 file.
 
 --------
 
@@ -92,7 +92,7 @@ This tool provides an overview of available contig identifiers, sources and feat
 
 --------
 
-This tool is a part of the **Machine Learning in Biology Group at Friedrich Miescher Laboratory of the Max Planck Society**. Copyright (C) 2009-2011 Max Planck Society
+Copyright (C) 2009-2013 Max Planck Society and Memorial Sloan-Kettering Cancer Center
 
 </help>
 </tool>

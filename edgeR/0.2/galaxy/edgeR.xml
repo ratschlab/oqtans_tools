@@ -1,0 +1,119 @@
+<tool id="edgeR-hts" name="edgeR" version="3.2.4">
+  <description> Empirical analysis of digital gene expression data in R</description>
+    <requirements>
+        <requirements type="package" version="3.0.1">R</requirements>
+        <requirements type="r-module" version="3.2.4">edgeR</requirements>
+    </requirements>
+  <command interpreter="bash"> 
+    ./../src/edger-hts.sh
+
+    $anno_input_selected 
+    $edger_out 
+    $edger_out.extra_files_path
+    $analysis
+    $fdr
+
+#for $i in $replicate_groups
+#for $j in $i.replicates
+$j.bam_alignment:#slurp
+#end for
+
+#end for
+    >> $Log_File </command>
+  <inputs>
+   <!-- genome annotation file -->
+	<param format="gff3,gtf,gff" name="anno_input_selected" type="data" label="Genome annotation file" help="A tab delimited format for storing sequence features and annotations GTF/GFF/GFF3."/>
+
+    <repeat name="replicate_groups" title="Replicate group" min="2">
+      <repeat name="replicates" title="Replicate">
+      <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="Can be generated from SAM files using the SAM Tools."/>
+     </repeat>
+    </repeat>
+
+    <param name="analysis" type="select" label="Type of Analysis">
+         <option value="pw">Pairwise comparisons (classic)</option>
+         <option value="glm" selected="true">Generalized Linear Models</option>
+         <option value="limma">Linear Models for RNA-Seq (using LIMMA)</option>
+    </param>
+
+	<param name="fdr" type="select" label="False Discovery Rate adjustment method">
+        <option value="fdr" selected="true">fdr</option>
+		<option value="BH">Benjamini and Hochberg</option>
+        <option value="bonferroni">Bonferroni</option>
+		<option value="none">None</option>
+	</param>
+  </inputs>
+
+  <outputs>
+    <data format="txt" name="edger_out" label="${tool.name} on ${on_string}: Differential Expression"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: log"/>
+  </outputs>
+
+  <tests>
+    <test> 
+    <!--TODO-->
+    </test>
+  </tests> 
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+edgeR_ is a tool for differential expression testing of RNA-Seq data.
+
+.. _edgeR: http://www.bioconductor.org/packages/2.12/bioc/html/edgeR.html
+
+`edgeR` requires:
+
+Genome annotation file in GFF, containing the necessary information about the transcripts that are to be quantified.
+
+The BAM alignment files grouped into replicate groups, each containing several replicates. BAM files store the read alignments, The program will also work with only two groups containing only a single replicate each. However, this analysis has less statistical power and is therefore not recommended!
+
+------
+
+**Licenses**
+
+If **edgeR** is used to obtain results for scientific publications it
+should be cited as [1]_.
+
+**References** 
+
+.. [1] Robinson MD, McCarthy DJ and Smyth GK (2010): `edgeR: a Bioconductor package for differential expression analysis of digital gene expression data`_.
+
+.. _edgeR\: a Bioconductor package for differential expression analysis of digital gene expression data: http://bioinformatics.oxfordjournals.org/content/26/1/139.long
+
+------
+
+.. class:: infomark
+
+**About formats**
+
+**GFF/GTF format** General Feature Format/Gene Transfer Format is a format for describing genes and other features associated with DNA, RNA and protein sequences. GFF3 lines have nine tab-separated fields:
+
+1. seqid - The name of a chromosome or scaffold.
+2. source - The program that generated this feature.
+3. type - The name of this type of feature. Some examples of standard feature types are "gene", "CDS", "protein", "mRNA", and "exon". 
+4. start - The starting position of the feature in the sequence. The first base is numbered 1.
+5. stop - The ending position of the feature (inclusive).
+6. score - A score between 0 and 1000. If there is no score value, enter ".".
+7. strand - Valid entries include '+', '-', or '.' (for don't know/care).
+8. phase - If the feature is a coding exon, frame should be a number between 0-2 that represents the reading frame of the first base. If the feature is not a coding exon, the value should be '.'.
+9. attributes - All lines with the same group are linked together into a single item.
+
+For more information see http://www.sequenceontology.org/gff3.shtml
+
+**BAM format** The Sequence Alignment/Map (SAM) format is a
+tab-limited text format that stores large nucleotide sequence
+alignments. BAM is the binary version of a SAM file that allows for
+fast and intensive data processing. The format specification and the
+description of SAMtools can be found on
+http://samtools.sourceforge.net/.
+
+------
+
+edgeR-hts Wrapper Version 0.2 (Sept. 2013)
+
+</help>
+</tool>

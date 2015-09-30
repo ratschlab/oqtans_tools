@@ -1,0 +1,61 @@
+<tool id="rdiff-web" name="rDiff" version="0.3">
+    <description>Determines differentially expressed transcripts from read alignments</description>
+    <command interpreter="bash"> 
+        rdiff_run.sh
+        $test_meth 
+        $anno_input 
+        $read_length 
+        $rdiff_out $rdiff_out.extra_files_path
+##
+## replicate groups 
+##
+#for $i in $replicate_groups
+#for $j in $i.replicates
+$j.bam_alignment?
+#end for
+:
+#end for
+
+        >> $Log_File 
+    </command>
+  <inputs>
+
+    <!-- genome annotation in GFF format -->
+	<param format="gff,gtf,gff3" name="anno_input" type="data" label="Genome annotation file" help="A tab delimited format for storing sequence features and annotations(GFF/GTF/GFF3)"/>
+
+    <!-- RNA-seq samples and corresponding replicates -->
+   <repeat name="replicate_groups" title="Sample" min="2" max="2">
+     <repeat name="replicates" title="Replicate">
+        <param format="bam" name="bam_alignment" type="data" label="BAM alignment file" help="BAM is the binary version of the SAM format, a tab-delimited text file that contains sequence alignment data."/>
+     </repeat>
+   </repeat>
+
+    <!-- rDiff test method --> 
+     <param name="test_meth" type="select" label="rDiff testing method" help="Statistical test on differential transcript expression data." >
+            <option value="poisson">Poisson</option>
+            <option value="param">Parametric</option>
+            <option value="nonparam">Nonparametric</option>
+    </param>
+
+    <!-- read length uesd in the experiment-->
+    <param name="read_length" type="text" value="75" help="default 75 nucleotide." label="Read length from sequencing experiment"/>
+
+  </inputs>
+
+  <outputs>
+    <data format="txt" name="rdiff_out" label="${tool.name} on ${on_string}: Differential Expression" />
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log"/>
+  </outputs>
+  
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+rDiff_ is a tool for differential expression testing of RNA-Seq data.
+
+.. _rDiff: http://bioweb.me/rdiff
+
+  </help>
+</tool>

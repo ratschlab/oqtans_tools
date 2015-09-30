@@ -21,8 +21,8 @@ offset = 0;
 if (isfield(CFG,'cufflinks_pred_file') && exist(CFG.cufflinks_pred_file,'file')),
     fprintf('  using cufflinks prediction file as feature.');
 else
-    warning('Cufflinks feature will be empty (noo file set)!');
-    feats = [feats; zeros(1,L)];
+    warning('Cufflinks features will be empty (noo file set)!');
+    feats = [feats; zeros(2,L)];
     return;
 end
 
@@ -39,7 +39,11 @@ end
 
 
 % feature sequence
-cf = zeros(1,L);
+% 0 : IGE 
+% 1 : Intron 
+% 2 : Exon  
+% strand W=1 C=2
+cf = zeros(2,L);
 
 
 for c=1:size(chunks,1),
@@ -51,20 +55,51 @@ for c=1:size(chunks,1),
   
   % find all genes within the current region
   inds = find(strcmpi({cuffl.genes.chr},region.chr));
+  % genes that lie inside the area
+  n1inds = find([cuffl.genes(inds).start]>=region.start & [cuffl.genes(inds).stop]<region.stop);
+  % genes that end in the area
+  n2inds = find([cuffl.genes(inds).start]<region.start & [cuffl.genes(inds).stop]<region.stop);
+  % genes that start in the area
+  n3inds = find([cuffl.genes(inds).start]>=region.start & [cuffl.genes(inds).stop]>region.stop);
+  % and genes that completely cover the area
+  n4inds = find([cuffl.genes(inds).start]<region.start & [cuffl.genes(inds).stop]>region.stop);
+
+  inds = inds([n1inds, n2inds, n3inds, n4inds]);
+
   % build exon list
   exon_list = [];
   for i=1:length(inds),
+
+      strand = cuffl.genes(inds(i)).strand;
+      strand_ind = 1;
+      if strcmpi(strand,'-'), strand_ind=2; end;
+
+      % mark the whole gene as either intron W or intron C
+      start = cuffl.genes(inds(i)).start - region.start;
+      if (start<0), start=0; end;
+      stop = cuffl.genes(inds(i)).stop - region.start;
+      if (stop>=region.len), stop=region.len-1; end;
+      idxs = offset+start+1 : offset+stop+1;
+      cf(1,idxs) = 1;
+
+      % overwrite exonic regions with exon W or exon C
       for j=1:length(cuffl.genes(inds(i)).exons),
           exons = cuffl.genes(inds(i)).exons{j};          
           for k=1:size(exons,1),
             % TODO: CHECK!
             start = exons(k,1) - region.start;
+
+            if (start<0), start=0; end;
+            if (start>=region.len), continue; end;
+
             stop  = exons(k,2) - region.start;
+            if (stop<0), continue; end;
+            if (stop>=region.len), stop=region.len-1; end;
             
             % only handle cases where start>0 and stop<len
             if (start>0 && stop<region.len),
                 idxs = offset+start+1 : offset+stop+1;
-                cf(1,idxs) = cf(1,idxs) + 1;
+                cf(strand_ind,idxs) = 2;
             end
           end
       end

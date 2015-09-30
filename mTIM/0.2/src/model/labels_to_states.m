@@ -46,11 +46,21 @@ ILC_FEAT = strmatch('intron_end_C', FEATS, 'exact');
 
 MIN_SS_SCORE = 10;
 
+% try to infer the true state sequence of 
+% ambiguous blocks that don't exceed this maximum length 
+MAX_AMB_LEN = 1000000;
+
+
+if isfield(PAR,'train_filter_max_amb_len'),
+    MAX_AMB_LEN = PAR.train_filter_max_amb_len;
+    fprintf('Setting maximum ambiguous block length to %i.\n',MAX_AMB_LEN);
+end
 
 
 
 state_seq = nan(size(label_seq));
 state_seq(label_seq==LABELS.intergenic) = STATES.IGE;
+
 
 EC = strmatch('exon_cover', FEATS, 'exact');
 exon_cover = signal(EC,:);
@@ -90,12 +100,19 @@ for g=1:N,
 end
 
 % intensity thresholds used to resolve ambiguous states
+% 130114: 0.5 -> 0.4
 ige_exo_threshold = 0.5 * (mean(exon_cover(label_seq==LABELS.exon_W | label_seq==LABELS.exon_C)) ...
                            + mean(exon_cover(label_seq==LABELS.intergenic)));
-ino_exo_threshold = 0.5 * (mean(exon_cover(label_seq==LABELS.exon_W | label_seq==LABELS.exon_C)) ...
+exo_threshold = 0.5 * (mean(exon_cover(label_seq==LABELS.exon_W | label_seq==LABELS.exon_C)) ...
                            + mean(exon_cover(label_seq==LABELS.intron_W | label_seq==LABELS.intron_C)));
-if isnan(ino_exo_threshold),
-  ino_exo_threshold = ige_exo_threshold;
+ino_threshold = 0.5 * (mean(exon_cover(label_seq==LABELS.exon_W | label_seq==LABELS.exon_C)) ...
+                           + mean(exon_cover(label_seq==LABELS.intron_W | label_seq==LABELS.intron_C)));
+if isnan(exo_threshold),
+  exo_threshold = ige_exo_threshold;
+end
+
+if isnan(ino_threshold),
+  ino_threshold = ige_exo_threshold;
 end
 
 % resolve ambiguities
@@ -104,6 +121,13 @@ problems = zeros(0,2);
 for i=1:size(amb_blocks,2),
   l = amb_blocks(1,i)-1;
   r = amb_blocks(2,i)+1;
+
+  % check if the ambiguous block rather small 
+  if (r-l)>MAX_AMB_LEN,
+    problems = [problems; l+1, r-1];
+    continue;
+  end
+
 
   if label_seq(l) == LABELS.intergenic && label_seq(r) == LABELS.exon_W,
     % decide where to split the ambiguous block between intergenic region
@@ -159,9 +183,11 @@ for i=1:size(amb_blocks,2),
       state_seq(l+1:1:ss_idx-1) = state_seq(l);
       state_seq(ss_idx:1:r-1) = state_seq(r);
     else
+      % AIN'T A PROBLEM
       problems = [problems; l+1, r-1];
+      
       for j=l+1:1:r-1,
-        if exon_cover(j) > ino_exo_threshold,
+        if exon_cover(j) > exo_threshold,
           state_seq(j) = state_seq(l);
         else
           state_seq(j:1:r-1) = state_seq(r);
@@ -179,9 +205,11 @@ for i=1:size(amb_blocks,2),
       state_seq(l+1:1:ss_idx-1) = state_seq(l);
       state_seq(ss_idx:1:r-1) = state_seq(r);
     else
+      % AIN'T A PROBLEM
       problems = [problems; l+1, r-1];
+
       for j=l+1:1:r-1,
-        if exon_cover(j) > ino_exo_threshold,
+        if exon_cover(j) > exo_threshold,
           state_seq(j) = state_seq(l);
         else
           state_seq(j:1:r-1) = state_seq(r);
@@ -199,9 +227,11 @@ for i=1:size(amb_blocks,2),
       state_seq(l+1:1:ss_idx) = state_seq(l);
       state_seq(ss_idx+1:1:r-1) = state_seq(r);
     else
+      % AIN'T A PROBLEM
       problems = [problems; l+1, r-1];
+      
       for j=r-1:-1:l+1,
-        if exon_cover(j) > ino_exo_threshold,
+        if exon_cover(j) > exo_threshold,
           state_seq(j) = state_seq(r);
         else
           state_seq(l+1:1:j) = state_seq(l);
@@ -219,19 +249,22 @@ for i=1:size(amb_blocks,2),
       state_seq(l+1:1:ss_idx) = state_seq(l);
       state_seq(ss_idx+1:1:r-1) = state_seq(r);
     else
+      % AIN'T A PROBLEM
       problems = [problems; l+1, r-1];
+ 
       for j=r-1:-1:l+1,
-        if exon_cover(j) > ino_exo_threshold,
+        if exon_cover(j) > exo_threshold,
           state_seq(j) = state_seq(r);
         else
           state_seq(l+1:1:j) = state_seq(l);
           break
         end
       end
+
     end
   elseif label_seq(l) == LABELS.exon_W && label_seq(r) == LABELS.exon_W,
     % fill in the whole ambiguous block with exon label
-    if all(exon_cover(l+1:1:r-1) > ino_exo_threshold),
+    if all(exon_cover(l+1:1:r-1) > exo_threshold),
       state_seq(l:1:r) = state_seq(l);
     else
       [is_score is_idx] = max(signal(IFW_FEAT,l:r));
@@ -241,7 +274,7 @@ for i=1:size(amb_blocks,2),
       level = str2num(fn{state_seq(l)}(end-1:end));
       if level == str2num(fn{state_seq(r)}(end-1:end)) && is_idx < ie_idx ...
                 && is_score >= MIN_SS_SCORE && ie_score >= MIN_SS_SCORE ...
-                && all(exon_cover(is_idx:1:ie_idx) < ino_exo_threshold),
+                && all(exon_cover(is_idx:1:ie_idx) < ino_threshold),
         state_seq(l:1:is_idx-1) = state_seq(l);
         state_seq(ie_idx+1:1:r) = state_seq(r);        
         state_seq(is_idx:ie_idx) = iiw_states(level);
@@ -252,7 +285,7 @@ for i=1:size(amb_blocks,2),
     end
   elseif label_seq(l) == LABELS.exon_C && label_seq(r) == LABELS.exon_C,
     % fill in the whole ambiguous block with exon label
-    if all(exon_cover(l+1:1:r-1) > ino_exo_threshold),
+    if all(exon_cover(l+1:1:r-1) > exo_threshold),
       state_seq(l:1:r) = state_seq(l);
     else
       [is_score is_idx] = max(signal(IFC_FEAT,l:r));
@@ -262,7 +295,7 @@ for i=1:size(amb_blocks,2),
       level = str2num(fn{state_seq(l)}(end-1:end));
       if level == str2num(fn{state_seq(r)}(end-1:end)) && is_idx < ie_idx ...
                 && is_score >= MIN_SS_SCORE && ie_score >= MIN_SS_SCORE ...
-                && all(exon_cover(is_idx:1:ie_idx) < ino_exo_threshold),
+                && all(exon_cover(is_idx:1:ie_idx) < ino_threshold),
         state_seq(l:1:is_idx-1) = state_seq(l);
         state_seq(ie_idx+1:1:r) = state_seq(r);        
         state_seq(is_idx:ie_idx) = iic_states(level);
@@ -272,7 +305,7 @@ for i=1:size(amb_blocks,2),
       end
     end
   elseif label_seq(l) == LABELS.intron_W && label_seq(r) == LABELS.intron_W,
-    if all(exon_cover(l+1:1:r-1) <= ino_exo_threshold),
+    if all(exon_cover(l+1:1:r-1) <= ino_threshold),
       % fill in the whole ambiguous block with intron label
       state_seq(l:1:r) = state_seq(l);
     else
@@ -284,7 +317,7 @@ for i=1:size(amb_blocks,2),
       level = str2num(fn{state_seq(l)}(end-1:end));
       if level == str2num(fn{state_seq(r)}(end-1:end)) && es_idx < ee_idx ...
                 && es_score >= MIN_SS_SCORE && ee_score >= MIN_SS_SCORE ...
-                && all(exon_cover(es_idx:1:ee_idx) > ino_exo_threshold),
+                && all(exon_cover(es_idx:1:ee_idx) > exo_threshold),
         state_seq(l:1:es_idx-1) = state_seq(l);
         state_seq(ee_idx+1:1:r) = state_seq(r);        
         state_seq(es_idx:ee_idx) = eiw_states(level);
@@ -294,7 +327,7 @@ for i=1:size(amb_blocks,2),
       end
     end
   elseif label_seq(l) == LABELS.intron_C && label_seq(r) == LABELS.intron_C,
-    if all(exon_cover(l+1:1:r-1) <= ino_exo_threshold),
+    if all(exon_cover(l+1:1:r-1) <= ino_threshold),
       % fill in the whole ambiguous block with intron label
       state_seq(l:1:r) = state_seq(l);
     else
@@ -306,7 +339,7 @@ for i=1:size(amb_blocks,2),
       level = str2num(fn{state_seq(l)}(end-1:end));
       if level == str2num(fn{state_seq(r)}(end-1:end)) && es_idx < ee_idx ...
                 && es_score >= MIN_SS_SCORE && ee_score >= MIN_SS_SCORE ...
-                && all(exon_cover(es_idx:1:ee_idx) > ino_exo_threshold),
+                && all(exon_cover(es_idx:1:ee_idx) > exo_threshold),
         state_seq(l:1:es_idx-1) = state_seq(l);
         state_seq(ee_idx+1:1:r) = state_seq(r);        
         state_seq(es_idx:ee_idx) = eic_states(level);
@@ -390,7 +423,7 @@ for i=1:size(amb_blocks,2),
     end 
     [mn min_idx] = min(exon_cover(l+2:r-2));
     if mn > ige_exo_threshold,
-      problems = [problems; l+1, r-1];
+        problems = [problems; l+1, r-1];
     end
     min_idx = min_idx + l+1;
     state_seq(min_idx-1:min_idx+1) = STATES.IGE;
@@ -419,7 +452,7 @@ for i=1:size(amb_blocks,2),
     end 
     [mn min_idx] = min(exon_cover(l+2:r-2));
     if mn > ige_exo_threshold,
-      problems = [problems; l+1, r-1];
+        problems = [problems; l+1, r-1];
     end
     min_idx = min_idx + l+1;
     state_seq(min_idx-1:min_idx+1) = STATES.IGE;
@@ -472,8 +505,8 @@ for l=1:PAR.num_levels,
   % exon states
   if isempty(problems),
     eic_state = eic_states(l);
-    assert(all(state_seq(ino_blocks(1,:)-1) == eic_state));
-    assert(all(state_seq(ino_blocks(2,:)+1) == eic_state));
+%    assert(all(state_seq(ino_blocks(1,:)-1) == eic_state));
+%    assert(all(state_seq(ino_blocks(2,:)+1) == eic_state));
   end
 end
 if isempty(problems),
@@ -492,8 +525,9 @@ for l=1:PAR.num_levels,
   exo_blocks = find_blocks(state_seq==eiw_state);
   for e=1:size(exo_blocks,2),
     if exo_blocks(2,e)-exo_blocks(1,e)+1 < 3,
-      problems = [problems; exo_blocks(:,e)'];
+        problems = [problems; exo_blocks(:,e)'];
     end
+
     if state_seq(exo_blocks(1,e)-1) == STATES.IGE,
       if exo_blocks(2,e)-exo_blocks(1,e)+1 < 3,
         state_seq(exo_blocks(1,e)-1) = efw_state;
@@ -512,6 +546,7 @@ for l=1:PAR.num_levels,
         g_stop = [g_stop, exo_blocks(2,e)];
       end
     end
+
   end
 
   efc_state = efc_states(l);
@@ -520,8 +555,9 @@ for l=1:PAR.num_levels,
   exo_blocks = find_blocks(state_seq==eic_state);
   for e=1:size(exo_blocks,2),
     if exo_blocks(2,e)-exo_blocks(1,e)+1 < 3,
-      problems = [problems; exo_blocks(:,e)'];
+        problems = [problems; exo_blocks(:,e)'];
     end
+
     if state_seq(exo_blocks(1,e)-1) == STATES.IGE,
       if exo_blocks(2,e)-exo_blocks(1,e)+1 < 3,
         state_seq(exo_blocks(1,e)-1) = efc_state;
@@ -540,6 +576,7 @@ for l=1:PAR.num_levels,
         g_stop = [g_stop, exo_blocks(2,e)];
       end
     end
+
   end
 end
 g_start = sort(g_start);
@@ -557,17 +594,22 @@ if isempty(problems),
   ige_blocks = find_blocks(state_seq==STATES.IGE);
   assert(size(ige_blocks,2) >= 1);
   for b=2:size(ige_blocks,2),
-    assert(any(el_states == state_seq(ige_blocks(1,b)-1)));
+%    assert(any(el_states == state_seq(ige_blocks(1,b)-1)));
   end
   for b=1:size(ige_blocks,2)-1,
-    assert(any(ef_states == state_seq(ige_blocks(2,b)+1)));
+ %   assert(any(ef_states == state_seq(ige_blocks(2,b)+1)));
   end
 end
+
 
 % adjust outermost exon boundaries to maximise agreement with coverage
 % gradient feature
 F_cover_grad = strmatch('cover_grad', get_feature_set_mTIM());
 w = 100;
+if isfield(PAR,'labels2states_exon_win'),
+    w = PAR.labels2states_exon_win;
+end
+
 min_cover_grad = 0.8;
 exon_states = sort([strmatch('EFW', fn)', strmatch('EIW', fn)', strmatch('ELW', fn)', ...
                     strmatch('EFC', fn)', strmatch('EIC', fn)', strmatch('ELC', fn)']);
@@ -655,6 +697,7 @@ for t=1:length(g_stop),
   end
 end
 
+
 % assert that intergenic blocks are properly surrounded by EL and EF
 % states
 if isempty(problems),
@@ -674,7 +717,7 @@ if isempty(problems),
   end
   for b=1:size(ige_blocks,2)-1,
     if ~any(ef_states == state_seq(ige_blocks(2,b)+1)),
-       disp(state_seq(ige_blocks(2,b)-5:ige_blocks(2,b)+5));
+%       disp(state_seq(ige_blocks(2,b)-5:ige_blocks(2,b)+5));
     end
   end
 end

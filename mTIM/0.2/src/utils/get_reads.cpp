@@ -162,8 +162,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
   else {
     uint32_t nzmax = 0; // maximal number of nonzero elements 
     int len = to_pos-from_pos+1;
-    for (uint32_t i=0; i<reads.size(); i++) {
-      for (uint32_t n = 0; n < reads[i]->block_starts.size(); n++) {
+    for (uint i=0; i<reads.size(); i++) {
+      for (uint n = 0; n < reads[i]->block_starts.size(); n++) {
 	uint32_t from, to;
 	if (reads[i]->block_starts[n]+reads[i]->start_pos-from_pos >= 0)
 	  from = reads[i]->block_starts[n]+reads[i]->start_pos-from_pos;
@@ -185,7 +185,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (nzmax>0 && mask_ret==NULL)
       mexErrMsgTxt("Error allocating memory\n");
     uint32_t mask_ret_c = 0; // counter
-    for (uint32_t i=0; i<reads.size(); i++) {
+    for (uint i=0; i<reads.size(); i++) {
       reads[i]->get_reads_sparse(from_pos, to_pos, mask_ret, mask_ret_c, i);
     }
     if (mask_ret_c!=2*nzmax)

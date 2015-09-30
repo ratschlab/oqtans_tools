@@ -1,53 +1,72 @@
   <label text="Oqtans (v0.1)" id="oqtans-0.1" />
   <section name="KIRMES" id="kirmes_0.8">
-    <tool file="KIRMES/0.8/galaxy/KExamplesInstructions.xml" />
-    <tool file="KIRMES/0.8/galaxy/KKMC.xml" />
-    <tool file="KIRMES/0.8/galaxy/KIMS.xml" />
-    <tool file="KIRMES/0.8/galaxy/KIML.xml" />
-    <tool file="KIRMES/0.8/galaxy/KTraining.xml" />
+    <tool file="oqtans/oqtans_tools/KIRMES/0.8/galaxy/KExamplesInstructions.xml" />
+    <tool file="oqtans/oqtans_tools/KIRMES/0.8/galaxy/KKMC.xml" />
+    <tool file="oqtans/oqtans_tools/KIRMES/0.8/galaxy/KIMS.xml" />
+    <tool file="oqtans/oqtans_tools/KIRMES/0.8/galaxy/KIML.xml" />
+    <tool file="oqtans/oqtans_tools/KIRMES/0.8/galaxy/KTraining.xml" />
   </section>
   <section name="Read Mapping" id="oqtans_mapping">
    <label text="Unspliced Alignment" id="unspliced" />
-   <tool file="../../../oqtansTools/oqtans/bowtie/0.12.7/bowtie_wrapper.xml" /> 
-   <tool file="../../../oqtansTools/oqtans/bwa/0.6.2/galaxy/bwa_wrapper.xml" /> 
-   <tool file="../../../oqtansTools/oqtans/palmapper/0.5/galaxy/genomemapper_wrapper.xml" />
+   <tool file="oqtans/oqtans_tools/Bowtie/2.1.0/galaxy/bowtie2_wrapper.xml" /> 
+   <tool file="oqtans/oqtans_tools/BWA/0.6.2/galaxy/bwa_wrapper.xml" /> 
+   <tool file="oqtans/oqtans_tools/PALMapper/0.5/galaxy/genomemapper_wrapper.xml" />
    <label text="Spliced Alignment" id="spliced" />
-   <tool file="../../../oqtansTools/oqtans/palmapper/0.5/galaxy/palmapper_wrapper.xml" />
-   <tool file="../../../oqtansTools/oqtans/tophat/2.0.5/galaxy/tophat_wrapper.xml" />
-   <tool file="../../../oqtansTools/oqtans/ASP/0.3/galaxy/asp.xml" />
+   <tool file="oqtans/oqtans_tools/PALMapper/0.5/galaxy/palmapper_wrapper.xml" />
+   <tool file="oqtans/oqtans_tools/STAR/2.3/galaxy/star_aligner.xml" />
+   <tool file="oqtans/oqtans_tools/TopHat/1.4.1/galaxy/tophat_wrapper.xml" />
+   <tool file="oqtans/oqtans_tools/TopHat/2.0.9/galaxy/tophat2_wrapper.xml" />
+   <tool file="oqtans/oqtans_tools/ASP/0.3/galaxy/asp.xml" />
   </section>
   <section name="Transcript Prediction/Assembly" id="mTIM.web">
     <label text="mTIM (v0.2)" id="mtim" />
-        <tool file="../../../oqtansTools/oqtans/mTIM/0.2/galaxy/mTIM_Train.xml"/>
-    <label text="Trinity (r2012-08-08)" id="deno_assmb" />
-        <tool file="../../../oqtansTools/oqtans/trinity/r2012-06-08/galaxy/trinity.xml"/>
-    <label text="Scripture" id="abinito_assmb" />
-        <tool file="../../../oqtansTools/oqtans/scripture/galaxy/scripture.xml"/>
-    <label text="Cufftools (v2.0.2)" id="rna_seq" />
-        <tool file="../../../oqtansTools/oqtans/cufflinks/2.0.2/galaxy/cufflinks_wrapper.xml" />
-        <tool file="../../../oqtansTools/oqtans/cufflinks/2.0.2/galaxy/cuffcompare_wrapper.xml" />
+    <tool file="oqtans/oqtans_tools/mTIM/0.2/galaxy/mTIM_Train.xml"/>
+    <tool file="oqtans/oqtans_tools/mTIM/0.2/galaxy/mTIM_Predict.xml"/>
+    <tool file="oqtans/oqtans_tools/mTIM/0.2/galaxy/mTIM_Eval.xml"/>
+    <label text="Trinity (r2013_08_14)" id="deno_assmb" />
+    <tool file="oqtans/oqtans_tools/Trinity/r2013_08_14/galaxy/trinity.xml"/>
+    <label text="Scripture (R4.4)" id="abinito_assmb" />
+    <tool file="oqtans/oqtans_tools/Scripture/R4.4/galaxy/scripture.xml"/>
+    <label text="Cufftools (v2.1.1)" id="rna_seq" />
+    <tool file="oqtans/oqtans_tools/Cufflinks/2.1.1/galaxy/cufflinks_wrapper.xml" />
+    <tool file="oqtans/oqtans_tools/Cufflinks/2.1.1/galaxy/cuffcompare_wrapper.xml" />
+    <tool file="oqtans/oqtans_tools/Cufflinks/2.1.1/galaxy/cuffmerge_wrapper.xml" />
   </section>
   <section name="Differential/Quantitative Analysis" id="diffquant-0.1">
-    <tool file="../../../oqtansTools/oqtans/rQuant/2.2/galaxy/rquant_web.xml" />
-    <tool file="../../../oqtansTools/oqtans/rDiff/0.1/galaxy/rdiff_web.xml" />
-    <tool file="../../../oqtansTools/oqtans/DESeq/1.6/galaxy/deseq.xml" />
-    <tool file="../../../oqtansTools/oqtans/cufflinks/2.0.2/galaxy/cuffdiff_wrapper.xml" />
+    <tool file="oqtans/oqtans_tools/rQuant/2.2/galaxy/rquant_web.xml" />
+    <tool file="oqtans/oqtans_tools/rDiff/0.3/galaxy/rdiff.xml" />
+    <tool file="oqtans/oqtans_tools/DESeq/1.12/galaxy/deseq.xml" />
+    <tool file="oqtans/oqtans_tools/DESeq2/1.0.19/galaxy/deseq2.xml" />
+    <tool file="oqtans/oqtans_tools/DEXSeq/1.6/galaxy/DEXSeq.xml" />
+    <tool file="oqtans/oqtans_tools/edgeR/0.2/galaxy/edgeR.xml" />
+    <tool file="oqtans/oqtans_tools/Cufflinks/2.1.1/galaxy/cuffdiff_wrapper.xml" />
   </section>
-  <section name="Enrichment Analysis (v0.1)" id="enrichment-0.1">
-     <!-- <tool file="../../../oqtansTools/oqtans/gowrilla.xml" /> -->
-     <tool file="../../../oqtansTools/oqtans/topGO/galaxy/topgo.xml" />
-     <tool file="../../../oqtansTools/oqtans/geneSetter/0.1/genesetter_conf.xml" />
+  <section name="Enrichment Analysis " id="enrichment-0.1">
+     <tool file="oqtans/oqtans_tools/topGO/galaxy/topgo.xml" />
+     <tool file="oqtans/oqtans_tools/GeneSetter/0.1/genesetter.xml" />
   </section>
-  <section name="Read Alignment Filtering (v0.2)" id="filtering_reads-0.2">
-     <tool file="../../../oqtansTools/oqtans/SAFT/0.2/galaxy/SAFT.xml" />
+  <section name="Read Alignment Filtering " id="filtering_reads-0.2">
+     <tool file="oqtans/oqtans_tools/RNAgeeq/0.2/SAFT/galaxy/SAFT.xml" />
+     <tool file="oqtans/oqtans_tools/RNAgeeq/0.2/MM_Resolve/galaxy/MMRtool.xml" />
   </section>
-  <section name="GFF Toolkit (v0.1)" id="gfftools-0.1">
+  <section name="GFF Toolkit " id="gfftools-0.1">
     <label text="Grooming Programs" id="groomer" />
-    <tool file="../../../oqtansTools/oqtans/GFFtools/0.1/examine.xml" />
-    <tool file="../../../oqtansTools/oqtans/GFFtools/0.1/feature_scan.xml" />
+    <tool file="oqtans/oqtans_tools/GFFtools/0.1/examine.xml" />
+    <tool file="oqtans/oqtans_tools/GFFtools/0.1/feature_scan.xml" />
     <label text="Converter Programs" id="converter" />
-    <tool file="../../../oqtansTools/oqtans/GFFtools/0.1/gtf_to_gff3.xml" />
-    <tool file="../../../oqtansTools/oqtans/GFFtools/0.1/bed_to_gff3.xml" />
-    <tool file="../../../oqtansTools/oqtans/GFFtools/0.1/genbank_to_gff3.xml" />
+    <tool file="oqtans/oqtans_tools/GFFtools/0.1/gtf_to_gff3.xml" />
+    <tool file="oqtans/oqtans_tools/GFFtools/0.1/bed_to_gff3.xml" />
+    <tool file="oqtans/oqtans_tools/GFFtools/0.1/genbank_to_gff3.xml" />
   </section>
+  <section name="SVM Toolbox " id="SVMToolbox-0.3.3">
+    <label text="Toy Data (v0.3.3)" id="toydata-0.3.3" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/FastaGen.xml" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/MotifGen.xml" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/CloudGen.xml" />
+    <label text="EasySVM Toolbox  (v0.3.3)" id="easysvm-0.3.3" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/easysvm.xml" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/eval.xml" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/modelsel.xml" />
+    <tool file="oqtans/oqtans_tools/EasySVM/0.3.3/galaxy/poim.xml" />
+  </section> 
   <label text="Galaxy" id="galaxy" />

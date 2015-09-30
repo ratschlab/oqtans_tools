@@ -10,14 +10,14 @@ function generate_feature_data(CFG)
 for fold=1:CFG.num_xval_folds,
   fprintf('Filling data blocks for cross-validation fold %i\n', fold);
 
-  d = CFG.xval_dirs{fold};
+  d = CFG.xval_dirs{fold}
 
   % fill training chunks
   fn = [d 'train_data'];
   if ~exist(fn, 'file'),
-    load([fn '.mat'], 'train_chunks', 'train_chunk_ids');
+    load([fn '.mat'],  'train_chunks', 'train_chunk_ids');
   else,
-    load(fn, 'train_chunks', 'train_chunk_ids');
+    load(fn,  'train_chunks', 'train_chunk_ids');
   end
   [signal exm_id_intervals label] = fill_chunks(train_chunks, CFG);
   save(fn, 'train_chunks', 'train_chunk_ids', ...

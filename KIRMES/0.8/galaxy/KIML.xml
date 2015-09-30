@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tool id="kirmes_motifscanner"
-  name="(2) Prepare Prediction Dataset">
+<tool id="kirmes_motifscanner" name="(2) Prepare Prediction Dataset" version="0.8">
   <description>Find a set of motifs in a FASTA file</description>
   <requirements>
 	<requirement type='package'>kirmes</requirement>
@@ -44,7 +43,7 @@ Prediction tools found on this web server.
 
 If you have additional questions about KIRMES, please write an
 email to sebi@tue.mpg.de. For problems with our Galaxy server, please 
-write to galaxy@tue.mpg.de
+write to galaxy@raetschlab.org
 
 For a general introduction to Galaxy, please visit 
 http://galaxy.psu.edu/
@@ -101,22 +100,22 @@ Springer Verlag Heidelberg, Germany. 4955:98-111.
 **Licence Information: GPL**
 
 
-      Copyright (C) Sebastian J. Schultheiss (sebi@umich.edu)                           
+Copyright (C) Sebastian J. Schultheiss (sebi@umich.edu)                           
                                                                                              
-      This program is free software; you can redistribute it and/or modify                   
-      it under the terms of the GNU General Public License as published by                   
-      the Free Software Foundation; either version 3 of the License, or                      
-      (at your option) any later version.                                                    
+This program is free software; you can redistribute it and/or modify                   
+it under the terms of the GNU General Public License as published by                   
+the Free Software Foundation; either version 3 of the License, or                      
+(at your option) any later version.                                                    
                                                                                              
-      This program is distributed in the hope that it will be useful,                        
-      but WITHOUT ANY WARRANTY; without even the implied warranty of                         
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
-      GNU General Public License for more details.                                           
+This program is distributed in the hope that it will be useful,                        
+but WITHOUT ANY WARRANTY; without even the implied warranty of                         
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                            
+GNU General Public License for more details.                                           
                                                                                              
-      You should have received a copy of the GNU General Public License                       
-      along with this program; if not, see http://www.gnu.org/licenses                       
-      or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
-      Fifth Floor, Boston, MA 02110-1301  USA                                                
+You should have received a copy of the GNU General Public License                       
+along with this program; if not, see http://www.gnu.org/licenses                       
+or write to the Free Software Foundation, Inc., 51 Franklin Street,                    
+Fifth Floor, Boston, MA 02110-1301  USA                                                
 
   </help>
 </tool>

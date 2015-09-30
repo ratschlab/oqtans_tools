@@ -67,7 +67,9 @@ int get_reads_from_bam(char* filename, char* region, vector<CRead*>* reads, char
 	int ref;
 	bam_index_t *idx;
 	bam_plbuf_t *buf;
+	//fprintf(stderr, "BAM Indexing file: %s\n",filename);
 	idx = bam_index_load(filename); // load BAM index
+	//fprintf(stderr, "BAM Indexing file: %s\n",idx);
 	if (idx == 0) {
 		fprintf(stderr, "BAM indexing file is not available.\n");
 		return 1;

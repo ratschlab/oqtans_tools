@@ -1,0 +1,145 @@
+<tool id="rnaseq-star" name="STAR" version="2.3.0">
+    <description>RNA-seq read mapper</description>
+    <requirements>
+        <requirement type="package">STAR</requirement>
+        <requirement type="package">samtools</requirement>
+    </requirements>
+    <command interpreter="bash">
+        ./star_aligner_wrapper.sh
+
+        ## reference genome 
+        #if $refGenomeSource.genomeSource == "indexed":
+            $refGenomeSource.genomeSource
+            ${refGenomeSource.index.fields.path}
+        #else:
+            $refGenomeSource.genomeSource
+            $ownFile 
+        #end if 
+        
+        ## sequencing reads 
+        $singlePaired.sPaired
+        $input1
+        #if $singlePaired.sPaired == "paired":
+            $singlePaired.input2
+        #end if 
+
+        ## splice junction db 
+        $sjdbformat.annofile
+        $sjdb
+
+        ## working path 
+        $logfile.extra_files_path
+
+        ## extra parameters
+        $params.settingsType
+        #if $params.settingsType == "full"
+            $params.misMatch
+            $params.multimap_score
+            $params.multiMap
+            $params.maxIntron
+            $params.mateGap
+            $params.sjdbScore
+            $params.sjOverhang
+        #end if
+
+        $mapped_reads
+        $splice_junctions
+        $output_log
+
+        >> $logfile
+
+    </command>
+
+    <inputs>
+
+        <!-- Genome source. -->
+        <conditional name="refGenomeSource">
+            <param name="genomeSource" type="select" label="Will you select a reference genome from your history or use a built-in STAR genome index?" help="Built-ins were indexed using default options.">
+                <option value="indexed" seleted="true">Use a built-in STAR genome index</option>
+                <option value="history">Use one from the history</option>
+            </param>
+            <when value="indexed">
+            <param name="index" type="select" label="Select a reference genome">
+                <options from_data_table="star_indexes" />
+            </param>
+            </when>
+            <when value="history">
+                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select the reference genome" />
+            </when>
+        </conditional>
+
+        <!-- FASTQ input(s) and options specifically for paired-end data. -->
+        <conditional name="singlePaired">
+            <param name="sPaired" type="select" label="Is this library mate-paired?">
+              <option value="single">Single-end</option>
+              <option value="paired" selected="true">Paired-end</option>
+            </param>
+            <when value="single">
+                <param format="fastq" name="input1" type="data" label="RNA-Seq FASTQ file" help="Nucleotide-space: Must have Sanger-scaled quality values with ASCII offset 33"/>
+            </when>
+            <when value="paired">
+                <param format="fastq" name="input1" type="data" label="RNA-Seq FASTQ file, forward reads" help="Nucleotide-space: Must have Sanger-scaled quality values with ASCII offset 33" />
+                <param format="fastq" name="input2" type="data" label="RNA-Seq FASTQ file, reverse reads" help="Nucleotide-space: Must have Sanger-scaled quality values with ASCII offset 33" />
+            </when>
+        </conditional>
+
+        <!-- Splice Junction data source-->
+        <conditional name="sjdbformat">
+            <param name="annofile" type="select" label="Genome annotation in which format?">
+                <option value="bed">BED</option>
+                <option value="gtf" selected="true">GTF</option>
+                <option value="gff">GFF3</option>
+            </param>
+            <when value="bed">
+                <param format="bed" name="sjdb" type="data" label="The genome annotation to infer the splice junctions" help="To improve the accuracy of the read mapping, the annotation can be supplied in BED file." />
+            </when>
+            <when value="gtf">
+                <param format="gtf" name="sjdb" type="data" label="The genome annotation to infer the splice junctions" help="To improve the accuracy of the read mapping, the annotation can be supplied in GTF file." />
+            </when>
+            <when value="gff">
+                <param format="gff3" name="sjdb" type="data" label="The genome annotation to infer the splice junctions" help="To improve the accuracy of the read mapping, the annotation can be supplied in GFF3 file." />
+            </when>
+        </conditional>
+
+        <!-- Parameter settings. -->
+        <conditional name="params">
+            <param name="settingsType" type="select" label="Settings to use" help="You can use the default settings or set custom values for any STAR parameter.">
+                <option value="preSet" selected="true">Use Defaults</option>
+                <option value="full">Full parameter list</option>
+            </param>
+            <when value="preSet" />
+            <!-- A partial list of advanced params. -->
+            <when value="full">
+                <param name="misMatch" type="integer" min="0" value="10" label="Number of mismatches per read pair" />
+                <param name="multimap_score" type="integer" min="1" value="1" label="Multimapping score range" help="The score range below the maximum score for multimapping alignments."/>
+                <param name="multiMap" type="integer" min="0" value="10" label="Number of multimapping alignments" />
+                <param name="maxIntron" type="integer" min="1000" value="10000" label="Maximum intron size" />
+                <param name="mateGap" type="integer" min="1000" value="10000" label="Maximum genomic gap between the mates" help="The inner distance between the right end of the left mate and left side of the right mate."/>
+                <param name="sjdbScore" type="integer" value="1" label="Extra alignment score for alignments that cross db junctions" help="=2 by default."/>
+                <param name="sjOverhang" type="integer" value="1" label="The length of the overhang on each side of a splice junction" />
+            
+            </when>
+        </conditional>
+    </inputs>
+
+
+    <outputs>
+        <data format="txt" name="logfile" label="${tool.name} on ${on_string}: Log file" />
+        <data format="txt" name="output_log" label="${tool.name} on ${on_string}: STAR Log file" />
+        <data format="bed" name="splice_junctions" label="${tool.name} on ${on_string}: Splice Junctions" />
+        <data format="bam" name="mapped_reads" label="${tool.name} on ${on_string}: Mapped Reads" />
+    </outputs>
+    
+    <tests>
+    </tests>
+    <help>
+        STAR_ aligns RNA-seq reads to a reference genome using uncompressed suffix arrays.
+        
+        .. _STAR: https://code.google.com/p/rna-star/
+
+-----
+
+STAR Wrapper Version 0.1 (Sep. 2013)
+
+    </help>
+</tool>

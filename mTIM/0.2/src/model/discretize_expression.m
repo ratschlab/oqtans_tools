@@ -41,8 +41,9 @@ end
 % for the remainder such that each bin contains approximately the same
 % number of genes
 min_expr_level = 1;
+%min_expr_level = -inf;
 idx = find(~isnan(median_exo_cover) & median_exo_cover >= min_expr_level);
-val = sort(median_exo_cover(idx));
+val = sort(median_exo_cover(idx),'ascend');
 n = L;
 bins = [];
 while length(bins) < L;
@@ -54,6 +55,21 @@ while length(bins) < L;
   n = n + 1;
 end
 bins = [[-inf; min_expr_level; bins(2:end-1)], [min_expr_level; bins(2:end-1); inf]];
+
+% HACK if L=1
+if (L==1),
+    warning('Using only one expression level.');
+    bins = [[-inf],[+inf]];
+end
+
+%warning('CHANGED EXPRESSION LEVEL CODE');
+%bins = [-inf],
+%gpl = floor(length(val)/L);
+%for i=1:L-1,
+%    curr = val(i*gpl);
+%    bins = [bins; curr];
+%end
+%bins = [[bins], [bins(2:end); inf]];
 assert(all(bins(1:end-1,1) < bins(2:end,1)));
 
 % assign a discrete expression level to each gene

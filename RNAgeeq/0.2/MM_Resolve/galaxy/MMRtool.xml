@@ -1,0 +1,110 @@
+<tool id="MMRtool" name="MMR" version="0.1">
+  <description> Multiple Mapper Resolution</description>
+  <requirements>
+	<requirement type="package" version="0.1">oqtans</requirement>
+  </requirements>
+  <command>
+    mmr 
+    -o $filtered_bam 
+    #
+    ## options
+    #
+    -t $Threads
+    #if $alignment_type == "yes":
+        -S
+    #end if 
+
+    #if $inputs.paired_or_single == "paired":
+        -p -i $fragment_length -A $max_pair_list_length
+    #end if 
+
+    #if $input2.pre_filter == "yes": 
+        -f -F $input2.filter_dist
+    #end if 
+
+    #if $use_variants == "yes":
+        -V
+    #end if
+    
+    -L $max_list_length
+    -w $windowsize
+    -I $iterations
+    -b 
+
+    $bam_file
+    >> $Log_File
+  </command>
+
+  <inputs>
+    <!--Number of threads --> 
+    <param name="Threads" type="integer" value="2" min="1" label="Number of threads to use" help="" />
+
+    <!-- IN BAM -->
+    <param format="bam" name="bam_file" type="data" label="BAM alignment file" help=""/>
+
+    <!--strand specific alignment type --> 
+    <param name="alignment_type" type="select" display="radio" label="Strand-specific alignment type" help="">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+    </param>
+
+    <!--Paired end reads? --> 
+    <conditional name="inputs">
+        <param name="paired_or_single" type="select" label="Paired or Single-end data?">
+            <option selected="true" value="single">Single</option>
+            <option value="paired">Paired</option>
+        </param>
+        <when value="single" />
+
+        <when value="paired">
+           <param name="fragment_length" type="integer" value="1000000" label="Fragment length" help="Upper limit of GENOMIC fragment length."/> 
+           <param name="max_pair_list_length" type="integer" value="10000" label="Maximum pair list length" help="Maximum number of valid pairs."/> 
+        </when>
+    </conditional>
+
+    <!--Pre filter-->
+    <conditional name="input2">
+        <param name="pre_filter" type="select" label="Pre-filter" help="Switch off pre filter for alignments that have F more edit operations than the best.">
+            <option value="no">No</option>
+            <option value="yes" selected="true">Yes</option>
+        </param>
+        <when value="no" />
+        <when value="yes">
+            <param name="filter_dist" type="integer" value="1" label="Fiter distance (F)" help="Filter distance F for pre-filter."/> 
+        </when>
+    </conditional>
+    
+    <param name="use_variants" type="select" display="radio" label="Use variants" help="Use variant alignments for filtering (different edit operation count, requires XG and XM Tag in alignment files).">
+        <option value="no" selected="true">No</option>
+        <option value="yes">Yes</option>
+    </param>
+
+    <param name="max_list_length" type="integer" value="1000" label="Max. alignment list length" help="Maximum length of alignment list per read (after filtering)."/> 
+
+    <!--variance optimization-->
+    <param name="windowsize" type="integer" value="20" label="Coverage window size" help="Size of coverage window around read."/> 
+    <param name="iterations" type="integer" value="5" label="Number of iterations" help="The number of iterations to smooth the coverage."/> 
+
+  </inputs>
+
+  <outputs>
+    <data format="bam" name="filtered_bam" label="${tool.name} on ${on_string}: Filtered BAM"/>
+    <data format="txt" name="Log_File" label="${tool.name} on ${on_string}: Log file"/>
+  </outputs>
+
+  <help>
+
+.. class:: infomark
+
+**What it does** 
+
+MMR_ infers an optimal mapping location only on the distribution of mapped reads.
+
+.. _MMR: http://bioweb.me/mmr
+
+------
+
+MMR Galaxy version 0.1 (Sept. 2013)
+
+</help>
+</tool>

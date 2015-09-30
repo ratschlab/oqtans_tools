@@ -26,7 +26,6 @@ end
 if ~exist(CFG.label_fn, 'file')
    load([CFG.label_fn '.mat'], '-mat', 'label_map', 'LABELS');
 else
-   %load(CFG.label_fn, '-mat', 'label_map', 'LABELS');
    load(CFG.label_fn, 'label_map', 'LABELS');
 end
 for c=1:CFG.num_chr,
@@ -84,7 +83,8 @@ for c=1:CFG.num_chr,
   % do not split too small blocks
   ige_blocks(:,ige_blocks(2,:)-ige_blocks(1,:) < MIN_IGE_BLOCK_SIZE) = [];
   
-  split_cands = [0, round((ige_blocks(1,:) + ige_blocks(2,:)) / 2), CFG.chr_lens(c)];
+  %split_cands = [0, round((ige_blocks(1,:) + ige_blocks(2,:)) / 2), CFG.chr_lens(c)];
+  %splits = [1, round((ige_blocks(1,:) + ige_blocks(2,:)) / 2), CFG.chr_lens(c)];
   
   %{
   ATTENTION: FUNCTIONALITY WAS REMOVED
@@ -101,7 +101,9 @@ for c=1:CFG.num_chr,
     end
   end
   splits = splits(is_good==1);
-  %}
+%}  
+  
+  split_cands = [0, round((ige_blocks(1,:) + ige_blocks(2,:)) / 2), CFG.chr_lens(c)];
   
   % split also too long intergenic blocks
   % (e.g. in drosophila such a block could be >2.9mio nt)

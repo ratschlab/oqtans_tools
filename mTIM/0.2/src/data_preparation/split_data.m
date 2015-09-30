@@ -95,13 +95,10 @@ for fold=1:CFG.num_xval_folds,
   d = CFG.xval_dirs{fold};
 
   fn = [d 'train_data.mat'];
-  %save(fn, '-v7', 'train_chunks', 'train_chunk_ids', 'CFG', 'fold');
   save(fn, 'train_chunks', 'train_chunk_ids', 'CFG', 'fold');
   fn = [d 'vald_data.mat'];
-  %save(fn, '-v7', 'vald_chunks', 'vald_chunk_ids', 'CFG', 'fold');
   save(fn, 'vald_chunks', 'vald_chunk_ids', 'CFG', 'fold');
   fn = [d 'test_data.mat'];
-  %save(fn, '-v7', 'test_chunks', 'test_chunk_ids', 'CFG', 'fold');
   save(fn, 'test_chunks', 'test_chunk_ids', 'CFG', 'fold');
   
   tmp = perm(end);
@@ -109,8 +106,3 @@ for fold=1:CFG.num_xval_folds,
   perm(1) = tmp;
 end
 
-
-% eof
-
-
-    

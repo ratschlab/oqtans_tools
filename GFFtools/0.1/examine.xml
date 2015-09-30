@@ -1,13 +1,13 @@
-<tool id="gff_examine" name="Examine" version="0.1">
-  <description>Parent-Child relations in GFF file</description>
+<tool id="gff_examine" name="Examine_GFF" version="0.1">
+  <description> file Parent-Child relations</description>
   <command interpreter="python"> 
 		gff_examiner.py $gff_input > $idmapping
     </command>
   <inputs>
-    <param format="gff3" name="gff_input" type="data" label="Query data in Generic Feature Format Version 3" help="Genome annotation in GFF3 format describing the known gene structures and other features for the provided genome."/>
+    <param format="gff3,gff" name="gff_input" type="data" label="Query data in Generic Feature Format Version 3" help="Genome annotation in GFF3 format describing the known gene structures and other features for the provided genome."/>
   </inputs>
   <outputs>
-    <data format="txt" name="idmapping" />
+    <data format="txt" name="idmapping" label="${tool.name} on ${on_string}: Parent Child Mapping"/>
   </outputs>
 		<tests>
     		<test>
@@ -23,7 +23,7 @@
 
 **What it does** 
 
-This tool provides the features(gene, mRNA, UTR's, exon, CDS etc) relationship based on their identifier mapping in a given GFF Version 3 file.
+`Examine GFF` provides the features(gene, mRNA, UTR's, exon, CDS etc) relationship based on their identifier mapping in a given GFF Version 3 file.
 
 --------
 
@@ -68,7 +68,7 @@ This tool provides the features(gene, mRNA, UTR's, exon, CDS etc) relationship b
 
 --------
 
-This tool is a part of the **Machine Learning in Biology Group at Friedrich Miescher Laboratory of the Max Planck Society**. Copyright (C) 2009-2011 Max Planck Society
+Copyright (C) 2009-2013 Max Planck Society and Memorial Sloan-Kettering Cancer Center
 
 </help>
 </tool>

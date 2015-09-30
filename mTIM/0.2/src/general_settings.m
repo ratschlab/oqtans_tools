@@ -26,7 +26,6 @@ function CFG = general_settings(...
 % 2) and 3) can be done either sequentially or parallel
 % 
 
-
 % locate src directory based on the location of this script
 this_name = mfilename();
 this_path = mfilename('fullpath');
@@ -38,23 +37,23 @@ assert(exist(src_dir,'dir')>0);
 % absolut path, then use the this path
 % as main directory and the last part (sub-sequence
 % after the last '/') is the exp_name
-if (exp_name(1)=='/'),
-    idx = find(exp_name=='/', 1, 'last');
-    main_dir = exp_name(1:idx);
-    exp_name = exp_name(idx+1:end);
-    fprintf('Absolut path detected:\n  Using %s as main_dir and\n  %s as exp_name.\n',main_dir,exp_name);
-else
-    idx = find(this_path=='/', 2, 'last');
-    main_dir = this_path(1:idx);
-    fprintf('Relative path detected:\n  Using %s as main_dir.\n',main_dir);
-end
+%if (exp_name(1)=='/'),
+%    idx = find(exp_name=='/', 1, 'last');
+%    main_dir = exp_name(1:idx);
+%   exp_name = exp_name(idx+1:end);
+%    fprintf('Absolut path detected:\n  Using %s as main_dir and\n  %s as exp_name.\n',main_dir,exp_name);
+%else
+%    idx = find(this_path=='/', 2, 'last');
+%    main_dir = this_path(1:idx);
+%    fprintf('Relative path detected:\n  Using %s as main_dir.\n',main_dir);
+%end
 
-out_dir = [main_dir 'out/'];
-if (~exist(out_dir,'dir')), mkdir(out_dir); end;
-out_dir = [main_dir 'out/' exp_name '/'];
-if (~exist(out_dir,'dir')), mkdir(out_dir); end;
+%out_dir = [main_dir 'out/'];
+%if (~exist(out_dir,'dir')), mkdir(out_dir); end;
+%out_dir = [main_dir 'out/' exp_name '/'];
+%if (~exist(out_dir,'dir')), mkdir(out_dir); end;
 
-CFG.out_dir = out_dir;
+CFG.out_dir = exp_name;
 CFG.exp_name = exp_name;
 
 if (~exist('time_stamp','var') || isempty(time_stamp)), 
@@ -62,21 +61,22 @@ if (~exist('time_stamp','var') || isempty(time_stamp)),
 end
 CFG.start_time = time_stamp;
 
-CFG.out_train_dir = [out_dir  CFG.start_time '/'];
+CFG.out_train_dir = [exp_name '/' CFG.start_time '/'];
 CFG.out_pred_dir = CFG.out_train_dir;
 CFG.pred_filename = 'prediction.mat';
 CFG.vald_filename = 'validation.mat';
 
-fprintf('Main directory is %s.\n',main_dir);
-fprintf('Out directory is %s.\n',out_dir);
+%fprintf('Main directory is %s.\n',main_dir);
+fprintf('Out directory is %s.\n',exp_name);
 fprintf('Source directory is %s.\n',src_dir);
+
 
 % add subdirs
 model_dir = [src_dir 'model'];
 common_dir = [src_dir 'utils'];
 pred_dir = [src_dir 'prediction'];
 prep_dir = [src_dir 'data_preparation'];
-hmsvm_dir = [src_dir 'sotool/apps/hmsvm'];
+hmsvm_dir = [src_dir 'sotool'];
 
 addpath(model_dir);
 addpath(common_dir);
@@ -85,7 +85,7 @@ addpath(prep_dir);
 addpath([src_dir 'training']);
 addpath(pred_dir);
 addpath([src_dir 'evaluation']);
-addpath([src_dir 'rproc']);
+%addpath([src_dir 'rproc']);
 addpath(hmsvm_dir);
 
 % paths needed during PARALLEL training/prediction
@@ -115,10 +115,10 @@ CFG.param_names = {'C_small', ...
 % parameter combinations to be used for independent training
 % (typically overwritten)
 CFG.train_params = { ...
-  [0.01],   [0.5],   [0.05],  [1000], 'QP', [1]; ... 
+  [0.01],   [0.5],   [0.05],  [20], 'QP', [1]; ... 
 };
 
-CFG.num_vald_exm = 100;
+CFG.num_vald_exm = 0;
 
 % setup model directories 
 CFG.model_dirs = {};
@@ -214,7 +214,7 @@ CFG.fill_vald_chunks = 1;
 CFG.fill_test_chunks = 1;
 
 % genome-wide positional labelings for mTIM
-CFG.label_fn = sprintf('%slabel', out_dir);
+CFG.label_fn = sprintf('%s/label', exp_name);
 
 % parameters for generating the intron span feature
 CFG.read_intron_span_max_intron_len = 200000; % TODO sufficient for worm&fly
@@ -255,11 +255,9 @@ CFG.opt_model = 1;
 CFG.iteration = [];
 
 
-
-
 %%% cluster submission vs. local computation
 % option for using rproc tools to submit training jobs to a cluster
-CFG.use_rproc = 1;
+CFG.use_rproc = 0;
 CFG.rproc_memreq         = 7000;
 CFG.rproc_par.force_matlab = 1;
 CFG.rproc_par.identifier = sprintf('mTIM_%s', CFG.exp_name);
@@ -293,7 +291,4 @@ end
 % create the directory structure for the current experiment
 CFG = create_dirs(CFG,create_prep_dirs,create_exp_dirs);
 
-
-
 % eof
-

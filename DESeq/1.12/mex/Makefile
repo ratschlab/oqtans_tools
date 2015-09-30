@@ -13,7 +13,7 @@ matlab:	get_reads.mexa64 get_bam_properties.mexa64 interval_overlap.mexa64
 
 get_reads.mexa64:	get_reads.cpp get_reads_direct.cpp mex_input.cpp read.cpp
 	rm -f *.o
-	${MEX} -g -O get_reads.cpp get_reads_direct.cpp mex_input.cpp read.cpp -I${SAMDIR}/../include -L${SAMDIR}/../lib -lbam -lz -lcurses -I$(MATLAB_INCL)
+	${MEX} -g -O get_reads.cpp get_reads_direct.cpp mex_input.cpp read.cpp -I${SAMDIR} -L${SAMDIR} -lbam -lz -lcurses -I$(MATLAB_INCL)
 
 get_bam_properties.mexa64:	get_bam_properties.cpp
 	rm -f *.o
@@ -24,7 +24,7 @@ interval_overlap.mexa64:	interval_overlap.cpp
 
 get_reads.mex:	get_reads.cpp get_reads_direct.cpp mex_input.cpp read.cpp
 	rm -f *.o
-	${MKOCTFILE} -g --mex get_reads.cpp get_reads_direct.cpp mex_input.cpp read.cpp -I${SAMDIR}/../include -L${SAMDIR}/../lib -lbam -lz -lcurses
+	${MKOCTFILE} -g --mex get_reads.cpp get_reads_direct.cpp mex_input.cpp read.cpp -I${SAMDIR} -L${SAMDIR} -lbam -lz -lcurses
 
 get_bam_properties.mex:	get_bam_properties.cpp
 	rm -f *.o

@@ -35,7 +35,7 @@ end
 
 % annotation details
 CFG.annotation_dir = sprintf('%s', anno_dir);
-CFG.gene_fn = sprintf('%sgenes.mat', anno_dir);
+CFG.gene_fn = sprintf('%s/genes.mat', anno_dir);
 % splice site prediction details
 CFG.splice_site_dir.acc = acc_splice_dir;
 CFG.splice_site_dir.don = don_splice_dir;
@@ -44,12 +44,6 @@ idx = find(read_map_file=='/', 1, 'last');
 CFG.read_map_dir = read_map_file(1:idx);
 CFG.read_map_file = read_map_file;
 fprintf('dir:%s\nfile:%s\n',CFG.read_map_dir,CFG.read_map_file);
-
-%keyboard
-
-% turn off comparison to competitor
-%CFG.cufflinks_pred_file = [];
-%CFG.cufflinks_convert = 0;
 
 % 1. step 
 % generate data

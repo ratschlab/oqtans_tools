@@ -12,7 +12,7 @@ if ~check_splice
 end ;
 
 
-if length(start)>1 || length(stop)>1,
+if length(start)>1 | length(stop)>1,
   if nargout<3
     assert(length(start)==length(stop)) ;
     assert(all([start(2:end)-stop(1:end-1)]>=0));
@@ -76,7 +76,7 @@ end ;
 d=dir(fname) ; left_n = 0 ; right_n=0 ;
 if isinf(stop), stop=d.bytes; end ;
 
-if start<1 || stop>d.bytes,
+if start<1 | stop>d.bytes,
   warning('load_genomic:contig_boundary', 'boundary of contig reached (start: %i, stop: %i, d.bytes: %i), padding with "n"', start, stop,d.bytes) ;
 
   if start<1,

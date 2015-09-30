@@ -1,8 +1,10 @@
 #!/bin/bash
-
+#
+# oqtans submodule compile program 
+# 
 set -e 
 
-source ../../oqtans_conf.sh
+source ./../../../oqtans_config.sh
 
 cd $OQTANS_PATH/rQuant/2.2/mex
 if [ "$1" == "" -o "$1" == "all" ];

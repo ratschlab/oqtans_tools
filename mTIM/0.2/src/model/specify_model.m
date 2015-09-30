@@ -159,36 +159,41 @@ end
 %%% scored by functions included in the learning process
 FEATS = get_feature_set_mTIM();
 
-state_model(STATES.IGE).learn_scores = ismember(FEATS, {'exon_cover','total_cover', ...
-    'low_cover_blocks','repeats'});
+intron_span = 'intron_span';
+if isfield(PAR,'ige_intron_span') && PAR.ige_intron_span==0,
+    intron_span = '';
+end
 
+state_model(STATES.IGE).learn_scores = ismember(FEATS, {'exon_cover','total_cover', ...
+    intron_span,'low_cover_blocks','repeats','cufflinks_feat_W','cufflinks_feat_C','pair_span'});
+    
 
 for i=1:PAR.num_levels,
   state_model(efw_idx(i)).learn_scores ...
     = ismember(FEATS, {'cover_grad'});
   state_model(eiw_idx(i)).learn_scores ...
-    = ismember(FEATS, {'exon_cover', 'exon_diff','repeats'});
+    = ismember(FEATS, {'exon_cover', 'exon_diff','repeats','cufflinks_feat_W','cufflinks_feat_C'});
   state_model(elw_idx(i)).learn_scores ...
     = ismember(FEATS, {'cover_grad'});
 
   state_model(efc_idx(i)).learn_scores ...
     = ismember(FEATS, {'cover_grad'});
   state_model(eic_idx(i)).learn_scores ...
-    = ismember(FEATS, {'exon_cover', 'exon_diff','repeats'});
+    = ismember(FEATS, {'exon_cover', 'exon_diff','repeats','cufflinks_feat_W','cufflinks_feat_C'});
   state_model(elc_idx(i)).learn_scores ...
       = ismember(FEATS, {'cover_grad'});
 
   state_model(ifw_idx(i)).learn_scores ...
     = ismember(FEATS, {'intron_start_W', 'don_pred_W'});
   state_model(iiw_idx(i)).learn_scores ...
-    = ismember(FEATS, {'intron_span', 'intron_diff','low_cover_blocks','repeats','intron_span_low','intron_span_med','intron_span_high'});
+    = ismember(FEATS, {'pair_span','intron_span', 'intron_diff','low_cover_blocks','repeats','intron_span_low','intron_span_med','intron_span_high','cufflinks_feat_W','cufflinks_feat_C'});
   state_model(ilw_idx(i)).learn_scores ...
     = ismember(FEATS, {'intron_end_W', 'acc_pred_W'});
   
   state_model(ifc_idx(i)).learn_scores ...
     = ismember(FEATS, {'intron_start_C', 'acc_pred_C'});
   state_model(iic_idx(i)).learn_scores ...
-    = ismember(FEATS, {'intron_span', 'intron_diff','low_cover_blocks','repeats','intron_span_low','intron_span_med','intron_span_high'});
+    = ismember(FEATS, {'pair_span','intron_span', 'intron_diff','low_cover_blocks','repeats','intron_span_low','intron_span_med','intron_span_high','cufflinks_feat_W','cufflinks_feat_C'});
   state_model(ilc_idx(i)).learn_scores ...
     = ismember(FEATS, {'intron_end_C', 'don_pred_C'});
 end
@@ -239,25 +244,25 @@ for i=1:length(state_model),
 end
 
 if (isfield(PAR,'enf_monot_score_funcs_IGE') && PAR.enf_monot_score_funcs_IGE),
-  state_model(STATES.IGE).monot_scores   = [-1 -1 0 0 ];
+  state_model(STATES.IGE).monot_scores   = [-1 -1 0 0 0 0 0];
 end
 
 if PAR.enf_monot_score_funcs,
-  state_model(STATES.IGE).monot_scores   = [-1 -1 0 0];
+  state_model(STATES.IGE).monot_scores   = [-1 -1 0 0 0 0 0];
   for i=1:PAR.num_levels,
     state_model(efw_idx(i)).monot_scores = [+1];
-    state_model(eiw_idx(i)).monot_scores = [ 0 +1 0];
+    state_model(eiw_idx(i)).monot_scores = [ 0 +1 0 0 0];
     state_model(elw_idx(i)).monot_scores = [+1];
     state_model(efc_idx(i)).monot_scores = [+1];
-    state_model(eic_idx(i)).monot_scores = [ 0 -1 0];
+    state_model(eic_idx(i)).monot_scores = [ 0 -1 0 0 0];
     state_model(elc_idx(i)).monot_scores = [+1];
     
     state_model(ifw_idx(i)).monot_scores = [+1 +1];
-    state_model(iiw_idx(i)).monot_scores = [ 0 +1 0 0 0 0 0];
+    state_model(iiw_idx(i)).monot_scores = [ 0 +1 0 0 0 0 0 0];
     state_model(ilw_idx(i)).monot_scores = [+1 +1];
     
     state_model(ifc_idx(i)).monot_scores = [+1 +1];
-    state_model(iic_idx(i)).monot_scores = [ 0 -1 0 0 0 0 0];
+    state_model(iic_idx(i)).monot_scores = [ 0 -1 0 0 0 0 0 0];
     state_model(ilc_idx(i)).monot_scores = [+1 +1];
   end
 end

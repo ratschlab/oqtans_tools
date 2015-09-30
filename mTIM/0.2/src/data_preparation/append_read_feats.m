@@ -6,7 +6,7 @@ function feats = append_read_feats(chunks, feats, CFG)
 %
 % written by Georg Zeller, Pramod Mudrakarta & Andre Kahles, MPI Tuebingen, Germany, 2009-2011
 
-assert(issorted(chunks, 'rows'));
+%assert(issorted(chunks, 'rows'));
 tic
 
 L = sum(chunks(:,3)-chunks(:,2)+1);

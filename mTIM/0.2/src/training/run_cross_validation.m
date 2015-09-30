@@ -27,7 +27,7 @@ for f=1:CFG.num_xval_folds,
   if (~exist(CFG.PAR.data_file)),
     load([CFG.PAR.data_file '.mat'], 'signal', 'label', 'exm_id_intervals');
   else
-    load(CFG.PAR.data_file, '-mat', 'signal', 'label', 'exm_id_intervals');
+    load(CFG.PAR.data_file, 'signal', 'label', 'exm_id_intervals');
   end
 
   if ~exist('signal', 'var'),
@@ -51,53 +51,64 @@ for f=1:CFG.num_xval_folds,
   CFG.PAR.expression_bins = bins;
   
   % filter potential training examples
-  CFG.PAR.train_exms = filter_training_data(label, signal, exm_id_intervals, CFG);
+  n = CFG.PAR.num_train_exm;
+  if (n==-1),
+%      warning('Using only minimum training set filter!');
+%      CFG.PAR.train_exms = min_filter_training_data(label, signal, exm_id_intervals, CFG);
+      CFG.PAR.train_exms = filter_training_data(label, signal, exm_id_intervals, CFG);
+  else
+      CFG.PAR.train_exms = filter_training_data(label, signal, exm_id_intervals, CFG);
+  end
+
 
   % set the number of features to be used for leraning
   CFG.PAR.num_features = size(signal, 1);
   clear signal 
 
-  % take some trainig sequences, remove them from training set 
-  % and instead use them for ad hoc accuracy estimation during training
-  holdout = randperm(length(CFG.PAR.train_exms));
-  holdout = holdout(1:CFG.num_vald_exm);
-  CFG.PAR.vald_exms = CFG.PAR.train_exms(holdout);
-  CFG.PAR.train_exms(holdout) = [];
-  assert(isempty(intersect(CFG.PAR.train_exms, CFG.PAR.vald_exms)));
 
   % subselect sequences for training
-  n = CFG.PAR.num_train_exm;
-  fprintf('Choosing from %i filtered training examples\n', length(CFG.PAR.train_exms));
-  fprintf('Using %i training examples\n', n);
-  fprintf('Using %i validation examples\n', CFG.num_vald_exm);
-  r = randperm(length(CFG.PAR.train_exms));
-  CFG.PAR.train_exms = CFG.PAR.train_exms(r(1:n));
+  if (n==-1),
+    % take all examples for training
+    fprintf('Choosing from %i filtered training examples\n', length(CFG.PAR.train_exms));
+    fprintf('Using ALL training examples\n');
+    fprintf('Disabling validation examples\n', CFG.num_vald_exm);
+    CFG.PAR.train_exms = CFG.PAR.train_exms;
+    CFG.PAR.vald_exms = [];
+    CFG.num_vald_exm = 0;
+  else
+    % take some trainig sequences, remove them from training set 
+    % and instead use them for ad hoc accuracy estimation during training
+    holdout = randperm(length(CFG.PAR.train_exms));
+    holdout = holdout(1:CFG.num_vald_exm);
+    CFG.PAR.vald_exms = CFG.PAR.train_exms(holdout);
+    CFG.PAR.train_exms(holdout) = [];
+    fprintf('Choosing from %i filtered training examples\n', length(CFG.PAR.train_exms));
+    fprintf('Using %i training examples\n', n);
+    fprintf('Using %i validation examples\n', CFG.num_vald_exm);
+    r = randperm(length(CFG.PAR.train_exms));
+    CFG.PAR.train_exms = CFG.PAR.train_exms(r(1:n));
+  end
+  assert(isempty(intersect(CFG.PAR.train_exms, CFG.PAR.vald_exms)));
+
   exm_ids = sort([CFG.PAR.train_exms; CFG.PAR.vald_exms]);
   assert(all(ismember(exm_ids, [CFG.PAR.train_exms; CFG.PAR.vald_exms])));
   % re-save training data which will actually be used
   CFG.PAR.data_file = save_reduced_data(CFG.PAR.data_file, exm_ids, CFG);
-  
-  if CFG.use_rproc && CFG.PAR.submit_train,
-    % submit cluster job
-    if f==1,
-      CFG.rproc_par.identifier = sprintf('%s_f%i_', ...
-                                         CFG.rproc_par.identifier, f);
-    else
-      idx = find(CFG.rproc_par.identifier=='_', 2, 'last') - 1;
-      CFG.rproc_par.identifier = sprintf('%s_f%i_', ...
-                                         CFG.rproc_par.identifier(1:idx(1)), f);
-    end
+ 
+  bak = CFG.PAR.num_train_exm;
+  CFG.PAR.num_train_exm = length(CFG.PAR.train_exms);
 
-    
-    JOB =  rproc('train_hmsvm', CFG.PAR, CFG.rproc_memreq, CFG.rproc_par, CFG.rproc_time);
-    JOB.train_dir = CFG.PAR.out_dir;
-    JOB_INFO = [JOB_INFO, JOB];    % add information about the training output directory
-    fprintf('    Submitted job %i\n\n', length(JOB_INFO));
-  else
-    
+  %if CFG.grid_use,
+    % don't let the matgrid toolbox collect the results
+  %  JOB.id = mgsub({}, 'train_hmsvm', {CFG.PAR}, 'qsub_opts', sprintf('-l h_vmem=%iG', CFG.grid_memreq));
+  %  JOB.train_dir = CFG.PAR.out_dir;
+  %  JOB_INFO = [JOB_INFO, JOB];    % add information about the training output directory
+  %  fprintf('    Submitted job %i\n\n', length(JOB_INFO));
+  %else
     % train sequentially for different parameter combinations
     train_hmsvm(CFG.PAR);
-  end
-end
+  %end
 
+  CFG.PAR.num_train_exm = bak;
+end
 % eof

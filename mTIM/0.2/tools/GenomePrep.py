@@ -1,5 +1,6 @@
 #!/usr/bin/env python 
-"""Program to prepare the genome of an organism in an internal format called GIO.
+"""
+Program to prepare the genome of an organism in an internal format called GIO.
 Usage:
 python GenomePrep.py in.fasta out_dir 
 

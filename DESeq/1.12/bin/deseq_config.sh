@@ -1,28 +1,17 @@
-#/bin/bash
-
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# Written (W) 2009-2011 Regina Bohnert, Gunnar Raetsch
-# Copyright (C) 2009-2011 Max Planck Society
-#
-
-export DESEQ_VERSION=1.12.0
-export DESEQ_PATH=$OQTANS_PATH/DESeq/1.12/
-export DESEQ_SRC_PATH=$DESEQ_PATH/src
-export DESEQ_BIN_PATH=$DESEQ_PATH/bin
+#!/bin/bash
+export DESEQ_VERSION=1.12.1
+export DESEQ_PATH=${OQTANS_PATH}/DESeq/1.12
+export DESEQ_SRC_PATH=${DESEQ_PATH}/src
+export DESEQ_BIN_PATH=${DESEQ_PATH}/bin
 export INTERPRETER=octave
 export MATLAB_BIN_PATH=
 export MATLAB_MEX_PATH=
 export MATLAB_INCLUDE_DIR=
 export OCTAVE_BIN_PATH=${OQTANS_DEP_PATH}/octave/bin/octave
 export OCTAVE_MKOCT=${OQTANS_DEP_PATH}/octave/bin/mkoctfile
-export SAMTOOLS_DIR=${OQTANS_DEP_PATH}/bin/
-export PYTHON_PATH=/usr/bin/python${OQTANS_PYTHON_VERSION}
-export SCIPY_PATH=${OQTANS_DEP_PATH}/lib/python${OQTANS_PYTHON_VERSION}/site-packages/
-export LD_LIBRARY_PATH=/lib:$LD_LIBRARY_PATH
-export R_PATH=${OQTANS_DEP_PATH}/R/bin/R
+export SAMTOOLS_DIR=${OQTANS_SRC_PATH}/samtools-0.1.19
+export PYTHON_PATH=${OQTANS_PYTHON}
+export SCIPY_PATH=${OQTANS_DEP_PATH}/lib/python${OQTANS_PYTHON_VERSION}/site-package:${OQTANS_DEP_PATH}/lib64/python${OQTANS_PYTHON_VERSION}/site-package:$PYTHONPATH
+export R_PATH=${OQTANS_R}
+export LD_LIBRARY_PATH=$OQTANS_DEP_PATH/lib:$OQTANS_DEP_PATH/lib64:$LD_LIBRARY_PATH
 export ENVIRONMENT=galaxy

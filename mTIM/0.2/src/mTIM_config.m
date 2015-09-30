@@ -5,11 +5,17 @@ OQTANS = getenv('OQTANS_PATH');
 OQTANS_DEP = getenv('OQTANS_DEP_PATH');
 
 % add 
-addpath(sprintf('%s/utils/', OQTANS_DEP));
-addpath(sprintf('%s/utils/rproc', OQTANS_DEP));
+%addpath(sprintf('%s/utils/', OQTANS_DEP));
+%addpath(sprintf('%s/utils/rproc', OQTANS_DEP));
+addpath(sprintf('%s/mTIM/0.2/tools', OQTANS));
 addpath(sprintf('%s/mTIM/0.2/tools/r2007a', OQTANS));
-addpath(sprintf('%s/mTIM/0.2/tools/sotool/src', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/tools/sotool', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/tools/sotool/losses', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/tools/sotool/native', OQTANS));
 addpath(sprintf('%s/mTIM/0.2/src/model', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/src/evaluation', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/src/training', OQTANS));
+addpath(sprintf('%s/mTIM/0.2/src/prediction', OQTANS));
 addpath(sprintf('%s/mTIM/0.2/src/utils', OQTANS));
 addpath(sprintf('%s/mTIM/0.2/src/data_preparation', OQTANS))
 

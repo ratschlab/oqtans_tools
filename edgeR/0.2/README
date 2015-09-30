@@ -1,0 +1,74 @@
+----------------------------------------------------
+edgeR-hts: A Galaxy wrapper for edgeR version 3.2.4
+----------------------------------------------------
+
+Description:
+------------
+    edgeR can be used as a web service embedded in a Galaxy instance. 
+    We call it as edgeR-hts. 
+
+Requirements:
+-------------
+    MATLAB/OCTAVE and Python :- Preprocessing of sequencing reads and GFF files
+    R, Bio-conductor package :- Required for edgeR
+    SCIPY, NUMPY :- for python  
+    SAMTOOLS :- Sequencing read processing 
+
+Contents:
+---------
+    ./src
+    All relevant scripts for edgeR-hts are located in the subdirectory
+    src. src/deseq-hts.sh is the main script to start edgeR-hts. The 
+    preprocessing of BAM and GFF file start before the R edgeR script. 
+	Please follow the shell script to understand the details. 
+    
+    ./galaxy
+    Galaxy tool configuration file can be found galaxy folder. Please 
+    make necessary editing for .xml file and perform few tests. 
+
+    ./mex
+    matlab executable files.
+
+    ./bin
+    Contains deseq_config.sh file which is used for the configuration of 
+    edgeR-hts. According to your platform, the default file will be changed.
+
+    ./tools
+    A python based GFF parsing program. Also contains small utils programs.
+
+Getting started:
+----------------
+    Check for all requirements first, then
+
+    a) Run ./oqtans_make.sh and setup paths and configuration options for edgeR-hts.
+
+    Inside the mex folder it execute the make file to create platform dependent .mex files 
+	    cd mex/
+	    make [interpreter] 
+            make octave for octave 
+            make matlab for matlab 
+            make all for octave and matlab 
+
+    b) Edit the Galaxy tool configuration file to adjust the path if necessary. 
+
+Licenses:
+---------
+    If **edgeR** is used to obtain results for scientific publications it should be cited as [1].
+
+    This wrapper program (edgeR-hts) is free software; you can redistribute it and/or modify it 
+    under the terms of the GNU General Public License as published by the Free Software Foundation; 
+    either version 3 of the License, or (at your option) any later version.
+
+    Written (W) 2009-2013 Jonas Behr, Regina Bohnert, Andre Kahles, Gunnar Raetsch, Vipin T. Sreedharan
+    Copyright (C) 2009-2012 Friedrich Miescher Laboratory of the Max Planck Society, Tubingen, Germany and 
+                  2013 cBio Memorial Sloan Kettering Cancer Center, New York City, USA.
+
+References:
+-----------
+    [1] Robinson MD, McCarthy DJ and Smyth GK (2010). edgeR: a Bioconductor package for 
+    differential expression analysis of digital gene expression data. Bioinformatics 26, 139-140. 
+
+Contact:
+--------
+    support [at] oqtans.org 
+
